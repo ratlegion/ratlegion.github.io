@@ -1,0 +1,57 @@
+{
+    "n": "sample question",
+    "f": "v1c",
+    "s": "clean",
+    "t": [
+        {
+            "n": "type1",
+            "d": "a basic example type"
+        },
+        {
+            "n": "type2",
+            "d": "the cooler seccond type"
+        }
+    ],
+    "q": [
+        {
+            "n": "what do others think of you?",
+            "o": [
+                {
+                    "n": "im cool",
+                    "t": 1,
+                    "w": 1
+                },
+                {
+                    "n": "they all hate me",
+                    "t": 0,
+                    "w": 1
+                }
+            ]
+        },
+        {
+            "n": "pick a number",
+            "o": [
+                {
+                    "n": "1",
+                    "t": 0,
+                    "w": 2
+                },
+                {
+                    "n": "2",
+                    "t": 1,
+                    "w": 2
+                },
+                {
+                    "n": "3",
+                    "t": 0,
+                    "w": 1
+                },
+                {
+                    "n": "4",
+                    "t": 1,
+                    "w": 1
+                }
+            ]
+        }
+    ]
+}

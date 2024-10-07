@@ -1,0 +1,313 @@
+:root {
+    --background: #fff;
+    --darker-color: #f4f4f4;
+    --darker-er-color: #c0c0c0;
+    --selected-theme: #f9ecbc;
+    --type-box: #eed2a2;
+    --question-box: #d8e9f3;
+    --option-box: #95a7e3;
+    --button: #717173;
+    --button-hover: #8e8f98;
+    --dialog: #efecec;
+}
+
+
+
+
+@media (min-aspect-ratio: 4/3) {
+    body {
+        padding-left: 25vh;
+        padding-right: 25vh;
+    }
+}
+
+
+
+button:not(.basic-element) {
+    background-color: var(--button);
+    border: none;
+    color: white;
+    font-size: 1.1em;
+
+    padding: .2em;
+
+    padding-left: .45em;
+    padding-right: .45em;
+
+    margin: .3em;
+
+    border-radius: .5em;
+
+    transition-property: background-color;
+    transition-duration: .1s;
+}
+
+button:hover {
+    background-color: var(--button-hover);
+}
+
+
+
+
+
+input {
+    background-color: var(--darker-color);
+    border: none;
+    border-radius: .2em;
+
+    margin: .1em;
+
+    transition-property: background-color;
+    transition-duration: .1s;
+}
+
+input:focus {
+    background-color: #fff;
+}
+
+
+textarea {
+    background-color: var(--darker-color);
+    border: none;
+    border-radius: .2em;
+
+    margin: .1em;
+
+    transition-property: background-color;
+    transition-duration: .1s;
+}
+
+textarea:focus {
+    background-color: #fff;
+}
+
+
+select {
+    background-color: var(--darker-color);
+    border: none;
+    border-radius: .2em;
+
+    margin: .1em;
+}
+
+ol {
+    padding-left: .5em;
+    transition: .2s;
+    transition-property: height;
+    height: max-content;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+sub>a {}
+
+dialog {
+    position: fixed;
+    outline: none;
+    border: none;
+    border-radius: .5em;
+    background-color: var(--dialog);
+    font-size: larger;
+
+    transform: translateY(-400px);
+    transition: transform 5s ease;
+}
+
+dialog[open] {
+    transform: translateY(0);
+}
+
+
+
+
+
+
+#name-selector{
+    display: block;
+    margin: auto;
+    font-size: 1.5em;
+    min-width: min(24em, calc(100vw - 1em));
+}
+
+
+#types,
+#questions {
+    background-color: var(--darker-color);
+    padding-top: .75em;
+    padding-bottom: .75em;
+
+    border-radius: .5em;
+}
+
+
+.type {
+    list-style: none;
+    background-color: var(--type-box);
+    padding: 1em;
+    border-radius: .5em;
+    width: fit-content;
+
+    transition-duration: .1s;
+}
+
+.type:not(:first-child) {
+    margin-top: .5em;
+}
+
+.question {
+    list-style: none;
+    background-color: var(--question-box);
+    padding: 1em;
+    border-radius: .5em;
+    width: fit-content;
+    margin-top: .5em;
+
+    transition-duration: .1s;
+}
+
+.question:not(:first-child) {
+    margin-top: .5em;
+}
+
+.questions-options:not(:first-child) {
+    margin-top: 1em;
+}
+
+
+.option {
+    list-style: none;
+    background-color: var(--option-box);
+    padding: 1em;
+    border-radius: .5em;
+    width: fit-content;
+    margin-top: .5em;
+
+    transition-duration: .1s;
+}
+
+.option:not(:first-child) {
+    margin-top: .5em;
+}
+
+
+.questionNameSelector,
+.typeNameSelector,
+.optionNameSelector {
+    font-size: 1.1em;
+    width: calc(100% - .6em);
+    background-color: var(--darker-color);
+    padding: .3em;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.optionNameSelector {
+    font-size: 1.05em;
+}
+
+
+
+
+.style-selector-container {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.style-selector-container>table {}
+
+.style-selector>td>button {
+    width: 100%;
+    height: 100%;
+    display: block;
+
+    border: none;
+    border-radius: .4em;
+
+    background-color: var(--darker-color);
+
+    transition-duration: .2s;
+}
+
+.style-selector>td>button:hover {
+    background-color: var(--darker-er-color);
+
+}
+
+.style-selector>td>button>img {
+    width: 100%;
+    display: block;
+    position: sticky;
+    border-radius: 5px;
+}
+
+.style-selector>td>button>span {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.style-selector>td>button>i {
+    opacity: 50%;
+}
+
+#selected-theme>button {
+    background-color: var(--selected-theme) !important;
+
+    transition-property: background-color;
+    transition-duration: .3s;
+}
+
+
+
+
+.shareButton {
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    display: block;
+    background-color: #1d1d1d;
+
+    border-radius: 1em;
+
+    transform: scale(100%);
+    transition-duration: .5s;
+}
+
+.shareButton:hover {
+    transform: scale(120%);
+
+    background-color: #74ca86;
+
+
+    /* animation-duration: 1s;
+    animation-name: bounce;
+    animation-iteration-count: infinite; */
+}
+
+@keyframes bounce {
+    0% {
+        transform: translate(0px, 0px);
+        animation-timing-function: ease-in;
+    }
+
+    50%{
+        transform: translate(0px, 40px);
+        animation-timing-function: ease-out;
+
+    }
+
+    100% {
+        transform: translate(0px, 0px);
+    }
+}
+
+#share-image {
+    filter: invert(100%);
+}
