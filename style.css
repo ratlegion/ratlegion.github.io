@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Lumanosimo&display=swap');
+
+@media (max-aspect-ratio: 1/1) {
+    #main-sidebar-container {
+        flex-direction: column;
+    }
+}
+
+body {
+    background-color: antiquewhite;
+    text-align: center;
+    padding: 0px;
+    margin: 0px 0px 0px 0px;
+}
+
+#title-image {
+    width: 80vw;
+    max-height: 15em;
+}
+
+#main-sidebar-container {
+    display: flex;
+}
+
+#main-sidebar-container>main {
+    min-width: 80vw;
+    display: block;
+
+}
+
+#main-sidebar-container>aside {
+    min-width: 20vw;
+    display: block;
+    background-color: darkslategray;
+    height: 100vh;
+    outline: #231f20 solid thick;
+}
+
+#page {
+    display: block;
+
+    width: min(calc(100% - 2em), 90em);
+    min-height: 10em;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    background-color: floralwhite;
+    font-family: "Lumanosimo", cursive;
+}
