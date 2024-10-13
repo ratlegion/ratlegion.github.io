@@ -45,7 +45,6 @@
 body {
     margin: 0;
     padding: 0;
-    min-height: 100vh;
 }
 
 @media (min-aspect-ratio: 4/3) {
@@ -169,7 +168,8 @@ h4,
 h5,
 h6,
 p,
-span {
+span,
+a {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
 }
@@ -970,7 +970,7 @@ dialog[open] {
 }
 
 /* Type showcase */
-#type-showcase-container.animateElement{
+#type-showcase-container.animateElement {
     animation: 3s cubic-bezier(0.390, 0.145, 0.000, 1.000) 0s 1 animateType;
 }
 
@@ -1037,4 +1037,25 @@ dialog[open] {
         transform: translateY(0em);
 
     }
+}
+
+/* Popup menu after quiz done */
+
+#after-popup {
+    margin-top: 10em;
+    display: flex;
+    justify-content: space-evenly;
+    opacity: 0;
+    transform: translateY(10vh);
+}
+
+#after-popup.visible {
+    transition: 2s ease-out;
+
+    opacity: 100%;
+    transform: translateY(0vh);
+}
+
+#after-popup>* {
+    opacity: 60%;
 }

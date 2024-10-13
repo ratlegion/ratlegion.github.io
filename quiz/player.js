@@ -54,7 +54,7 @@ const params = new URLSearchParams(window.location.search);
 let compQuizJson = params.get('data');
 
 if (compQuizJson == null) {
-    
+
 } else {
     quizJson = decompressJSON(compQuizJson);
 
@@ -249,5 +249,6 @@ function showTypeAnim() {
 }
 
 function showTypeEnd() {
-
+    document.getElementById('after-popup').classList.add('visible');
+    document.getElementById('after-popup').style.display = '';
 }
