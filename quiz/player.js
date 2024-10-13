@@ -51,11 +51,17 @@ function inflate(data) {
 
 const params = new URLSearchParams(window.location.search);
 
-let quizJson = params.get('data');
+let compQuizJson = params.get('data');
 
-quizJson = decompressJSON(quizJson);
+if (compQuizJson == null) {
+    
+} else {
+    quizJson = decompressJSON(compQuizJson);
 
-setStyleToVar(quizJson.style)
+    setStyleToVar(quizJson.style)
+}
+
+
 
 //----------------
 //Settup
@@ -89,8 +95,9 @@ function exitLoadingScreen() {
     document.getElementById('title-screen-container').style.display = "";
 }
 
-exitLoadingScreen()
-
+if (quizJson !== null) {
+    exitLoadingScreen()
+}
 
 //----------------
 //When exit title screen
