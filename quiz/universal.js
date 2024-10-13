@@ -15,15 +15,23 @@ function setStyle(element) {
 }
 
 function updateStyle() {
-
-    if(document.getElementById('selected-theme')){
+    if (document.getElementById('selected-theme')) {
         document.getElementById("styletheme").href = "themes/" + document.getElementById('selected-theme').getAttribute("data-style") + "/style.css";
-    } else if(urlParams.get("style")){
+    } else if (urlParams.get("style")) {
         document.getElementById("styletheme").href = "themes/" + urlParams.get("style") + "/style.css";
-    } else{
+    } else if (urlParams.get("data")) {
+        document.getElementById("styletheme").href = "themes/" + "no_css" + "/style.css";
+    } else {
         document.getElementById("styletheme").href = "themes/" + "clean" + "/style.css";
     }
 }
+
+function setStyleToVar(style) {
+    document.getElementById("styletheme").href = "themes/" + style + "/style.css";
+}
+
+
+
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 

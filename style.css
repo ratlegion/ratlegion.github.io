@@ -3,11 +3,29 @@
 @media (max-aspect-ratio: 1/1) {
     #main-sidebar-container {
         flex-direction: column;
+        min-height: 100vh;
+        justify-content: space-between;
+    }
+    #main-sidebar-container>main {
+        margin-bottom: 5em;
+    }
+    #main-sidebar-container>aside {
+        position: revert !important;
+        right: revert !important;
+        height: fit-content !important;
+        bottom: 100% !important;
+    }
+
+    .sidebar-bottom {
+        position: revert !important;
+        bottom: revert !important;
+        width: revert !important;
     }
 }
 
 body {
     background-color: antiquewhite;
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/4/43/Oldpapertexture01.jpg);
     text-align: center;
     padding: 0px;
     margin: 0px 0px 0px 0px;
@@ -29,22 +47,47 @@ body {
 }
 
 #main-sidebar-container>aside {
+    position: fixed;
+    right: calc(100vw - 100% - 10px);
+
     min-width: 20vw;
     display: block;
-    background-color: darkslategray;
+    background-color: #e1dac5;
     height: 100vh;
-    outline: #231f20 solid thick;
+
+    /* outline: #231f20 solid thick; */
+
+    border-image-slice: 142.9 142.9 142.9 142.9;
+    border-image-width: 20px 20px 20px 20px;
+    border-image-outset: 10px;
+    border-image-repeat: round round;
+    border-image-source: url(assets/line\ outline.png);
+
+    border-style: solid;
+
 }
 
-#page {
+.space-page{
+    margin-top: 2em;
+}
+
+.page {
     display: block;
 
     width: min(calc(100% - 2em), 90em);
     min-height: 10em;
+    padding: .25em;
 
     margin-left: auto;
     margin-right: auto;
 
-    background-color: floralwhite;
+    background-color: #f0ead7;
     font-family: "Lumanosimo", cursive;
+    font-size: medium;
+}
+
+.sidebar-bottom {
+    position: absolute;
+    bottom: 1em;
+    width: 100%;
 }

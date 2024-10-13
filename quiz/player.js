@@ -1,3 +1,4 @@
+// Load the data var into quizJson
 // see editor.js for info
 
 function decompressJSON(json) {
@@ -46,4 +47,64 @@ function inflate(data) {
     }
     var inflated = pako.inflate(binaryData);
     return new TextDecoder().decode(inflated);
+}
+
+const params = new URLSearchParams(window.location.search);
+
+let quizJson = params.get('data');
+
+quizJson = decompressJSON(quizJson);
+
+setStyleToVar(quizJson.style)
+
+//----------------
+//Settup
+
+const option = `<li><button  onclick="selectOption(this)" data-question-index="0" data-option-index="0" ><span>Test</span></button></li>`
+
+let optionContainer = document.getElementById("question-option-container");
+
+let votedTypes = []
+let currentQuestion = 0
+
+//----------------
+//When exit title screen
+
+function playQuiz() {
+    document.getElementById('title-screen-container').classList.add("animateElement")
+    playQuizAnim();
+}
+
+function playQuizAnim() {
+    const animationDuration = window.getComputedStyle(document.getElementById('title-screen-container')).animationDuration;
+
+    if (animationDuration === '0s' || animationDuration === 'none') {
+        playQuizEnd();
+    } else {
+        setTimeout(playQuizEnd, parseFloat(animationDuration) * 1000);
+    }
+}
+
+function playQuizEnd() {
+    document.getElementById('title-screen-container').style.display = "none";
+
+    document.getElementById('quiz-options-screen').style.display = "";
+}
+
+//----------------
+//Load a question
+
+
+function addOption() {
+    let tempDiv = document.createElement('div');
+    tempDiv.innerHTML = option.trim();
+    let optionElement = tempDiv.firstElementChild;
+    optionContainer.appendChild(optionElement);
+}
+
+//----------------
+//Select option
+
+function selectOption(element) {
+
 }

@@ -9,10 +9,42 @@
     --button: #717173;
     --button-hover: #8e8f98;
     --dialog: #efecec;
+
+
+    --red: #ea9fa9;
+    --red-lighter: #f2c6cc;
+
+    --orange: #eea98c;
+    --orange-lighter: #e8b79d;
+
+    --yellow: #e8d887;
+    --yellow-lighter: #f5f1d0;
+
+    --green: #aaf18b;
+    --green-lighter: #e3eebb;
+
+    --turquoise: #92f4cb;
+    --turquoise-lighter: #c6f2ea;
+
+    --cyan: #95e6e8;
+    --cyan-lighter: #d0ebf2;
+
+    --blue: #989ce9;
+    --blue-lighter: #b3c6ee;
+
+    --purple: #cab0f0;
+    --purple-lighter: #d2afdb;
+
+    --magenta: #ee99db;
+    --magenta-lighter: #e8c4d7;
 }
 
 
-
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
 
 @media (min-aspect-ratio: 4/3) {
     body {
@@ -21,7 +53,38 @@
     }
 }
 
+.backgrounded {
+    background-size: 2.8rem 2.8rem;
+    background-position: 1.4rem 1.4rem;
+    background-image: radial-gradient(3rem 3rem at 50% 50%, #E3E3E3FF 50%, #F8F8F8FF 50%);
+    animation: 1s linear 0s infinite slide-backgrounded, 2s linear 0s infinite alternate grow-shrink-backgrounded;
+}
 
+@keyframes slide-backgrounded {
+
+    0% {
+        background-position: 1.4rem 1.4rem;
+    }
+
+    100% {
+        background-position: 4.2rem -1.4rem;
+    }
+}
+
+@keyframes grow-shrink-backgrounded {
+
+    0% {
+        background-image: radial-gradient(3.15rem 3.15rem at 50% 50%, #E3E3E3FF 50%, #F8F8F8FF 50%);
+    }
+
+    50% {
+        background-image: radial-gradient(3.3rem 3.3rem at 50% 50%, #E3E3E3FF 50%, #F8F8F8FF 50%);
+    }
+
+    100% {
+        background-image: radial-gradient(3.4rem 3.4rem at 50% 50%, #E3E3E3FF 50%, #F8F8F8FF 50%);
+    }
+}
 
 button:not(.basic-element) {
     background-color: var(--button);
@@ -130,7 +193,7 @@ dialog[open] {
 
 
 
-#name-selector{
+#name-selector {
     display: block;
     margin: auto;
     font-size: 1.5em;
@@ -297,7 +360,7 @@ dialog[open] {
         animation-timing-function: ease-in;
     }
 
-    50%{
+    50% {
         transform: translate(0px, 40px);
         animation-timing-function: ease-out;
 
@@ -310,4 +373,586 @@ dialog[open] {
 
 #share-image {
     filter: invert(100%);
+}
+
+/* Player title screen */
+#title-screen-container.animateElement{
+    animation:1s linear 1 forwards vibrate-faster;
+}
+
+#title-screen-container.animateElement > #title-screen{
+    animation: 1s linear 1 forwards hideTitleScreen;
+}
+
+#title-screen {
+    width: calc(100% - 2em);
+
+    display: block;
+
+    padding: 1em;
+    padding-bottom: 3em;
+    padding-top: 3em;
+
+    margin-top: 10em;
+    margin-left: auto;
+    margin-right: auto;
+
+    background-color: var(--darker-color);
+
+    border-radius: 1em;
+}
+
+@keyframes hideTitleScreen {
+    0% {
+        transform: scale(100%);
+    }
+
+    10% {
+        transform: scale(80%);
+    }
+
+    20% {
+        transform: scale(75%);
+    }
+
+    40% {
+        transform: scale(72.5%);
+    }
+
+    50% {
+        transform: scale(71%);
+    }
+
+    60% {
+        transform: scale(70%);
+    }
+
+    80% {
+        transform: scale(70%);
+        opacity: 100%;
+    }
+
+    100% {
+        transform: scale(400%);
+        opacity: 0%;
+    }
+}
+
+@keyframes vibrate-faster {
+    0% {
+        transform: translateX(0px);
+    }
+
+    10% {
+        transform: translateX(0px);
+    }
+    11% {
+        transform: translateX(1px);
+    }
+
+    12% {
+        transform: translateX(-1px);
+    }
+
+    13% {
+        transform: translateX(1px);
+    }
+
+    14% {
+        transform: translateX(-1px);
+    }
+
+    15% {
+        transform: translateX(1px);
+    }
+
+    16% {
+        transform: translateX(-1px);
+    }
+
+
+    17% {
+        transform: translateX(1px);
+    }
+
+
+    18% {
+        transform: translateX(-1px);
+    }
+
+
+    19% {
+        transform: translateX(1px);
+    }
+
+
+    20% {
+        transform: translateX(-1px);
+    }
+
+
+    21% {
+        transform: translateX(2px);
+    }
+
+
+    22% {
+        transform: translateX(-2px);
+    }
+
+
+    23% {
+        transform: translateX(2px);
+    }
+
+
+    24% {
+        transform: translateX(-2px);
+    }
+
+
+    25% {
+        transform: translateX(2px);
+    }
+
+
+    26% {
+        transform: translateX(-2px);
+    }
+
+
+    27% {
+        transform: translateX(2px);
+    }
+
+
+    28% {
+        transform: translateX(-2px);
+    }
+
+
+    29% {
+        transform: translateX(2px);
+    }
+
+
+    30% {
+        transform: translateX(-2px);
+    }
+
+
+    31% {
+        transform: translateX(3px);
+    }
+
+
+    32% {
+        transform: translateX(-3px);
+    }
+
+
+    33% {
+        transform: translateX(3px);
+    }
+
+
+    34% {
+        transform: translateX(-3px);
+    }
+
+
+    35% {
+        transform: translateX(3px);
+    }
+
+
+    36% {
+        transform: translateX(-3px);
+    }
+
+
+    37% {
+        transform: translateX(3px);
+    }
+
+
+    38% {
+        transform: translateX(-3px);
+    }
+
+
+    39% {
+        transform: translateX(3px);
+    }
+
+
+    40% {
+        transform: translateX(-3px);
+    }
+
+
+    41% {
+        transform: translateX(4px);
+    }
+
+
+    42% {
+        transform: translateX(-4px);
+    }
+
+
+    43% {
+        transform: translateX(4px);
+    }
+
+
+    44% {
+        transform: translateX(-4px);
+    }
+
+
+    45% {
+        transform: translateX(4px);
+    }
+
+
+    46% {
+        transform: translateX(-4px);
+    }
+
+
+    47% {
+        transform: translateX(4px);
+    }
+
+
+    48% {
+        transform: translateX(-4px);
+    }
+
+
+    49% {
+        transform: translateX(4px);
+    }
+
+
+    50% {
+        transform: translateX(-4px);
+    }
+
+
+    51% {
+        transform: translateX(5px);
+    }
+
+
+    52% {
+        transform: translateX(-5px);
+    }
+
+
+    53% {
+        transform: translateX(5px);
+    }
+
+
+    54% {
+        transform: translateX(-5px);
+    }
+
+
+    55% {
+        transform: translateX(5px);
+    }
+
+
+    56% {
+        transform: translateX(-5px);
+    }
+
+
+    57% {
+        transform: translateX(5px);
+    }
+
+
+    58% {
+        transform: translateX(-5px);
+    }
+
+
+    59% {
+        transform: translateX(5px);
+    }
+
+
+    60% {
+        transform: translateX(-5px);
+    }
+
+
+    61% {
+        transform: translateX(6px);
+    }
+
+
+    62% {
+        transform: translateX(-6px);
+    }
+
+
+    63% {
+        transform: translateX(6px);
+    }
+
+
+    64% {
+        transform: translateX(-6px);
+    }
+
+
+    65% {
+        transform: translateX(6px);
+    }
+
+
+    66% {
+        transform: translateX(-6px);
+    }
+
+
+    67% {
+        transform: translateX(6px);
+    }
+
+
+    68% {
+        transform: translateX(-6px);
+    }
+
+
+    69% {
+        transform: translateX(6px);
+    }
+
+
+    70% {
+        transform: translateX(-6px);
+    }
+
+
+    71% {
+        transform: translateX(6px);
+    }
+
+
+    72% {
+        transform: translateX(-6px);
+    }
+
+
+    73% {
+        transform: translateX(6px);
+    }
+
+
+    74% {
+        transform: translateX(-6px);
+    }
+
+
+    75% {
+        transform: translateX(6px);
+    }
+
+
+    76% {
+        transform: translateX(-6px);
+    }
+
+
+    77% {
+        transform: translateX(6px);
+    }
+
+
+    78% {
+        transform: translateX(-6px);
+    }
+
+
+    79% {
+        transform: translateX(6px);
+    }
+
+    80%{
+        transform: translateX(0px);
+    }
+}
+
+#play-quiz-container {
+    text-align: center;
+}
+
+#play-quiz-button {
+    background-color: #4eabe6;
+    font-weight: bold;
+    font-size: 2em;
+    padding: 0.4em;
+    border-radius: .3em;
+}
+
+#play-quiz-button:hover {
+    background-color: #7ad1e9;
+
+}
+
+/* Player option picker */
+
+#quiz-options-screen {
+    padding-top: 5em;
+}
+
+
+#question-quiz-name {
+    font-size: 1.8em;
+    opacity: 50%;
+    font-style: italic;
+}
+
+#question-name {
+    font-size: 2.5em;
+}
+
+#question-option-container {
+    list-style-type: none;
+
+    margin-top: 5em;
+
+    padding: 0;
+    padding-left: 3em;
+    padding-right: 3em;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#question-option-container>li {
+    animation: .25s linear 1 forwards bounceIn;
+
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(20%);
+    }
+
+    45% {
+        transform: scale(110%);
+    }
+
+    50% {
+        transform: scale(113%);
+    }
+
+    55% {
+        transform: scale(110%);
+    }
+
+    100% {
+        transform: scale(100%);
+    }
+}
+
+#question-option-container>li>button {
+    padding: 2em;
+    width: fit-content;
+
+    transform: scale(100%);
+
+    transition: transform 0.1s ease-in-out;
+}
+
+#question-option-container>li>button:hover {
+    transform: scale(120%);
+}
+
+
+#question-option-container>li>button>span {
+    font-size: 2em;
+}
+
+
+
+#question-option-container>li:nth-child(1)>button {
+    background-color: var(--red);
+}
+
+#question-option-container>li:nth-child(1)>button:hover {
+    background-color: var(--red-lighter);
+}
+
+#question-option-container>li:nth-child(2)>button {
+    background-color: var(--blue);
+}
+
+#question-option-container>li:nth-child(2)>button:hover {
+    background-color: var(--blue-lighter);
+}
+
+#question-option-container>li:nth-child(3)>button {
+    background-color: var(--green);
+}
+
+#question-option-container>li:nth-child(3)>button:hover {
+    background-color: var(--green-lighter);
+}
+
+#question-option-container>li:nth-child(4)>button {
+    background-color: var(--yellow);
+}
+
+#question-option-container>li:nth-child(4)>button:hover {
+    background-color: var(--yellow-lighter);
+}
+
+#question-option-container>li:nth-child(5)>button {
+    background-color: var(--magenta);
+}
+
+#question-option-container>li:nth-child(5)>button:hover {
+    background-color: var(--magenta-lighter);
+}
+
+#question-option-container>li:nth-child(6)>button {
+    background-color: var(--cyan);
+}
+
+#question-option-container>li:nth-child(6)>button:hover {
+    background-color: var(--cyan-lighter);
+}
+
+#question-option-container>li:nth-child(8)>button {
+    background-color: var(--orange);
+}
+
+#question-option-container>li:nth-child(8)>button:hover {
+    background-color: var(--orange-lighter);
+}
+
+#question-option-container>li:nth-child(7)>button {
+    background-color: var(--purple);
+}
+
+#question-option-container>li:nth-child(7)>button:hover {
+    background-color: var(--purple-lighter);
+}
+
+#question-option-container>li:nth-child(9)>button {
+    background-color: var(--turquoise);
+}
+
+#question-option-container>li:nth-child(9)>button:hover {
+    background-color: var(--turquoise-lighter);
 }

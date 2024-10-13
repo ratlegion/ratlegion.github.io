@@ -113,7 +113,10 @@ function saveJson() {
 
             optionJson.name = question.querySelector('.optionNameSelector').value;
 
-            optionJson.type = quizJson.types.findIndex(item => item.name === question.querySelector('.optionTypeSelector').value);
+            console.log(quizJson.types);
+            // optionJson.type = quizJson.types.findIndex(item => item.name === question.querySelector('.optionTypeSelector').value);
+
+            optionJson.type = quizJson.types.findIndex(item => item.name.toLowerCase() === question.querySelector('.optionTypeSelector').value.toLowerCase());
 
             optionJson.weight = clampWeight(question.querySelector('.optionWeightSelector').value);
 
