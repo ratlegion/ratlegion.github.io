@@ -52,8 +52,8 @@ save it in a file, which others can import.
         <br />
 
         <dialog id="image-note">
-            <p>To prevent IP loggers and other dangers, you can only use <a href="https://imgbb.com/">Imb BB</a>, and <a
-                    href="https://imgur.com/upload/">Imgur</a>.</p>
+            <p>To prevent IP loggers and other dangers, you can only use <a href="https://imgbb.com/" target="_blank">Imb BB</a>, <a
+                    href="https://catbox.moe/" target="_blank">Catbox</a>, and <a href="https://imgur.com/upload/" target="_blank">Imgur</a>.</p>
 
             <button autofocus onclick="closeImageNote()">Gotcha!</button>
         </dialog>
@@ -133,7 +133,9 @@ save it in a file, which others can import.
         </div> <br /><br />
         <h2>finish:</h2>
 
-        <button onclick="readShareButton()" class="shareButton basic-element"><image src="images/share.svg" id="share-image"></button>
+        <button onclick="readShareButton()" class="shareButton basic-element">
+            <image src="images/share.svg" id="share-image">
+        </button>
 
         <dialog id="share">
             <h2>sharing</h2>
@@ -142,7 +144,8 @@ save it in a file, which others can import.
             </p>
             <button onclick="openShareLink()">share</button>
             <p>
-                if the link is too big to share, you can press the button below to download the quiz as a json file, then send them that along with <a href="player.html">this link</a>
+                if the link is too big to share, you can press the button below to download the quiz as a json file,
+                then send them that along with <a href="player.html">this link</a>
             </p>
             <button onclick="downloadJSON()">download as json</button>
             <br /><br />

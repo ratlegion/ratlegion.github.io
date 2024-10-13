@@ -267,7 +267,12 @@ function maximiseJson(json) {
 //----------------
 // This is for importing json to the editor
 
-
+//Janky method of sanitizing text so you cant inject html
+function sanitizeText(text) {
+    let div = document.createElement('div');
+    div.innerText = text;
+    return div.innerHTML;
+}
 
 // Remove all options
 function clearEditor() {
@@ -279,7 +284,7 @@ function clearEditor() {
 function loadJson(json) {
     clearEditor()
 
-    document.getElementById("name-selector").value = json.name;
+    document.getElementById("name-selector").value = sanitizeText(json.name);
 
     // Set the style if it has a style
     if (json.style) {
@@ -287,8 +292,7 @@ function loadJson(json) {
         if (selectedTheme) {
             selectedTheme.removeAttribute('id');
         }
-        console.log(json.style)
-        document.querySelector('[data-style="' + json.style + '"]').id = 'selected-theme';
+        document.querySelector('[data-style="' + sanitizeText(json.style) + '"]').id = 'selected-theme';
         updateStyle()
     }
 
@@ -298,9 +302,9 @@ function loadJson(json) {
         tempDiv.innerHTML = type.trim();
         let optionElement = tempDiv.firstElementChild;
 
-        optionElement.querySelector('.typeNameSelector').value = currentType.name;
-        optionElement.querySelector('.typeDescriptionSelector').value = currentType.description;
-        optionElement.querySelector('.typeImageSelector').value = currentType.image;
+        optionElement.querySelector('.typeNameSelector').value = sanitizeText(currentType.name);
+        optionElement.querySelector('.typeDescriptionSelector').value = sanitizeText(currentType.description);
+        optionElement.querySelector('.typeImageSelector').value = sanitizeText(currentType.image);
 
         types.appendChild(optionElement);
     })
@@ -311,7 +315,7 @@ function loadJson(json) {
         tempDiv.innerHTML = question.trim();
         let questionElement = tempDiv.firstElementChild;
 
-        questionElement.querySelector('.questionNameSelector').value = currentQuestion.name;
+        questionElement.querySelector('.questionNameSelector').value = sanitizeText(currentQuestion.name);
 
         currentQuestion.options.forEach(currentOption => {
             let tempDiv = document.createElement('div');
@@ -319,8 +323,8 @@ function loadJson(json) {
             let optionElement = tempDiv.firstElementChild;
 
 
-            optionElement.querySelector('.optionNameSelector').value = currentOption.name;
-            optionElement.querySelector('.optionWeightSelector').value = currentOption.weight;
+            optionElement.querySelector('.optionNameSelector').value = sanitizeText(currentOption.name);
+            optionElement.querySelector('.optionWeightSelector').value = sanitizeText(currentOption.weight);
 
             // select elements work diff in that they need an option to work.
             // the type stores an index to the type rather than a string (json.types[currentOption.type].name)
@@ -331,7 +335,7 @@ function loadJson(json) {
             if (currentOption.type == -1) {
                 tempOption.innerHTML = "&lt; Click to add value &gt;"
             } else {
-                tempOption.innerHTML = json.types[currentOption.type].name
+                tempOption.innerHTML = sanitizeText(json.types[currentOption.type].name)
             }
 
             optionElement.querySelector('.optionTypeSelector').appendChild(tempOption)

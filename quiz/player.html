@@ -17,13 +17,15 @@
     </head>
 
     <body class="backgrounded">
-        <div id="loading-menu" style="display: none;">
+        <div id="loading-menu">
             <h1>loading quiz (is javascript enabled?)</h1>
             <h2>...</h2>
         </div>
-        <div id="title-screen-container">
+
+        <div id="title-screen-container" style="display: none;">
             <div id="title-screen">
                 <h1 id="quiz-name">Quiz name here</h1>
+                <p id="quiz-description"></p>
                 <div id="play-quiz-container">
                     <button id="play-quiz-button" onclick="playQuiz()">Click to play quiz</button>
                 </div>
@@ -34,17 +36,18 @@
             <h1 id="question-quiz-name">Quiz name here</h1>
             <h1 id="question-name">Question name here</h1>
             <ul id="question-option-container">
-                <li>
-                    <button onclick="selectOption(this)" data-question-index="0" data-option-index="0">
-                        <span>Option 1</span>
-                    </button>
-                </li>
-                <li>
-                    <button onclick="selectOption(this)" data-question-index="0" data-option-index="1">
-                        <span>Option 2</span>
-                    </button>
-                </li>
+
             </ul>
+        </div>
+        <div id="type-showcase-container" style="display: none;">
+            <div id="type-showcase">
+                <h2>You got...</h2>
+                <h1 id="question-type-name">Type here</h1>
+                <p id="type-text">Illi enim inter se dissentiunt. Hic ambiguo ludimur. Non igitur bene. Duo Reges:
+                    constructio interrete. Quid autem habent admirationis, cum prope accesseris? Cur deinde Metrodori
+                    liberos commendas? Satis est ad hoc responsum. Facete M. </p>
+                <img src="" id="type-image">
+            </div>
         </div>
         <div id="width="></div>
         <script src="player.js" async defer></script>

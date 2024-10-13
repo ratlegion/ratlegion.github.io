@@ -10,6 +10,8 @@
     --button-hover: #8e8f98;
     --dialog: #efecec;
 
+    --type-showcase: #e4eef1;
+
 
     --red: #ea9fa9;
     --red-lighter: #f2c6cc;
@@ -165,7 +167,9 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+p,
+span {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
 }
@@ -376,13 +380,18 @@ dialog[open] {
 }
 
 /* Player title screen */
-#title-screen-container.animateElement{
-    animation:1s linear 1 forwards vibrate-faster;
+#title-screen-container.animateElement {
+    animation: 1s linear 1 forwards vibrate-faster;
 }
 
-#title-screen-container.animateElement > #title-screen{
+#title-screen-container.animateElement>#title-screen {
     animation: 1s linear 1 forwards hideTitleScreen;
 }
+
+#title-screen-container.animateElement * {
+    pointer-events: none;
+}
+
 
 #title-screen {
     width: calc(100% - 2em);
@@ -446,6 +455,7 @@ dialog[open] {
     10% {
         transform: translateX(0px);
     }
+
     11% {
         transform: translateX(1px);
     }
@@ -785,7 +795,7 @@ dialog[open] {
         transform: translateX(6px);
     }
 
-    80%{
+    80% {
         transform: translateX(0px);
     }
 }
@@ -811,6 +821,7 @@ dialog[open] {
 
 #quiz-options-screen {
     padding-top: 5em;
+    transition: transform 1ms ease-out;
 }
 
 
@@ -871,7 +882,7 @@ dialog[open] {
 
     transform: scale(100%);
 
-    transition: transform 0.1s ease-in-out;
+    transition: transform 0.2s cubic-bezier(0.535, 0.055, 0.475, 1.650);
 }
 
 #question-option-container>li>button:hover {
@@ -884,6 +895,7 @@ dialog[open] {
 }
 
 
+/* Colors them based on what child they are so they all appear different */
 
 #question-option-container>li:nth-child(1)>button {
     background-color: var(--red);
@@ -955,4 +967,74 @@ dialog[open] {
 
 #question-option-container>li:nth-child(9)>button:hover {
     background-color: var(--turquoise-lighter);
+}
+
+/* Type showcase */
+#type-showcase-container.animateElement{
+    animation: 3s cubic-bezier(0.390, 0.145, 0.000, 1.000) 0s 1 animateType;
+}
+
+@keyframes animateType {
+    0% {
+        transform: scale(0%);
+    }
+
+    100% {
+        transform: scale(100%);
+    }
+}
+
+#type-showcase {
+    background-color: var(--type-showcase);
+    padding: 1em;
+    border-radius: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-top: 10em;
+    margin-bottom: 0;
+    box-shadow: 10px 10px 100px 20px rgba(174, 167, 111, 0.299);
+    /* animation: 3s ease-in-out 0s infinite hoverBox; */
+}
+
+#type-showcase>h2 {
+    margin: 0px;
+    font-style: italic;
+    opacity: 60%;
+}
+
+#question-type-name {
+    font-size: 2.5em;
+    background-color: #ffffff6a;
+    border-radius: 20px;
+    padding-top: .5em;
+    padding-bottom: .5em;
+}
+
+#type-text {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    font-style: italic;
+}
+
+#type-image {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    width: min(20em, 80%);
+}
+
+@keyframes hoverBox {
+    0% {
+        transform: translateY(0em);
+    }
+
+    50% {
+        transform: translateY(2em);
+
+    }
+
+    100% {
+        transform: translateY(0em);
+
+    }
 }
