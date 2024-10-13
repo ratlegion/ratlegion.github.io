@@ -89,9 +89,7 @@ function exitLoadingScreen() {
     document.getElementById('title-screen-container').style.display = "";
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    exitLoadingScreen()
-});
+exitLoadingScreen()
 
 
 //----------------
@@ -211,7 +209,7 @@ function selectOption(element) {
         loadQuestion(currentQuestion);
     } else {
         document.getElementById('quiz-options-screen').style.display = "none";
-        
+
         showTypeAnim()
     }
 
@@ -225,7 +223,7 @@ function showTypeAnim() {
     document.getElementById("question-type-name").innerText = sanitizeText(quizJson.type[wonType].name)
     document.getElementById("type-text").innerText = sanitizeText(quizJson.type[wonType].description)
     let typeImage = sanitizeImage(quizJson.type[wonType].image);
-    if(typeImage !== null){
+    if (typeImage !== null) {
         document.getElementById("type-image").src = typeImage
     }
 
