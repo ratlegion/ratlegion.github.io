@@ -964,6 +964,8 @@ dialog[open] {
 
 #question-option-container>li>button>span {
     font-size: 2em;
+    color: white;
+    font-weight: bold;
 }
 
 
