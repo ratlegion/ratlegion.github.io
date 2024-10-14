@@ -2,7 +2,7 @@
     "name": "sample question",
     "f": "v1",
     "style": "clean",
-    "types": [
+    "type": [
         {
             "name": "type1",
             "description": "a basic example type",

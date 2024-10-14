@@ -2,16 +2,33 @@
     --background: #fff;
     --darker-color: #f4f4f4;
     --darker-er-color: #c0c0c0;
+    --light-overlay: #ffffff6a;
+    --text: #000000;
+
+    --dialog: #f7f7f7;
+
     --selected-theme: #f9ecbc;
+
     --type-box: #eed2a2;
+
     --question-box: #d8e9f3;
+
     --option-box: #95a7e3;
+
     --button: #717173;
     --button-hover: #8e8f98;
-    --dialog: #efecec;
+
 
     --type-showcase: #e4eef1;
 
+    --play-quiz-button: #4eabe6;
+    --play-quiz-button-hover: #7ad1e9;
+
+    --share-button: #1d1d1d;
+    --share-button-hover: #74ca86;
+
+    --backgrounded-base: #E3E3E3FF;
+    --backgrounded-star: #F8F8F8FF;
 
     --red: #ea9fa9;
     --red-lighter: #f2c6cc;
@@ -40,11 +57,76 @@
     --magenta: #ee99db;
     --magenta-lighter: #e8c4d7;
 }
+/* 
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0d0d0e;
+        --darker-color: #1a1a1b;
+        --darker-er-color: #2a2b2c;
+        --light-overlay: #ffffff6a;
+        --text: #dedede;
+
+
+        --dialog: #f7f7f7;
+
+        --selected-theme: #f9ecbc;
+
+        --type-box: #eed2a2;
+
+        --question-box: #d8e9f3;
+
+        --option-box: #95a7e3;
+
+        --button: #717173;
+        --button-hover: #8e8f98;
+
+
+        --type-showcase: #e4eef1;
+
+        --play-quiz-button: #4eabe6;
+        --play-quiz-button-hover: #7ad1e9;
+
+        --share-button: #1d1d1d;
+        --share-button-hover: #74ca86;
+
+        --backgrounded-base: #E3E3E3FF;
+        --backgrounded-star: #F8F8F8FF;
+
+    }
+} */
 
 
 body {
     margin: 0;
     padding: 0;
+    background-color: var(--background);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+pre,
+details,
+pre {
+    color: var(--text);
 }
 
 @media (min-aspect-ratio: 4/3) {
@@ -57,7 +139,7 @@ body {
 .backgrounded {
     background-size: 2.8rem 2.8rem;
     background-position: 1.4rem 1.4rem;
-    background-image: radial-gradient(3rem 3rem at 50% 50%, #E3E3E3FF 50%, #F8F8F8FF 50%);
+    background-image: radial-gradient(3rem 3rem at 50% 50%, var(--backgrounded-base) 50%, var(--backgrounded-star) 50%);
     animation: 1s linear 0s infinite slide-backgrounded, 2s linear 0s infinite alternate grow-shrink-backgrounded;
 }
 
@@ -75,15 +157,15 @@ body {
 @keyframes grow-shrink-backgrounded {
 
     0% {
-        background-image: radial-gradient(3.15rem 3.15rem at 50% 50%, #E3E3E3FF 50%, #F8F8F8FF 50%);
+        background-image: radial-gradient(3.15rem 3.15rem at 50% 50%, var(--backgrounded-base) 50%, var(--backgrounded-star) 50%);
     }
 
     50% {
-        background-image: radial-gradient(3.3rem 3.3rem at 50% 50%, #E3E3E3FF 50%, #F8F8F8FF 50%);
+        background-image: radial-gradient(3.3rem 3.3rem at 50% 50%, var(--backgrounded-base) 50%, var(--backgrounded-star) 50%);
     }
 
     100% {
-        background-image: radial-gradient(3.4rem 3.4rem at 50% 50%, #E3E3E3FF 50%, #F8F8F8FF 50%);
+        background-image: radial-gradient(3.4rem 3.4rem at 50% 50%, var(--backgrounded-base) 50%, var(--backgrounded-star) 50%);
     }
 }
 
@@ -161,18 +243,7 @@ ol {
     height: max-content;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-span,
-a {
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-}
+
 
 sub>a {}
 
@@ -339,7 +410,7 @@ dialog[open] {
     margin-right: auto;
     border: none;
     display: block;
-    background-color: #1d1d1d;
+    background-color: var(--share-button);
 
     border-radius: 1em;
 
@@ -350,7 +421,7 @@ dialog[open] {
 .shareButton:hover {
     transform: scale(120%);
 
-    background-color: #74ca86;
+    background-color: var(--share-button-hover);
 
 
     /* animation-duration: 1s;
@@ -406,7 +477,7 @@ dialog[open] {
     margin-left: auto;
     margin-right: auto;
 
-    background-color: var(--darker-color);
+    background-color: var(--dialog);
 
     border-radius: 1em;
 }
@@ -805,7 +876,7 @@ dialog[open] {
 }
 
 #play-quiz-button {
-    background-color: #4eabe6;
+    background-color: var(--play-quiz-button);
     font-weight: bold;
     font-size: 2em;
     padding: 0.4em;
@@ -813,7 +884,8 @@ dialog[open] {
 }
 
 #play-quiz-button:hover {
-    background-color: #7ad1e9;
+    background-color: var(--play-quiz-button-hover);
+    ;
 
 }
 
@@ -1004,7 +1076,7 @@ dialog[open] {
 
 #question-type-name {
     font-size: 2.5em;
-    background-color: #ffffff6a;
+    background-color: var(--light-overlay);
     border-radius: 20px;
     padding-top: .5em;
     padding-bottom: .5em;
@@ -1058,4 +1130,47 @@ dialog[open] {
 
 #after-popup>* {
     opacity: 60%;
+}
+
+/* Upload button */
+#upload-quiz {
+    background-color: var(--dialog);
+    padding: 1em;
+    margin-top: 20em;
+    border-radius: 1.5em;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#upload-quiz-buttons {}
+
+#upload-quiz-buttons>input[type=file] {
+    border-radius: .5em;
+    background-color: var(--darker-color);
+
+}
+
+#upload-quiz-buttons>input[type=file]:hover {
+    background-color: var(--darker-er-color);
+}
+
+#upload-quiz-buttons>input[type=file]::file-selector-button {
+    background-color: var(--turquoise);
+    border: none;
+    padding: .5em;
+    border-radius: .5em;
+}
+
+#upload-quiz-buttons>input[type=file]::file-selector-button:hover {
+    background-color: var(--turquoise-lighter);
+
+}
+
+#upload-quiz-buttons>button {
+    background-color: var(--purple);
+}
+
+#upload-quiz-buttons>button:hover {
+    background-color: var(--purple-lighter);
 }

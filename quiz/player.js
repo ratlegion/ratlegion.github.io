@@ -53,8 +53,11 @@ const params = new URLSearchParams(window.location.search);
 
 let compQuizJson = params.get('data');
 
-if (compQuizJson == null) {
+let quizJson = null
 
+if (compQuizJson == null) {
+    document.getElementById("loading-menu").style.display = "none";
+    document.getElementById("upload-quiz").style.display = "";
 } else {
     quizJson = decompressJSON(compQuizJson);
 
@@ -160,6 +163,7 @@ function loadQuestion(questionToLoad) {
 
     document.getElementById('question-name').innerText = questionName;
 
+    //Add options to dom
     for (let i = 0; i < quizJson.questions[questionToLoad].options.length; i++) {
 
         let currentQuestionData = quizJson.questions[questionToLoad].options[i];
@@ -251,4 +255,33 @@ function showTypeAnim() {
 function showTypeEnd() {
     document.getElementById('after-popup').classList.add('visible');
     document.getElementById('after-popup').style.display = '';
+}
+
+
+//----------------
+//Upload file button
+
+function importFile() {
+    const fileInput = document.getElementById('file-importer');
+    const file = fileInput.files[0];
+
+    if (file && file.name.endsWith('.jsonquiz')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            try {
+                quizJson = JSON.parse(e.target.result);
+
+                document.getElementById("upload-quiz").style.display = "none";
+
+                setStyleToVar(quizJson.style);
+
+                exitLoadingScreen();
+            } catch (error) {
+                alert('your .jsonquiz file is messed up');
+            }
+        };
+        reader.readAsText(file);
+    } else {
+        alert('you need to import a .jsonquiz file');
+    }
 }

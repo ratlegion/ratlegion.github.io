@@ -19,9 +19,13 @@
     </head>
 
     <body class="backgrounded">
-        <!-- <div id="upload-quiz">
+        <div id="upload-quiz" style="display: none;">
             <h1>Upload a quiz from file below!</h1>
-        </div> -->
+            <div id="upload-quiz-buttons">
+                <input type="file" id="file-importer" accept=".jsonquiz">
+                <button onclick="importFile()">Load file</button>
+            </div>
+        </div>
 
         <div id="loading-menu">
             <h1>loading quiz (is javascript enabled?) if it doesn't work reload the page or hard reload with ctrl+r.
@@ -54,8 +58,7 @@
                     <h1 id="question-type-name">Type here</h1>
                     <p id="type-text">Illi enim inter se dissentiunt. Hic ambiguo ludimur. Non igitur bene. Duo Reges:
                         constructio interrete. Quid autem habent admirationis, cum prope accesseris? Cur deinde
-                        Metrodori
-                        liberos commendas? Satis est ad hoc responsum. Facete M. </p>
+                        Metrodori liberos commendas? Satis est ad hoc responsum. Facete M. </p>
                     <img src="" id="type-image">
                 </div>
             </div>
@@ -67,6 +70,7 @@
             <!-- <button>copy type screenshot to clipboard </button> -->
             <a href=""><button>reload to retry</button></a>
             <a href="editor.html"><button>make your own quiz</button></a>
+            <a href="../index.htmlf"><button>to ratlegion!</button></a>
         </div>
         <div id="width="></div>
         <script src="player.js" async defer></script>
