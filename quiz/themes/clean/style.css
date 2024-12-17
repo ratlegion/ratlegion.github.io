@@ -100,6 +100,15 @@ body {
     margin: 0;
     padding: 0;
     background-color: var(--background);
+    padding-left: 5px;
+    padding-right: 5px;
+
+}
+
+#width-constrainer{
+    width: min(100%, 70em);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 h1,
@@ -129,12 +138,12 @@ pre {
     color: var(--text);
 }
 
-@media (min-aspect-ratio: 4/3) {
+/* @media (min-aspect-ratio: 4/3) {
     body {
         padding-left: 25vh;
         padding-right: 25vh;
     }
-}
+} */
 
 .backgrounded {
     background-size: 2.8rem 2.8rem;

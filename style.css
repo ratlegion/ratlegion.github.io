@@ -26,9 +26,9 @@
 }
 
 body {
-    background-color: antiquewhite;
+    background-color: #f4c074;
 
-    background-image: url('assets/Oldpapertexture01.jpg');
+    background-image: url('assets/paperbackground.jpg');
 
     text-align: center;
     padding: 0px;
@@ -39,7 +39,7 @@ body {
     position: fixed;
     display: block;
 
-    background-image: url('assets/Oldpapertexture-edit.jpg');
+    background-image: url('assets/paperoverlay.jpg');
     background-size: 100% 100%;
 
     width: 100vw;
@@ -48,7 +48,7 @@ body {
     top: 0px;
 
     mix-blend-mode: multiply;
-    opacity: 30%;
+    opacity: 25%;
 
     pointer-events: none;
 }
