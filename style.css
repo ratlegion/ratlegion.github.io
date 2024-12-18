@@ -39,8 +39,9 @@ body {
     position: fixed;
     display: block;
 
-    background-image: url('assets/paperoverlay.jpg');
-    background-size: 100% 100%;
+    background-image: url('assets/paperoverlayrepeat.jpg');
+    background-size: 100% auto;
+    background-repeat: repeat;
 
     width: 100vw;
     height: 100vh;
@@ -51,6 +52,8 @@ body {
     opacity: 25%;
 
     pointer-events: none;
+
+
 }
 
 #title-image {
@@ -83,7 +86,7 @@ body {
     border-image-width: 20px 20px 20px 20px;
     border-image-outset: 10px;
     border-image-repeat: round round;
-    border-image-source: url(assets/line\ outline.png);
+    border-image-source: url(assets/line\ outline.avif);
 
     border-style: solid;
 
