@@ -15,7 +15,7 @@
 
     --option-box: #95a7e3;
 
-    --button: #717173;
+    --button: #7f7f81;
     --button-hover: #8e8f98;
 
 
@@ -57,6 +57,7 @@
     --magenta: #ee99db;
     --magenta-lighter: #e8c4d7;
 }
+
 /* 
 @media (prefers-color-scheme: dark) {
     :root {
@@ -105,7 +106,7 @@ body {
 
 }
 
-#width-constrainer{
+#width-constrainer {
     width: min(100%, 70em);
     margin-left: auto;
     margin-right: auto;
@@ -1154,7 +1155,10 @@ dialog[open] {
     flex-direction: column;
 }
 
-#upload-quiz-buttons {}
+#upload-quiz-buttons {
+    width: fit-content;
+    display: block;
+}
 
 #upload-quiz-buttons>input[type=file] {
     border-radius: .5em;
@@ -1184,4 +1188,11 @@ dialog[open] {
 
 #upload-quiz-buttons>button:hover {
     background-color: var(--purple-lighter);
+}
+
+
+#edit-quiz {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
 }

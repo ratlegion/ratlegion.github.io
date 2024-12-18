@@ -264,8 +264,50 @@ function maximiseJson(json) {
 }
 
 
+
+// Export the JSON to a file:
+
+function downloadJSON() {
+    saveJson();
+
+    let jsonToDownload = JSON.stringify(quizJson)
+
+    let tempDownloadLink = document.createElement("a");
+
+    let file = new Blob([jsonToDownload], { type: 'text/plain' });
+
+    tempDownloadLink.href = URL.createObjectURL(file);
+    tempDownloadLink.download = 'quiz.jsonquiz';
+
+    tempDownloadLink.click();
+}
+
+
 //----------------
 // This is for importing json to the editor
+
+// For importing quizes
+function importFile() {
+    const fileInput = document.getElementById('file-importer');
+    const file = fileInput.files[0];    
+
+    if (file && file.name.endsWith('.jsonquiz')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            try {
+                console.log (JSON.parse(e.target.result));
+                loadJson(JSON.parse(e.target.result));
+
+            } catch (error) {
+                alert('your .jsonquiz file is messed up');
+            }
+        };
+        reader.readAsText(file);
+    } else {
+        alert('you need to import a .jsonquiz file');
+    }
+}
+
 
 //Janky method of sanitizing text so you cant inject html
 function sanitizeText(text) {

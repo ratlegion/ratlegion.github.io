@@ -231,9 +231,9 @@ function selectOption(element) {
 
 function showTypeAnim() {
     //For some reason type is unpluralised
-    document.getElementById("question-type-name").innerText = sanitizeText(quizJson.type[wonType].name)
-    document.getElementById("type-text").innerText = sanitizeText(quizJson.type[wonType].description)
-    let typeImage = sanitizeImage(quizJson.type[wonType].image);
+    document.getElementById("question-type-name").innerText = sanitizeText(quizJson.types[wonType].name)
+    document.getElementById("type-text").innerText = sanitizeText(quizJson.types[wonType].description)
+    let typeImage = sanitizeImage(quizJson.types[wonType].image);
     if (typeImage !== null) {
         document.getElementById("type-image").src = typeImage
     }
