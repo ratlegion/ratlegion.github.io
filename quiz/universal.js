@@ -63,16 +63,36 @@ function addStyleExtension(style) {
         element.remove();
     });
 
+    let newStyles = null;
 
-    // cors is going to be real fun.
-    fetch('/themes/natural/settings.json')
-        .then(response => response.json())  // Parse the JSON response
-        .then(data => {
-            console.log(data);  // Use the data from the JSON file
-        })
-        .catch(error => {
-            console.error('Error loading JSON:', error);
-        });
+    (async function () {
+        const response = await fetch('https://raw.githubusercontent.com/ratlegion/ratlegion.github.io/new-style-loader/quiz/themes/' + style + '/settings.json')
+        const settingsJson = await response.json();
+        newStyles = settingsJson;
+
+        console.log(newStyles)
+
+        for (let i = 0; i < newStyles.extends.length; i++) {
+            let insertStyle = document.createElement("link");
+            insertStyle.rel = 'stylesheet';
+            insertStyle.className = 'extends-styles';
+            insertStyle.id = 'extends-styles-' + i;
+            insertStyle.href = 'themes/' + newStyles.extends[i] + '/style.css';
+
+            document.head.appendChild(insertStyle);
+        }
+
+        // push main style to the bottom:
+
+        let styleElement = document.getElementById('styletheme');
+
+        if (styleElement) {
+            styleElement.parentNode.removeChild(styleElement);
+            document.head.appendChild(styleElement);
+        }
+    })();
+
+
 
 
 
