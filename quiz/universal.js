@@ -66,7 +66,7 @@ function addStyleExtension(style) {
     let newStyles = null;
 
     (async function () {
-        const response = await fetch('https://raw.githubusercontent.com/ratlegion/ratlegion.github.io/new-style-loader/quiz/themes/' + style + '/settings.json')
+        const response = await fetch('https://raw.githubusercontent.com/ratlegion/ratlegion.github.io/master/quiz/themes/' + style + '/settings.json')
         const settingsJson = await response.json();
         newStyles = settingsJson;
 
