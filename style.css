@@ -65,6 +65,8 @@ body {
     text-align: center;
     padding: 0px;
     margin: 0px 0px 0px 0px;
+
+    font-family: var(--font);
 }
 
 #overlay-image {
@@ -217,9 +219,6 @@ body {
     height: 5em;
     max-width: 40em;
 
-    margin-left: 2em;
-    margin-right: 2em;
-
     margin-bottom: 2em;
 
 
@@ -229,4 +228,30 @@ body {
 
     border-image-source: url("assets/Divider.png");
 
+}
+
+/* Post Scroller */
+.post-scroller {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content:center;
+}
+
+.post-scroller>a {
+    text-decoration: none;
+    color: black;
+
+    transform: skewX(-2deg);
+    
+}
+
+.post-scroller>a>.post {
+    outline: var(--page-color) medium solid;
+    outline-offset: .4em;
+    background-color: var(--page-color);
+    padding: .75em;
+    margin: .5em;
+    font-family: var(--font);
+    max-width: 10em;
 }
