@@ -398,11 +398,11 @@ loadJson(blankJson)
 
 
 //----------------
-// Dynamic option stuff because having options baked in would kill the dom :p
+// Dynamic option stuff ~~because having options baked in would kill the dom :p~~ <- not actually sure on that may change
 // Sorry for spaghetti.
 
 let typeOptions = [];
-let activeSelect = null;
+let activeSelect = null; 
 
 function onSelectClick(select) {
     if (activeSelect != null && activeSelect != select) {
