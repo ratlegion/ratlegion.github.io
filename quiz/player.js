@@ -15,7 +15,7 @@ function maximiseJson(json) {
         "d": "description",
         "o": "options",
         "w": "weight",
-        "t": "type"
+        "t": "types"
     };
 
     function transform(obj) {
@@ -194,10 +194,10 @@ function selectOption(element) {
     let thisOption = quizJson.questions[element.dataset.questionIndex].options[element.dataset.optionIndex];
 
 
-    if (votedTypes.hasOwnProperty(thisOption.type)) {
-        votedTypes[thisOption.type] += thisOption.weight;
+    if (votedTypes.hasOwnProperty(thisOption.types)) {
+        votedTypes[thisOption.types] += thisOption.weight;
     } else {
-        votedTypes[thisOption.type] = thisOption.weight;
+        votedTypes[thisOption.types] = thisOption.weight;
     }
 
 

@@ -1,0 +1,109 @@
+{
+    "name": "sample question",
+    "description": "a rough sample quiz that doesn't mean anything and won't do anything",
+    "f": "v2",
+    "style": "clean",
+    "types": [
+        {
+            "name": "type1",
+            "description": "a basic example type",
+            "image": "",
+            "color": "cyan"
+        },
+        {
+            "name": "type2",
+            "description": "the cooler seccond type",
+            "image": "",
+            "color": "orange"
+        }
+    ],
+    "questions": [
+        {
+            "name": "what do others think of you?",
+            "options": [
+                {
+                    "name": "im cool",
+                    "values": [
+                        {
+                            "type": 1,
+                            "weight": 5
+                        },
+                        {
+                            "type": 0,
+                            "weight": 1
+                        }
+                    ]
+                },
+                {
+                    "name": "they all hate me",
+                    "values": [
+                        {
+                            "type": 0,
+                            "weight": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "pick a number",
+            "options": [
+                {
+                    "name": "1",
+                    "values": [
+                        {
+                            "type": 0,
+                            "weight": 2
+                        }
+                    ]
+                },
+                {
+                    "name": "2",
+                    "values": [
+                        {
+                            "type": 1,
+                            "weight": 2
+                        }
+                    ]
+                },
+                {
+                    "name": "3",
+                    "values": [
+                        {
+                            "type": 0,
+                            "weight": 1
+                        },
+                        {
+                            "type": 1,
+                            "weight": 0.5
+                        }
+                    ]
+                },
+                {
+                    "name": "4",
+                    "values": [
+                        {
+                            "type": 1,
+                            "weight": 1
+                        },
+                        {
+                            "type": 0,
+                            "weight": 0.5
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "display": {
+        "show-graph": false,
+        "graphs": [
+            "percentage-bar-chart",
+            "ternary-plot",
+            "quaternary-plot",
+            "square-plot",
+            "cube-plot",
+            "radar-chart"
+        ]
+    }
+}

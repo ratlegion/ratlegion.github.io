@@ -26,9 +26,9 @@
 //     }
 // }
 
-// function setStyleToVar(style) {
-//     document.getElementById("styletheme").href = "themes/" + style + "/style.css";
-// }
+function setStyleToVar(style) {
+    document.getElementById("styletheme").href = "themes/" + style + "/style.css";
+}
 
 // updateStyle()
 

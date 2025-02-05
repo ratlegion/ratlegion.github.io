@@ -933,7 +933,7 @@ dialog[open] {
 
 #question-option-container>li {
     animation: .25s linear 1 forwards bounceIn;
-
+    margin: .1em;
 }
 
 @keyframes bounceIn {
@@ -1055,7 +1055,7 @@ dialog[open] {
 
 /* Type showcase */
 #type-showcase-container.animateElement {
-    animation: 3s cubic-bezier(0.390, 0.145, 0.000, 1.000) 0s 1 animateType;
+    animation: animateType 2s cubic-bezier(0.76, 0, 0.24, 1) 0s 1 normal forwards;
 }
 
 @keyframes animateType {
@@ -1190,9 +1190,90 @@ dialog[open] {
     background-color: var(--purple-lighter);
 }
 
-
 #edit-quiz {
     align-items: center;
     display: flex;
     flex-direction: column;
+}
+
+/* Colors */
+
+.color-red {
+    background-color: var(--red) !important;
+}
+
+.color-red:hover {
+    background-color: var(--red-lighter) !important;
+}
+
+.color-blue {
+    background-color: var(--blue) !important;
+}
+
+.color-blue:hover {
+    background-color: var(--blue-lighter) !important;
+}
+
+.color-green {
+    background-color: var(--green) !important;
+}
+
+.color-green:hover {
+    background-color: var(--green-lighter) !important;
+}
+
+.color-yellow {
+    background-color: var(--yellow) !important;
+}
+
+.color-yellow:hover {
+    background-color: var(--yellow-lighter) !important;
+}
+
+.color-magenta {
+    background-color: var(--magenta) !important;
+}
+
+.color-magenta:hover {
+    background-color: var(--magenta-lighter) !important;
+}
+
+.color-cyan {
+    background-color: var(--cyan) !important;
+}
+
+.color-cyan:hover {
+    background-color: var(--cyan-lighter) !important;
+}
+
+.color-orange {
+    background-color: var(--orange) !important;
+}
+
+.color-orange:hover {
+    background-color: var(--orange-lighter) !important;
+}
+
+.color-purple {
+    background-color: var(--purple) !important;
+}
+
+.color-purple:hover {
+    background-color: var(--purple-lighter) !important;
+}
+
+.color-turquoise {
+    background-color: var(--turquoise) !important;
+}
+
+.color-turquoise:hover {
+    background-color: var(--turquoise-lighter) !important;
+}
+
+.color-turquoise {
+    background-color: var(--turquoise) !important;
+}
+
+.color-turquoise:hover {
+    background-color: var(--turquoise-lighter) !important;
 }
