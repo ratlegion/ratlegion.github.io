@@ -140,7 +140,6 @@ function sanitizeText(text) {
 }
 
 function sanitizeImage(img) {
-
     try {
         const url = new URL(img);
         if (allowedDomains.includes(url.hostname)) {
