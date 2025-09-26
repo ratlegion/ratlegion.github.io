@@ -29,6 +29,11 @@ body {
     font-family: var(--font);
 }
 
+/* There is no scenario where a pre should be center aligned */
+pre {
+    text-align: left;
+}
+
 #overlay-image {
     position: fixed;
     display: block;
@@ -109,6 +114,11 @@ body {
 /* I don't like reading center aligned text but it looks very nice so if the text is wrapped in a paragraph then left it. */
 .page p {
     text-align: left;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.page pre {
     padding-left: 20px;
     padding-right: 20px;
 }
@@ -250,7 +260,7 @@ body {
         padding: 0px;
     }
 
-    #sidebar{
+    #sidebar {
         min-height: 10em;
     }
 
