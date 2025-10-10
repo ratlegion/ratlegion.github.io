@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        canvas {
+            touch-action: none;
+            display: block;
+            overflow: hidden;
+        }
+
+        .tools {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-color: #0000006c;
+            padding: 5px;
+
+            transform-origin: bottom left;
+            transform: scale(500%);
+
+        }
+
+        .tools>* {
+            margin: 0;
+        }
+
+        #draw-black {
+            accent-color: black;
+        }
+
+        #draw-erase {
+            accent-color: #00000097;
+        }
+    </style>
+</head>
+
+<body>
+    <form class="tools">
+        <input type="radio" name="draw" id="draw-black" checked>
+        <input type="radio" name="draw" id="draw-erase">
+
+    </form>
+    <canvas width="800" height="800" id="canvas"></canvas>
+
+
+    <script>
+        const lerp = (f, t, p) => f + (t - f) * p;
+
+        const clamp01 = (n) => Math.min(Math.max(n, 0), 1)
+        let setColor = "black";
+
+        const average = array => array.reduce((a, b) => a + b) / array.length;
+
+        document.getElementById("draw-black").addEventListener("click", () => {
+            setColor = "black";
+        });
+        document.getElementById("draw-erase").addEventListener("click", () => {
+            setColor = "transparent";
+        })
+
+
+        let prevX = 0;
+        let prevY = 0;
+        let prevPressure = 0;
+
+        let brushRadius = 6;
+
+        let autoPressure = true;
+        let rollingPressure = new Array(10);
+
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        //TODO: use getCoalescedEvents to allow for smoother tracking
+        //Supposedly this helps fix latency and makes continuous input possible?
+        if ('onpointerrawupdate' in window) {
+            document.addEventListener("pointerrawupdate", pointerMoved);
+        } else {
+            document.addEventListener("pointermove", pointerMoved);
+        }
+
+        document.addEventListener('pointerdown', pointerMoved);
+
+
+        let pointDrawBuffer = [];
+        // [x,y,rad]
+
+        function pointerMoved(event) {
+            const canvasRect = canvas.getBoundingClientRect();
+
+            const posX = event.clientX - canvasRect.left;
+            const posY = event.clientY - canvasRect.top;
+
+
+            pressure = 0;
+            if (event.buttons & 1) {
+                pressure = 1;
+            }
+            if (event.pointerType === "pen") {
+                if (event.pressure !== undefined) {
+                    pressure = event.pressure;
+                }
+            }
+
+            if (autoPressure === true && pressure > 0) {
+                const newPressure = clamp01(Math.sqrt(Math.pow(prevX - posX, 2) + Math.pow(prevY - posY, 2)) / 20);
+                rollingPressure.shift(0);
+                rollingPressure.push(newPressure);
+                pressure = average(rollingPressure);
+            } else {
+                rollingPressure = new Array(10);
+            }
+
+            console.log(rollingPressure)
+
+
+            if (pressure !== 0) {
+                if (setColor !== "transparent") {
+                    drawCircle(posX, posY, brushRadius * pressure, "black")
+                } else {
+                    eraseCircle(posX, posY, brushRadius * pressure,);
+                }
+
+                if (prevPressure !== 0) {
+                    drawPointInbeweens(
+                        prevX, prevY, brushRadius * prevPressure,
+                        posX, posY, brushRadius * pressure,
+                        1, setColor);
+                }
+            }
+
+            prevX = posX;
+            prevY = posY;
+            prevPressure = pressure;
+            lastPrevUpdate = performance.now();
+        }
+
+
+
+        function getPointInbeweens(x1, y1, rad1, x2, y2, rad2, distance) {
+            const pointCount = Math.floor(Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) / distance);
+            let points = [];
+
+            for (let i = 0; i < pointCount - 1; i++) {
+                const step = (i + 1) / pointCount;
+                points.push([
+                    lerp(x1, x2, step),
+                    lerp(y1, y2, step),
+                    lerp(rad1, rad2, step),
+                ]);
+            }
+            return points;
+
+        }
+        function drawPointInbeweens(x1, y1, rad1, x2, y2, rad2, distance, color) {
+            const pointList = getPointInbeweens(x1, y1, rad1, x2, y2, rad2, distance);
+
+            for (let i = 0; i < pointList.length; i++) {
+                const point = pointList[i];
+
+                if (color !== "transparent") {
+                    drawCircle(point[0], point[1], point[2], color);
+                } else {
+                    eraseCircle(point[0], point[1], point[2]);
+                }
+            }
+        }
+
+
+
+        function drawCircle(x, y, r, color) {
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, 2 * Math.PI);
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+
+        function eraseCircle(x, y, r) {
+            ctx.save();
+            ctx.globalCompositeOperation = "destination-out";
+            drawCircle(x, y, r, "black");
+            ctx.restore();
+        }
+    </script>
+</body>
+
+</html>
