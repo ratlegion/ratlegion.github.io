@@ -18,6 +18,17 @@
             overflow: hidden;
         }
 
+        .cornerPanel {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            transform: scale(300%);
+            transform-origin: bottom right;
+
+        }
+
+
         .tools {
             display: block;
             position: absolute;
@@ -27,7 +38,7 @@
             padding: 5px;
 
             transform-origin: bottom left;
-            transform: scale(500%);
+            transform: scale(300%);
 
         }
 
@@ -46,156 +57,172 @@
 </head>
 
 <body>
-    <form class="tools">
-        <input type="radio" name="draw" id="draw-black" checked>
-        <input type="radio" name="draw" id="draw-erase">
+    <a href="index.html" style="color: #828282; position: absolute;">
+        < back to ratlegion</a>
 
-    </form>
-    <canvas width="800" height="800" id="canvas"></canvas>
+            <div class="cornerPanel">
+                <button onclick="document.getElementById('aboutDialog').showModal()">INFO</button>
+            </div>
+            <dialog id="aboutDialog">
+                I made this to help me learn to draw, I hope it helps you too.
+                <form method="dialog">
+                    <button>close</button>
+                </form>
+            </dialog>
 
+            <div class="tools">
+                <form>
+                    <input type="radio" name="draw" id="draw-black" checked>
+                    <input type="radio" name="draw" id="draw-erase">
+                    <button>RESET</button>
+                </form>
+            </div>
 
-    <script>
-        const lerp = (f, t, p) => f + (t - f) * p;
-
-        const clamp01 = (n) => Math.min(Math.max(n, 0), 1)
-        let setColor = "black";
-
-        const average = array => array.reduce((a, b) => a + b) / array.length;
-
-        document.getElementById("draw-black").addEventListener("click", () => {
-            setColor = "black";
-        });
-        document.getElementById("draw-erase").addEventListener("click", () => {
-            setColor = "transparent";
-        })
-
-
-        let prevX = 0;
-        let prevY = 0;
-        let prevPressure = 0;
-
-        let brushRadius = 6;
-
-        let autoPressure = true;
-        let rollingPressure = new Array(10);
-
-        const canvas = document.getElementById("canvas");
-        const ctx = canvas.getContext("2d");
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        //TODO: use getCoalescedEvents to allow for smoother tracking
-        //Supposedly this helps fix latency and makes continuous input possible?
-        if ('onpointerrawupdate' in window) {
-            document.addEventListener("pointerrawupdate", pointerMoved);
-        } else {
-            document.addEventListener("pointermove", pointerMoved);
-        }
-
-        document.addEventListener('pointerdown', pointerMoved);
+            <canvas width="800" height="800" id="canvas"></canvas>
 
 
-        let pointDrawBuffer = [];
-        // [x,y,rad]
+            <script>
+                const lerp = (f, t, p) => f + (t - f) * p;
 
-        function pointerMoved(event) {
-            const canvasRect = canvas.getBoundingClientRect();
+                const clamp01 = (n) => Math.min(Math.max(n, 0), 1)
+                let setColor = "black";
 
-            const posX = event.clientX - canvasRect.left;
-            const posY = event.clientY - canvasRect.top;
+                const average = array => array.reduce((a, b) => a + b) / array.length;
 
-
-            pressure = 0;
-            if (event.buttons & 1) {
-                pressure = 1;
-            }
-            if (event.pointerType === "pen") {
-                if (event.pressure !== undefined) {
-                    pressure = event.pressure;
-                }
-            }
-
-            if (autoPressure === true && pressure > 0) {
-                const newPressure = clamp01(Math.sqrt(Math.pow(prevX - posX, 2) + Math.pow(prevY - posY, 2)) / 20);
-                rollingPressure.shift(0);
-                rollingPressure.push(newPressure);
-                pressure = average(rollingPressure);
-            } else {
-                rollingPressure = new Array(10);
-            }
-
-            console.log(rollingPressure)
+                document.getElementById("draw-black").addEventListener("click", () => {
+                    setColor = "black";
+                });
+                document.getElementById("draw-erase").addEventListener("click", () => {
+                    setColor = "transparent";
+                })
 
 
-            if (pressure !== 0) {
-                if (setColor !== "transparent") {
-                    drawCircle(posX, posY, brushRadius * pressure, "black")
+                let prevX = 0;
+                let prevY = 0;
+                let prevPressure = 0;
+
+                let brushRadius = 6;
+
+                let autoPressure = true;
+                let rollingPressure = new Array(10);
+
+                const canvas = document.getElementById("canvas");
+                const ctx = canvas.getContext("2d");
+
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+
+                //TODO: use getCoalescedEvents to allow for smoother tracking
+                //Supposedly this helps fix latency and makes continuous input possible?
+                if ('onpointerrawupdate' in window) {
+                    document.addEventListener("pointerrawupdate", pointerMoved);
                 } else {
-                    eraseCircle(posX, posY, brushRadius * pressure,);
+                    document.addEventListener("pointermove", pointerMoved);
                 }
 
-                if (prevPressure !== 0) {
-                    drawPointInbeweens(
-                        prevX, prevY, brushRadius * prevPressure,
-                        posX, posY, brushRadius * pressure,
-                        1, setColor);
+                document.addEventListener('pointerdown', pointerMoved);
+
+
+                let pointDrawBuffer = [];
+                // [x,y,rad]
+
+                function pointerMoved(event) {
+                    const canvasRect = canvas.getBoundingClientRect();
+
+                    const posX = event.clientX - canvasRect.left;
+                    const posY = event.clientY - canvasRect.top;
+
+
+                    pressure = 0;
+                    if (event.buttons & 1) {
+                        pressure = 1;
+                    }
+                    if (event.pointerType === "pen") {
+                        if (event.pressure !== undefined) {
+                            pressure = event.pressure;
+                        }
+                    }
+
+                    if (autoPressure === true && pressure > 0) {
+                        const newPressure = clamp01(Math.sqrt(Math.pow(prevX - posX, 2) + Math.pow(prevY - posY, 2)) / 20);
+                        rollingPressure.shift(0);
+                        rollingPressure.push(newPressure);
+                        pressure = average(rollingPressure);
+                    } else {
+                        rollingPressure = new Array(10);
+                    }
+
+                    console.log(rollingPressure)
+
+
+                    if (pressure !== 0) {
+                        if (setColor !== "transparent") {
+                            drawCircle(posX, posY, brushRadius * pressure, "black")
+                        } else {
+                            eraseCircle(posX, posY, brushRadius * pressure,);
+                        }
+
+                        if (prevPressure !== 0) {
+                            drawPointInbeweens(
+                                prevX, prevY, brushRadius * prevPressure,
+                                posX, posY, brushRadius * pressure,
+                                1, setColor);
+                        }
+                    }
+
+                    prevX = posX;
+                    prevY = posY;
+                    prevPressure = pressure;
+                    lastPrevUpdate = performance.now();
                 }
-            }
-
-            prevX = posX;
-            prevY = posY;
-            prevPressure = pressure;
-            lastPrevUpdate = performance.now();
-        }
 
 
 
-        function getPointInbeweens(x1, y1, rad1, x2, y2, rad2, distance) {
-            const pointCount = Math.floor(Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) / distance);
-            let points = [];
+                function getPointInbeweens(x1, y1, rad1, x2, y2, rad2, distance) {
+                    const pointCount = Math.floor(Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) / distance);
+                    let points = [];
 
-            for (let i = 0; i < pointCount - 1; i++) {
-                const step = (i + 1) / pointCount;
-                points.push([
-                    lerp(x1, x2, step),
-                    lerp(y1, y2, step),
-                    lerp(rad1, rad2, step),
-                ]);
-            }
-            return points;
+                    for (let i = 0; i < pointCount - 1; i++) {
+                        const step = (i + 1) / pointCount;
+                        points.push([
+                            lerp(x1, x2, step),
+                            lerp(y1, y2, step),
+                            lerp(rad1, rad2, step),
+                        ]);
+                    }
+                    return points;
 
-        }
-        function drawPointInbeweens(x1, y1, rad1, x2, y2, rad2, distance, color) {
-            const pointList = getPointInbeweens(x1, y1, rad1, x2, y2, rad2, distance);
-
-            for (let i = 0; i < pointList.length; i++) {
-                const point = pointList[i];
-
-                if (color !== "transparent") {
-                    drawCircle(point[0], point[1], point[2], color);
-                } else {
-                    eraseCircle(point[0], point[1], point[2]);
                 }
-            }
-        }
+                function drawPointInbeweens(x1, y1, rad1, x2, y2, rad2, distance, color) {
+                    const pointList = getPointInbeweens(x1, y1, rad1, x2, y2, rad2, distance);
+
+                    for (let i = 0; i < pointList.length; i++) {
+                        const point = pointList[i];
+
+                        if (color !== "transparent") {
+                            drawCircle(point[0], point[1], point[2], color);
+                        } else {
+                            eraseCircle(point[0], point[1], point[2]);
+                        }
+                    }
+                }
 
 
 
-        function drawCircle(x, y, r, color) {
-            ctx.beginPath();
-            ctx.arc(x, y, r, 0, 2 * Math.PI);
-            ctx.fillStyle = color;
-            ctx.fill();
-        }
+                function drawCircle(x, y, r, color) {
+                    ctx.beginPath();
+                    ctx.arc(x, y, r, 0, 2 * Math.PI);
+                    ctx.fillStyle = color;
+                    ctx.fill();
+                }
 
-        function eraseCircle(x, y, r) {
-            ctx.save();
-            ctx.globalCompositeOperation = "destination-out";
-            drawCircle(x, y, r, "black");
-            ctx.restore();
-        }
-    </script>
+                function eraseCircle(x, y, r) {
+                    ctx.save();
+                    ctx.globalCompositeOperation = "destination-out";
+                    drawCircle(x, y, r, "black");
+                    ctx.restore();
+                }
+            </script>
 </body>
 
 </html>
