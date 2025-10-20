@@ -9,6 +9,8 @@
 
 <body>
     <script>
+        let layers = []
+
         let awaitingLoads = [];
 
         let sourceTiles = {};
@@ -67,8 +69,8 @@
 
             tileCTX.drawImage(
                 sourceTiles[id].img,
-                (index % tilesetWidth) * tileSize,
-                Math.floor(index / tilesetWidth) * tileSize,
+                ((index - 1) % tilesetWidth) * tileSize,
+                Math.floor((index - 1) / tilesetWidth) * tileSize,
                 tileSize, tileSize,
                 x, y,
                 tileSize, tileSize
@@ -78,7 +80,8 @@
             const tileSize = 16;
             for (let i = 0; i < tiles.length; i++) {
                 for (let ii = 0; ii < tiles[i].length; ii++) {
-                    drawTile("grasslands", tiles[i][ii], ii * tileSize, i * tileSize)
+                    const currentIndex = tiles[i][ii];
+                    if (currentIndex !== 0) drawTile("grasslands", tiles[i][ii], ii * tileSize, i * tileSize);
                 }
             }
         }
@@ -91,27 +94,83 @@
 
 
 
-    </script>
-
-    <script type="module">
-        await initialiseTileset("src/tileset.png", "grasslands")
-
-        //initialiseCharacter("src/player.png", "player")
-
-        //initialiseCharacter("src/enemy.png", "enemy")
-
-        await loadGame({}, () => {
-            drawTilesheet([
+        layers.push({
+            tileset: "grasslands",
+            tiles: [
                 [0, 1, 1, 1, 1, 2],
-                [8, 9, 9, 3, 9, 10],
+                [8, 9, 9, 9, 9, 10],
                 [16, 17, 17, 17, 17, 18],
                 [24, 25, 25, 25, 25, 26],
                 [24, 25, 25, 25, 25, 26],
                 [24, 25, 25, 25, 25, 26],
                 [32, 33, 33, 33, 33, 34],
                 [9, 9, 9, 9, 9, 9]
-            ])
+            ]
         })
+        layers.push({
+            tileset: "grasslands",
+            tiles: [
+                [4],
+                [4, 4, 4, 3],
+            ]
+        })
+    </script>
+
+    <script type="module">
+        await initialiseTileset("src/tileset.png", "grasslands")
+
+        //initialiseActor("src/player.png", "player")
+
+        //initialiseActor("src/enemy.png", "enemy")
+
+        await loadGame({
+            scenes: [
+                {
+                    width: 10,
+                    height: 10,
+                    layers: [
+                        {
+                            tileset: "grasslands",
+                            tiles: [
+                                [1, 2, 2, 2, 2, 3],
+                                [9, 10, 10, 10, 10, 11],
+                                [17, 18, 18, 18, 18, 19],
+                                [25, 26, 26, 26, 26, 27],
+                                [25, 26, 26, 26, 26, 27],
+                                [25, 26, 26, 26, 26, 27],
+                                [33, 34, 34, 34, 34, 35],
+                                [10, 10, 10, 10, 10, 10]
+                            ]
+
+                        },
+                        {
+                            tileset: "grasslands",
+                            tiles: [
+                                [0],
+                                [0, 0, 0, 3],
+                            ]
+                        }
+                    ],
+                    actors: []
+                }
+            ]
+        },
+            () => {
+                drawTilesheet([
+                    [1, 2, 2, 2, 2, 3],
+                    [9, 10, 10, 10, 10, 11],
+                    [17, 18, 18, 18, 18, 19],
+                    [25, 26, 26, 26, 26, 27],
+                    [25, 26, 26, 26, 26, 27],
+                    [25, 26, 26, 26, 26, 27],
+                    [33, 34, 34, 34, 34, 35],
+                    [10, 10, 10, 10, 10, 10]
+                ])
+                drawTilesheet([
+                    [0],
+                    [0, 0, 0, 4],
+                ])
+            })
     </script>
 </body>
 
