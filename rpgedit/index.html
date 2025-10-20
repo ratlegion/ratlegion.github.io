@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let awaitingLoads = [];
+
+        let sourceTiles = {};
+
+        async function initialiseTileset(source, id) {
+            awaitingLoads.push(id + "." + source);
+
+            try {
+                await new Promise((resolve) => {
+                    const initImg = new Image();
+                    initImg.src = source;
+
+
+                    console.log("Tileset load request sent")
+
+                    initImg.onload = () => {
+                        //TODO: fix redundant code below
+                        const index = awaitingLoads.indexOf(id + "." + source);
+                        awaitingLoads.splice(index, 1);
+
+                        sourceTiles[id] = { "img": initImg };
+
+                        console.log("Tileset " + id + " loaded")
+
+                        resolve()
+                    };
+
+                    initImg.onerror = (error) => {
+                        const index = awaitingLoads.indexOf(id + "." + source);
+                        awaitingLoads.splice(index, 1);
+
+                        console.error("Failure to load tileset " + id, error)
+                    }
+                });
+            } catch (error) {
+                const index = awaitingLoads.indexOf(id + "." + source);
+                awaitingLoads.splice(index, 1);
+
+                console.error("Error while loading tileset " + id, error)
+            }
+        }
+
+
+
+        const tileCanvas = document.createElement("canvas");
+        tileCanvas.width = 480;
+        tileCanvas.height = 360;
+        tileCanvas.style = "image-rendering: crisp-edges;";
+        document.body.appendChild(tileCanvas);
+        let tileCTX = tileCanvas.getContext("2d");
+
+        function drawTile(id, index, x, y) {
+            const tileSize = 16; //Hardcoded for now
+            const tileScale = 1.0; //Hardcoded for now
+            const tilesetWidth = 8; //Hardcoded for now
+
+            tileCTX.drawImage(
+                sourceTiles[id].img,
+                (index % tilesetWidth) * tileSize,
+                Math.floor(index / tilesetWidth) * tileSize,
+                tileSize, tileSize,
+                x, y,
+                tileSize, tileSize
+            );
+        }
+        function drawTilesheet(tiles) {
+            const tileSize = 16;
+            for (let i = 0; i < tiles.length; i++) {
+                for (let ii = 0; ii < tiles[i].length; ii++) {
+                    drawTile("grasslands", tiles[i][ii], ii * tileSize, i * tileSize)
+                }
+            }
+        }
+
+        async function loadGame(features, func) {
+            //Do async shit
+
+            func()
+        }
+
+
+
+    </script>
+
+    <script type="module">
+        await initialiseTileset("src/tileset.png", "grasslands")
+
+        //initialiseCharacter("src/player.png", "player")
+
+        //initialiseCharacter("src/enemy.png", "enemy")
+
+        await loadGame({}, () => {
+            drawTilesheet([
+                [0, 1, 1, 1, 1, 2],
+                [8, 9, 9, 3, 9, 10],
+                [16, 17, 17, 17, 17, 18],
+                [24, 25, 25, 25, 25, 26],
+                [24, 25, 25, 25, 25, 26],
+                [24, 25, 25, 25, 25, 26],
+                [32, 33, 33, 33, 33, 34],
+                [9, 9, 9, 9, 9, 9]
+            ])
+        })
+    </script>
+</body>
+
+</html>
