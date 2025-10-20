@@ -87,33 +87,44 @@
         }
 
         async function loadGame(features, func) {
-            //Do async shit
+            const activeScene = 0;
+            layers = features.scenes[0].layers;
+
+            requestAnimationFrame(gameLoop);
 
             func()
         }
 
 
+        let timeOld = performance.now();
+        const targetFrameRate = 60;
+        const timestep = 1000 / targetFrameRate;
+        function gameLoop(currentTime) {
+            const dT = currentTime - timeOld;
 
-        layers.push({
-            tileset: "grasslands",
-            tiles: [
-                [0, 1, 1, 1, 1, 2],
-                [8, 9, 9, 9, 9, 10],
-                [16, 17, 17, 17, 17, 18],
-                [24, 25, 25, 25, 25, 26],
-                [24, 25, 25, 25, 25, 26],
-                [24, 25, 25, 25, 25, 26],
-                [32, 33, 33, 33, 33, 34],
-                [9, 9, 9, 9, 9, 9]
-            ]
-        })
-        layers.push({
-            tileset: "grasslands",
-            tiles: [
-                [4],
-                [4, 4, 4, 3],
-            ]
-        })
+            if (dT >= timestep) {
+                timeOld = currentTime;
+                gameUpdate(dT);
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+
+
+        function gameUpdate(dT) {
+
+            drawGame()
+            console.log("Drawn")
+
+        }
+
+        function drawGame() {
+            tileCTX.clearRect(0, 0, tileCanvas.width, tileCanvas.height)
+
+            for (let i = 0; i < layers.length; i++) {
+                drawTilesheet(layers[i].tiles)
+            }
+        }
     </script>
 
     <script type="module">
@@ -147,7 +158,7 @@
                             tileset: "grasslands",
                             tiles: [
                                 [0],
-                                [0, 0, 0, 3],
+                                [0, 0, 0, 4],
                             ]
                         }
                     ],
@@ -156,20 +167,6 @@
             ]
         },
             () => {
-                drawTilesheet([
-                    [1, 2, 2, 2, 2, 3],
-                    [9, 10, 10, 10, 10, 11],
-                    [17, 18, 18, 18, 18, 19],
-                    [25, 26, 26, 26, 26, 27],
-                    [25, 26, 26, 26, 26, 27],
-                    [25, 26, 26, 26, 26, 27],
-                    [33, 34, 34, 34, 34, 35],
-                    [10, 10, 10, 10, 10, 10]
-                ])
-                drawTilesheet([
-                    [0],
-                    [0, 0, 0, 4],
-                ])
             })
     </script>
 </body>
