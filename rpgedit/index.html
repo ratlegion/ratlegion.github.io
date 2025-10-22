@@ -76,6 +76,7 @@
                 tileSize, tileSize
             );
         }
+
         function drawTilesheet(tiles) {
             const tileSize = 16;
             for (let i = 0; i < tiles.length; i++) {
@@ -85,6 +86,12 @@
                 }
             }
         }
+
+        function drawSprite(id, pose, x, y) {
+
+        }
+
+
 
         async function loadGame(features, func) {
             const activeScene = 0;
@@ -114,7 +121,7 @@
         function gameUpdate(dT) {
 
             drawGame()
-            console.log("Drawn")
+            drawSprite()
 
         }
 
@@ -130,11 +137,18 @@
     <script type="module">
         await initialiseTileset("src/tileset.png", "grasslands")
 
-        //initialiseActor("src/player.png", "player")
+        await initialiseActor("src/lilguy.png", "player")
 
         //initialiseActor("src/enemy.png", "enemy")
 
         await loadGame({
+            actor_sprites: [
+                {
+                    id: "lilguy",
+                    src: "lilguy",
+                    mode: "4x4"
+                }
+            ],
             scenes: [
                 {
                     width: 10,
@@ -162,7 +176,12 @@
                             ]
                         }
                     ],
-                    actors: []
+                    actors: [
+                        {
+                            id: "lilguy",
+                            sprite: "lilguy"
+                        }
+                    ]
                 }
             ]
         },
