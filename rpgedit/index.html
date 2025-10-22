@@ -13,7 +13,7 @@
 
         let awaitingLoads = [];
 
-        let sourceTiles = {};
+        let assets = { tiles: {}, actors: {} };
 
         async function initialiseTileset(source, id) {
             awaitingLoads.push(id + "." + source);
@@ -31,7 +31,7 @@
                         const index = awaitingLoads.indexOf(id + "." + source);
                         awaitingLoads.splice(index, 1);
 
-                        sourceTiles[id] = { "img": initImg };
+                        assets.tiles[id] = { "img": initImg };
 
                         console.log("Tileset " + id + " loaded")
 
@@ -52,6 +52,46 @@
                 console.error("Error while loading tileset " + id, error)
             }
         }
+        async function initialiseActor(source, id) {
+            awaitingLoads.push(id + "." + source);
+
+            try {
+                await new Promise((resolve) => {
+                    const initImg = new Image();
+                    initImg.src = source;
+
+
+                    console.log("Actor load request sent")
+
+                    initImg.onload = () => {
+                        //TODO: fix redundant code below
+                        const index = awaitingLoads.indexOf(id + "." + source);
+                        awaitingLoads.splice(index, 1);
+
+                        assets.actors[id] = { img: initImg, width: initImg.width, height: initImg.width };
+
+                        console.log("Actor " + id + " loaded")
+
+                        resolve()
+                    };
+
+                    initImg.onerror = (error) => {
+                        const index = awaitingLoads.indexOf(id + "." + source);
+                        awaitingLoads.splice(index, 1);
+
+                        console.error("Failure to load actor " + id, error)
+                    }
+                });
+            } catch (error) {
+                const index = awaitingLoads.indexOf(id + "." + source);
+                awaitingLoads.splice(index, 1);
+
+                console.error("Error while loading actor " + id, error)
+            }
+        }
+
+
+
 
 
 
@@ -68,7 +108,7 @@
             const tilesetWidth = 8; //Hardcoded for now
 
             tileCTX.drawImage(
-                sourceTiles[id].img,
+                assets.tiles[id].img,
                 ((index - 1) % tilesetWidth) * tileSize,
                 Math.floor((index - 1) / tilesetWidth) * tileSize,
                 tileSize, tileSize,
@@ -87,15 +127,43 @@
             }
         }
 
-        function drawSprite(id, pose, x, y) {
+        function drawActor(id, pose, x, y) {
+            const scale = 1.0; //Hardcoded for now
 
+
+            const sprite = game.actors[id];
+            if (!sprite) return;
+
+            const spriteSrc = assets.actors[sprite.src];
+
+            if (sprite.mode === "4x4") {
+                const direction = 0;
+                const frame = 0;
+
+
+
+                const spriteWidth = spriteSrc.width / 4
+                const spriteHeight = spriteSrc.height / 4
+
+                tileCTX.drawImage(
+                    spriteSrc.img,
+                    spriteWidth * frame,
+                    spriteWidth * direction,
+                    spriteWidth, spriteHeight,
+                    x, y,
+                    spriteWidth * scale, spriteHeight * scale
+                );
+
+            }
         }
 
 
-
-        async function loadGame(features, func) {
+        let game = {}
+        async function loadGame(load, func) {
             const activeScene = 0;
-            layers = features.scenes[0].layers;
+            game = load;
+
+            activeLayers = load.scenes[0].layers;
 
             requestAnimationFrame(gameLoop);
 
@@ -121,15 +189,19 @@
         function gameUpdate(dT) {
 
             drawGame()
-            drawSprite()
+            drawActor("lilguy", { rotation: 180, state: "idle" }, 0, 0)
 
         }
 
         function drawGame() {
             tileCTX.clearRect(0, 0, tileCanvas.width, tileCanvas.height)
 
-            for (let i = 0; i < layers.length; i++) {
-                drawTilesheet(layers[i].tiles)
+            for (let i = 0; i < activeLayers.length; i++) {
+                drawTilesheet(activeLayers[i].tiles)
+            }
+
+            for (let i = 0; i < activeLayers.length; i++) {
+                drawActor(activeLayers[i].actors)
             }
         }
     </script>
@@ -137,22 +209,63 @@
     <script type="module">
         await initialiseTileset("src/tileset.png", "grasslands")
 
-        await initialiseActor("src/lilguy.png", "player")
+        await initialiseActor("src/lilguy.png", "lilguy")
 
-        //initialiseActor("src/enemy.png", "enemy")
+        // collisions is stored what part of the directions to move accross are possible. mapping is binary with: up right left down
+
+        // passible : number : impassible
+        //          : 0      : ↓→←↑
+        // ↓        : 1      : →←↑
+        // →        : 2      : ↓←↑
+        // ↓→       : 3      : ←↑
+        // ←        : 4      : ↓→↑
+        // ↓←       : 5      : →↑
+        // →←       : 6      : ↓↑
+        // ↓→←      : 7      : ↑
+        // ↑        : 8      : ↓→←
+        // ↓↑       : 9      : →←
+        // →↑       : 10     : ↓←
+        // ↓→↑      : 11     : ←
+        // ←↑       : 12     : ↓→
+        // ↓←↑      : 13     : →
+        // →←↑      : 14     : ↓
+        // ↓→←↑     : 15     :
+
+
+
+
+
 
         await loadGame({
-            actor_sprites: [
-                {
-                    id: "lilguy",
+            tilesets: {
+                "grasslands": {
+                    src: "grasslands",
+                    mode: "tilesheet",
+                    size: 16,
+                    width: 8,
+                    collisions: [
+                        [
+                            [3, 7, 5, 0],
+                            [11, 15, 13],
+                            [10, 14, 12],
+                            [0, 0, 0],
+                            [0, 0, 0]
+                        ]
+
+                    ]
+                }
+            },
+            actors: {
+                "lilguy": {
                     src: "lilguy",
                     mode: "4x4"
                 }
-            ],
+            },
             scenes: [
                 {
                     width: 10,
                     height: 10,
+                    scale: 16,
                     layers: [
                         {
                             tileset: "grasslands",
@@ -164,6 +277,8 @@
                                 [25, 26, 26, 26, 26, 27],
                                 [25, 26, 26, 26, 26, 27],
                                 [33, 34, 34, 34, 34, 35],
+                                [10, 10, 10, 10, 10, 10],
+                                [10, 10, 10, 10, 10, 10],
                                 [10, 10, 10, 10, 10, 10]
                             ]
 
@@ -179,7 +294,10 @@
                     actors: [
                         {
                             id: "lilguy",
-                            sprite: "lilguy"
+                            sprite: "lilguy",
+                            direction: 180,
+                            x: 1,
+                            y: 1
                         }
                     ]
                 }
