@@ -154,8 +154,8 @@
                 if (pose.frame) frame = pose.frame;
 
 
-                const spriteWidth = spriteSrc.width / 4
-                const spriteHeight = spriteSrc.height / 4
+                const spriteWidth = spriteSrc.width / 4;
+                const spriteHeight = spriteSrc.height / 4;
 
                 tileCTX.drawImage(
                     spriteSrc.img,
@@ -179,7 +179,7 @@
 
             requestAnimationFrame(gameLoop);
 
-            func()
+            if (typeof func === "function") func();
         }
 
 
