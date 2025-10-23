@@ -9,6 +9,11 @@
 
 <body>
     <script>
+        const mod = (a, b) => ((a % b) + b) % b;
+        const get4Direction = rotation => [3, 1, 0, 2][Math.floor(((rotation % 360) + 360) % 360 / 90)];
+
+
+
         let layers = []
 
         let awaitingLoads = [];
@@ -137,9 +142,16 @@
             const spriteSrc = assets.actors[sprite.src];
 
             if (sprite.mode === "4x4") {
-                const direction = 0;
-                const frame = 0;
+                let direction = 0;
+                if (typeof pose.rotation === "number") {
 
+                    direction = get4Direction(pose.rotation)
+
+                } else if (typeof pose.direction === "number") direction = pose.direction;
+
+
+                let frame = 0;
+                if (pose.frame) frame = pose.frame;
 
 
                 const spriteWidth = spriteSrc.width / 4
@@ -189,7 +201,7 @@
         function gameUpdate(dT) {
 
             drawGame()
-            drawActor("lilguy", { rotation: 180, state: "idle" }, 0, 0)
+            drawActor("lilguy", { rotation: 90, state: "idle" }, 0, 0)
 
         }
 
@@ -211,6 +223,8 @@
 
         await initialiseActor("src/lilguy.png", "lilguy")
 
+
+
         // collisions is stored what part of the directions to move accross are possible. mapping is binary with: up right left down
 
         // passible : number : impassible
@@ -230,9 +244,6 @@
         // ↓←↑      : 13     : →
         // →←↑      : 14     : ↓
         // ↓→←↑     : 15     :
-
-
-
 
 
 
