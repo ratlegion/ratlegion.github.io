@@ -14,7 +14,7 @@
 
 
 
-        let layers = []
+        let layers = [];
 
         let awaitingLoads = [];
 
@@ -38,23 +38,23 @@
 
                         assets.tiles[id] = { "img": initImg };
 
-                        console.log("Tileset " + id + " loaded")
+                        console.log("Tileset " + id + " loaded");
 
-                        resolve()
+                        resolve();
                     };
 
                     initImg.onerror = (error) => {
                         const index = awaitingLoads.indexOf(id + "." + source);
                         awaitingLoads.splice(index, 1);
 
-                        console.error("Failure to load tileset " + id, error)
+                        console.error("Failure to load tileset " + id, error);
                     }
                 });
             } catch (error) {
                 const index = awaitingLoads.indexOf(id + "." + source);
                 awaitingLoads.splice(index, 1);
 
-                console.error("Error while loading tileset " + id, error)
+                console.error("Error while loading tileset " + id, error);
             }
         }
         async function initialiseActor(source, id) {
@@ -75,9 +75,9 @@
 
                         assets.actors[id] = { img: initImg, width: initImg.width, height: initImg.width };
 
-                        console.log("Actor " + id + " loaded")
+                        console.log("Actor " + id + " loaded");
 
-                        resolve()
+                        resolve();
                     };
 
                     initImg.onerror = (error) => {
@@ -147,7 +147,7 @@
                 let direction = 0;
                 if (typeof pose.rotation === "number") {
 
-                    direction = get4Direction(pose.rotation)
+                    direction = get4Direction(pose.rotation);
 
                 } else if (typeof pose.direction === "number") direction = pose.direction;
 
@@ -173,11 +173,13 @@
         }
 
 
+
+
         let game;
         let activeScene;
         async function loadGame(load, func) {
             game = load;
-            activeScene = game.scenes[0];
+            activeScene = structuredClone(game.scenes[0]);
 
             requestAnimationFrame(gameLoop);
 
@@ -202,8 +204,7 @@
 
         function gameUpdate(dT) {
 
-            drawGame()
-
+            drawGame();
 
         }
 
@@ -216,7 +217,7 @@
 
             for (let i = 0; i < activeScene.actors.length; i++) {
                 let drawThisActor = activeScene.actors[i];
-                //console.log(drawThisActo.y)
+
                 drawActor("lilguy", {}, 1, 1);
                 drawActor(drawThisActor.id, drawThisActor.pose, drawThisActor.x, drawThisActor.y);
             }
