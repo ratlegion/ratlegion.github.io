@@ -12,10 +12,6 @@
         const mod = (a, b) => ((a % b) + b) % b;
         const get4Direction = rotation => [3, 1, 0, 2][Math.floor(((rotation % 360) + 360) % 360 / 90)];
 
-
-
-        let layers = [];
-
         let awaitingLoads = [];
 
         let assets = { tiles: {}, actors: {} };
@@ -115,20 +111,23 @@
 
             tileCTX.drawImage(
                 assets.tiles[id].img,
+
                 ((index - 1) % tilesetWidth) * tileSize,
                 Math.floor((index - 1) / tilesetWidth) * tileSize,
                 tileSize, tileSize,
+
                 x * scale, y * scale,
+
                 tileSize * scale, tileSize * scale
             );
         }
 
-        function drawTilesheet(tiles) {
+        function drawTileset(tileset, tiles) {
             const tileSize = 16;
             for (let i = 0; i < tiles.length; i++) {
                 for (let ii = 0; ii < tiles[i].length; ii++) {
                     const currentIndex = tiles[i][ii];
-                    if (currentIndex !== 0) drawTile("grasslands", tiles[i][ii], ii * tileSize, i * tileSize);
+                    if (currentIndex !== 0) drawTile(tileset, tiles[i][ii], ii * tileSize, i * tileSize);
                 }
             }
         }
@@ -143,17 +142,22 @@
 
             const spriteSrc = assets.actors[sprite.src];
 
-            if (sprite.mode === "4x4") {
+            const shiftX = sprite.shiftX || 0;
+            const shiftY = sprite.shiftY || 0;
+
+            if (sprite.mode === "singleSprite") {
+
+            } else if (sprite.mode === "4x4") {
                 let direction = 0;
                 if (typeof pose.rotation === "number") {
 
                     direction = get4Direction(pose.rotation);
 
-                } else if (typeof pose.direction === "number") direction = pose.direction;
+                } else if (typeof pose.direction === "number") direction = mod(pose.direction, 4);
 
 
                 let frame = 0;
-                if (pose.frame) frame = pose.frame;
+                if (typeof pose.frame === "number") frame = pose.frame;
 
 
                 const spriteWidth = spriteSrc.width / 4;
@@ -161,11 +165,14 @@
 
                 tileCTX.drawImage(
                     spriteSrc.img,
-                    spriteWidth * frame,
-                    spriteWidth * direction,
+
+                    spriteWidth * frame, spriteWidth * direction,
+
                     spriteWidth, spriteHeight,
 
-                    ((x * scale) + 1) * tileSize - (spriteWidth * scale / 2), ((y * scale) + 1) * tileSize - (spriteHeight * scale / 2) + sprite.shiftY,
+                    ((x * scale) + 1) * tileSize - (spriteWidth * scale / 2) + shiftX,
+                    ((y * scale) + 1) * tileSize - (spriteHeight * scale / 2) + shiftY,
+
                     spriteWidth * scale, spriteHeight * scale
                 );
 
@@ -173,6 +180,34 @@
         }
 
 
+        class Actor {
+            constructor(id) {
+                this.id = id || undefined;
+
+                this.x = activeScene.actors[id].x || 0;
+                this.y = activeScene.actors[id].y || 0;
+
+                this.pose = activeScene.actors[id].pose || {};
+
+                this.src = activeScene.actors[id].src || undefined;
+
+                this.script = activeScene.actors[id].script || [];
+
+                this.state = "IDLE";
+            }
+
+            update() {
+
+            }
+
+            draw() {
+                alert(true)
+                drawActor(this.id, this.pose, this.x, this.y)
+            }
+        }
+
+
+        let actors = [];
 
 
         let game;
@@ -180,6 +215,12 @@
         async function loadGame(load, func) {
             game = load;
             activeScene = structuredClone(game.scenes[0]);
+
+            // Create a new Actor class for each actor in the load.
+            actors = [];
+            for (let actor in activeScene.actors) {
+                actors.push(new Actor(actor));
+            }
 
             requestAnimationFrame(gameLoop);
 
@@ -212,16 +253,15 @@
             tileCTX.clearRect(0, 0, tileCanvas.width, tileCanvas.height);
 
             for (let i = 0; i < activeScene.layers.length; i++) {
-                drawTilesheet(activeScene.layers[i].tiles);
+                drawTileset(activeScene.layers[i].tileset, activeScene.layers[i].tiles);
             }
 
-            for (let i = 0; i < activeScene.actors.length; i++) {
-                let drawThisActor = activeScene.actors[i];
-
-                drawActor("lilguy", {}, 1, 1);
-                drawActor(drawThisActor.id, drawThisActor.pose, drawThisActor.x, drawThisActor.y);
+            for (let i in actors) {
+                actors[i].draw();
             }
         }
+
+
     </script>
 
     <script type="module">
@@ -257,7 +297,7 @@
             tilesets: {
                 "grasslands": {
                     src: "grasslands",
-                    mode: "tilesheet",
+                    mode: "tileset",
                     size: 16,
                     width: 8,
                     collisions: [
@@ -268,7 +308,6 @@
                             [0, 0, 0],
                             [0, 0, 0]
                         ]
-
                     ]
                 }
             },
@@ -299,27 +338,30 @@
                                 [10, 10, 10, 10, 10, 10],
                                 [10, 10, 10, 10, 10, 10]
                             ]
-
                         },
                         {
                             tileset: "grasslands",
                             tiles: [
                                 [0],
-                                [0, 0, 0, 4],
+                                [0, 0, 0, 4]
                             ]
                         }
                     ],
-                    actors: [
-                        {
-                            id: "lilguy",
+                    actors: {
+                        "lilguy": {
                             sprite: "lilguy",
-                            pose: {
-                                direction: 180,
-                            },
+                            rotation: 90,
                             x: 1,
-                            y: 1
+                            y: 1,
+                            trigger: "load",
+                            script: [
+                                {
+                                    action: "say",
+                                    message: "Hello There!"
+                                }
+                            ]
                         }
-                    ]
+                    }
                 }
             ]
         },
