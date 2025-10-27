@@ -306,6 +306,8 @@ image-rendering: pixelated;`;
         // →←↑      : 14     : ↓
         // ↓→←↑     : 15     :
 
+        // todo: use hex instead
+
 
 
         await loadGame({
@@ -317,11 +319,11 @@ image-rendering: pixelated;`;
                     width: 8,
                     collisions: [
                         [
-                            [3, 7, 5, 0],
+                            [3., 7., 5., 0.],
                             [11, 15, 13],
                             [10, 14, 12],
-                            [0, 0, 0],
-                            [0, 0, 0]
+                            [0., 0., 0.],
+                            [0., 0., 0.]
                         ]
                     ]
                 }
@@ -337,6 +339,9 @@ image-rendering: pixelated;`;
                 "lilguy": {
                     language: "parscript",
                     script: `
+var timesTalked = 0
+
+label("start")
 
 turn(180)
 
@@ -352,7 +357,15 @@ turn(180)
 
 
 ask("Have you played before?", "Yes", "No"){
-    say("Great!")
+    if(timesTalked > 0){
+        say("Great! (" + timesTalked + ")")
+    } else{
+        say("Great!")
+    }
+    
+    timesTalked = timesTalked + 1
+    
+    jump("start")
 } & {
     say("I'll show you the ropes!")
 
@@ -370,8 +383,8 @@ ask("Have you played before?", "Yes", "No"){
                         {
                             tileset: "grasslands",
                             tiles: [
-                                [1, 2, 2, 2, 2, 3],
-                                [9, 10, 10, 10, 10, 11],
+                                [1., 2., 2., 2., 2., 3.],
+                                [9., 10, 10, 10, 10, 11],
                                 [17, 18, 18, 18, 18, 19],
                                 [25, 26, 26, 26, 26, 27],
                                 [25, 26, 26, 26, 26, 27],
