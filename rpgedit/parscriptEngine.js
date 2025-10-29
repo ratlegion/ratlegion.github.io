@@ -1,46 +1,10 @@
-// var timesTalked = 0
-
-// label("start")
-
-// turn(180)
-
-// say("Hello adventurer!")
-
-// turnAround()
-
-// function turnAround(){
-//   wait(5)
-
-//   turn(0)
-
-//   wait(60)
-
-//   turn(180)
-// }
-
-// ask("Have you played before?", "Yes", "No"){
-//     if(timesTalked > 0){
-//         say("Great! (" + timesTalked + ")")
-//     } else{
-//         say("Great!")
-//     }
-
-//     timesTalked += 1
-
-//     jump("start")
-// } & {
-//     say("I'll show you the ropes!")
-
-//     #tutorial()
-// }
-
-{
+const parscript = {
     main: {
         function: [
             {
                 type: "function",
                 name: "print",
-                parameters: [ "Starting dialog" ]
+                parameters: ["Starting dialog"]
             },
             {
                 type: "defineVar",
@@ -54,17 +18,17 @@
             {
                 type: "function",
                 name: "turn",
-                parameters: [ 180 ]
+                parameters: [180]
             },
             {
                 type: "function",
                 name: "say",
-                parameters: [ "Hello adventurer!" ]
+                parameters: ["Hello adventurer!"]
             },
             {
                 type: "function",
                 name: "turnAround",
-                parameters: [ ]
+                parameters: []
             },
             {
                 type: "flow",
@@ -136,13 +100,13 @@
                         {
                             type: "function",
                             name: "say",
-                            parameters: [ "I'll show you the ropes!" ]
+                            parameters: ["I'll show you the ropes!"]
                         },
                         {
                             type: "function",
                             name: "tutorial",
                             global: true,
-                            parameters: [ ]
+                            parameters: []
                         }
                     ]
                 }
@@ -154,23 +118,80 @@
             {
                 type: "function",
                 name: "wait",
-                parameters: [ 5 ]
+                parameters: [5]
             },
             {
                 type: "function",
                 name: "turn",
-                parameters: [ 0 ]
+                parameters: [0]
             },
             {
                 type: "function",
                 name: "wait",
-                parameters: [ 60 ]
+                parameters: [60]
             },
             {
                 type: "function",
                 name: "turn",
-                parameters: [ 180 ]
+                parameters: [180]
             }
         ]
     }
 }
+
+
+const scriptFunctions = {
+    game: {
+        print: (parameters) => {
+            console.log(parameters[0])
+        },
+    }
+};
+
+// Extend some function scopes to create new ones
+{
+    // Extend game to create actor
+    const actorFunctions = Object.create(scriptFunctions);
+    Object.assign(actorFunctions, {
+        moveTo: (parameters) => {
+            console.log(`Moving to ${parameters[0]}, ${parameters[1]}`)
+        },
+    });
+    scriptFunctions.actor = actorFunctions
+}
+
+class Script {
+
+    constructor(script, scriptType, scope) {
+
+        this.scope = scope || "game";
+
+        this.scriptInput = script || {};
+        this.scriptInputType = scriptType;
+
+        this.script = this.scriptInput;
+
+        this.currentDepth = [{ location: "main", line: 0 }]
+    }
+
+    runFunction(block) {
+        // For a block to be valid, the type of the block must be an object, the .type value must be a function, and the .parameters must be an array
+        if (typeof block === "object" && block.type === "function" && Array.isArray(block.parameters)) {
+            if (block.global !== true) {
+                const builtinFunc = scriptFunctions[this.scope][block.name];
+
+                if (typeof builtinFunc === "function") {
+                    return builtinFunc(block.parameters);
+                } else {
+
+                }
+
+            } else {
+
+            }
+        }
+    }
+}
+
+let p = new Script(parscript, "json", "actor");
+p.evaluateFunction(parscript.main.function[0])

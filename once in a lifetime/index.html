@@ -1,123 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>once in a lifetime</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>once in a lifetime</title>
 
-        <style>
-            body {
-                margin: 0px;
-                background-color: #cfcfcf;
+    <style>
+        :root {
+            --height: 500vh;
+            --bigone-size: 100vw;
+        }
+
+        body {
+            margin: 0px;
+            height: 100%;
+            background-color: #cfcfcf;
+        }
+
+        #noOverscroll {
+            height: var(--height);
+            width: 100vw;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #scroll {
+            width: 100%;
+            height: var(--height);
+            position: absolute;
+            display: block;
+            z-index: 50;
+            left: 0;
+            top: 0;
+
+            background-image: url("once\ in\ a\ lifetime\ dance.gif");
+            background-size: 100px;
+            animation: scroll 5s linear infinite;
+        }
+
+        @keyframes scroll {
+            from {
+                background-position-x: 0px;
             }
 
-            #scroll {
-                width: 100%;
-                height: 150%;
-                position: absolute;
-                display: block;
-                z-index: 50;
+            to {
+                background-position-x: -100px;
+            }
+        }
 
-                background-image: url("once\ in\ a\ lifetime\ dance.gif");
-                background-size: 100px;
-                animation: scroll 3s linear infinite;
+        #bigone {
+            width: 100%;
+            height: var(--bigone-size);
+            position: absolute;
+            display: block;
+            z-index: 50;
+            left: 0;
+            top: calc(var(--height) - (var(--bigone-size) / 2));
+
+            background-image: url("once\ in\ a\ lifetime\ dance.gif");
+            background-size: var(--bigone-size);
+            animation: scroll2 12s linear infinite;
+        }
+
+        @keyframes scroll2 {
+            from {
+                background-position-x: calc((var(--bigone-size) / 2));
             }
 
-            @keyframes scroll {
-                from {
-                    background-position-x: 0px;
-                }
-
-                to {
-                    background-position-x: -100px;
-                }
+            to {
+                background-position-x: calc((var(--bigone-size) / 2) - (var(--bigone-size)));
             }
-        </style>
-    </head>
+        }
+    </style>
+</head>
 
-    <body>
+<body>
+    <div id="noOverscroll">
+
+        <div id="bigone"></div>
         <div id="scroll"></div>
-        <p style="position: absolute; display: block; z-index: 100;">
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever was</span><br>
-            <span style="color:lightgreen;">same as it ever was</span><br>
-            <span style="color:coral;">same as it ever was</span><br>
-            <span style="color:darkcyan;">same as it ever wa</span><br>
 
+        <p style="position: relative; left:0; top:0; display: block; z-index: 200;">
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
+            <span style="color:lightgreen;">same as it ever was</span><br>
+            <span style="color:coral;">same as it ever was</span><br>
+            <span style="color:darkcyan;">same as it ever was</span><br>
 
         </p>
-        <audio id="music" src="song.mp3"></audio>
+    </div>
 
-        <script>
-            var music = document.getElementById('music')
+    <audio id="music" src="song.mp3"></audio>
 
-            music.play().then(() => {
-                console.log("playing once in a lifetime midi!!");
-            }).catch((err) => {
-                document.addEventListener('click', playDaSong);
-            })
+    <script>
+        var music = document.getElementById('music')
 
-            function playDaSong(){
-                document.removeEventListener('click', playDaSong);
-                music.play()
-            }
-        </script>
-    </body>
+        music.play().then(() => {
+            console.log("playing once in a lifetime midi!!");
+        }).catch((err) => {
+            document.addEventListener('click', playDaSong);
+        })
+
+        function playDaSong() {
+            document.removeEventListener('click', playDaSong);
+            music.play()
+        }
+    </script>
+</body>
 
 </html>
