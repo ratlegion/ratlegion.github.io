@@ -54,7 +54,7 @@
                 console.error("Error while loading tileset " + id, error);
             }
         }
-        async function initialiseActor(source, id) {
+        async function initialiseCharacter(source, id) {
             awaitingLoads.push(id + "." + source);
 
             try {
@@ -63,7 +63,7 @@
                     initImg.src = source;
 
 
-                    console.log("Actor load request sent")
+                    console.log("Character load request sent")
 
                     initImg.onload = () => {
                         //TODO: fix redundant code below
@@ -72,7 +72,7 @@
 
                         assets.actors[id] = { img: initImg, width: initImg.width, height: initImg.width };
 
-                        console.log("Actor " + id + " loaded");
+                        console.log("Character " + id + " loaded");
 
                         resolve();
                     };
@@ -102,7 +102,7 @@
         tileCanvas.height = 360;
         tileCanvas.style = `image-rendering: crisp-edges;
 transform-origin: top left;
-transform: scale(3);
+transform: scale(5);
 image-rendering: pixelated;`;
         document.body.appendChild(tileCanvas);
         let tileCTX = tileCanvas.getContext("2d");
@@ -136,7 +136,7 @@ image-rendering: pixelated;`;
             }
         }
 
-        function drawSprite(id, pose, x, y) {
+        function drawActor(id, pose, x, y) {
             const tileSize = 16; //Hardcoded for now
             const scale = 1.0; //Hardcoded for now
 
@@ -150,7 +150,7 @@ image-rendering: pixelated;`;
             const shiftX = sprite.shiftX || 0;
             const shiftY = sprite.shiftY || 0;
 
-            if (sprite.mode === "singleSprite") {
+            if (sprite.mode === "singleActor") {
 
             } else if (sprite.mode === "4x4") {
                 let direction = 0;
@@ -186,48 +186,55 @@ image-rendering: pixelated;`;
             }
         }
 
-        class Sprite {
-            constructor(sprite) {
+        class Actor {
+            constructor(actor) {
                 this.x = 0;
                 this.y = 0;
 
                 this.rotation = 0;
 
-                this.sprite = sprite;
+                this.actor = actor;
 
                 this.pose = {};
 
                 this.state = "IDLE";
             }
-            getTileCordinates() {
-                return ([Math.floor(Math.max(this.x + .5, 0)), Math.floor(Math.max(this.y + .5, 0))])
+            toTileCordinates(position) {
+                return ([Math.floor(Math.max(position[0] + .5, 0)), Math.floor(Math.max(position[1] + .5, 0))]);
+            }
+            tileCordinates() {
+                return this.toTileCordinates([this.x, this.y]);
+            }
+            getCollisionAt(tileCordinates) {
+                // ?. <- goofy ahh operator that just short returns undefined if the first one is undefined.
+                return collisionMap[tileCordinates[1]]?.[tileCordinates[0]] || 0;
             }
             draw() {
                 let myPose = this.pose;
                 if (this.rotation !== undefined) myPose.rotation = this.rotation;
                 myPose.state = this.state;
 
-                myPose.frame = frame / 10
+                myPose.frame = frame / 10;
 
-                drawSprite(this.sprite, myPose, this.x, this.y);
+                drawActor(this.actor, myPose, this.x, this.y);
             }
         }
 
-        class Actor extends Sprite {
+        class Character extends Actor {
             constructor(id) {
-                let spriteInput = activeScene.actors[id].sprite;
+                let spriteInput = activeScene.characters[id].actor;
                 super(spriteInput);
 
                 this.id = id || undefined;
 
-                this.x = activeScene.actors[id].x || 0;
-                this.y = activeScene.actors[id].y || 0;
+                this.x = activeScene.characters[id].x || 0;
+                this.y = activeScene.characters[id].y || 0;
 
-                this.rotation = activeScene.actors[id].rotation || 0;
+                this.rotation = activeScene.characters[id].rotation || 0;
 
-                this.sprite = spriteInput || "";
+                this.actor = spriteInput || "";
 
-                this.script = activeScene.actors[id].script || {};
+                this.script = activeScene.characters[id].script || {};
             }
 
             update() {
@@ -235,7 +242,7 @@ image-rendering: pixelated;`;
             }
         }
 
-        class Player extends Sprite {
+        class Player extends Actor {
             constructor(id) {
                 super(id);
 
@@ -245,13 +252,36 @@ image-rendering: pixelated;`;
 
             }
             update() {
-                let tileCordinates = this.getTileCordinates()
-                
-                // ?. goofy ahh operator
-                console.log(collisionMap[tileCordinates[1]]?.[tileCordinates[0]])
+                let tileCordinates = this.tileCordinates();
+                let currentTileCollision = hexToDirections(this.getCollisionAt(tileCordinates))
+
+                //sconsole.log(hexToDirections(this.getCollisionAt(tileCordinates)));
+                // console.log(mod(this.y + .5, 1))
 
                 if (!(inputVector[0] === 0 && inputVector[1] === 0)) {
-                    this.x += inputVector[0] / 16;
+                    let moveMotion = [inputVector[0] / 16, inputVector[1] / 16];
+                    let newPosition = [this.x + moveMotion[0], this.y + moveMotion[1]]
+
+                    if (moveMotion[0] > 0) {
+
+                        console.log(currentTileCollision)
+                        if (tileCordinates[0] !== this.toTileCordinates(newPosition)[0]) {
+                            if (currentTileCollision.right === true) {
+                                this.x += inputVector[0] / 16;
+                            }
+                        } else {
+                            this.x += inputVector[0] / 16;
+                        }
+
+                    } else if (moveMotion[0] < 0) {
+                        this.x += inputVector[0] / 16;
+                    }
+                    if (moveMotion[1] > 0) {
+
+                    } else if (moveMotion[1] < 0) {
+
+                    }
+
                     this.y -= inputVector[1] / 16;
 
                     this.rotation = vectorToDirection(inputVector);
@@ -275,10 +305,10 @@ image-rendering: pixelated;`;
             game = load;
             activeScene = structuredClone(game.scenes[0]);
 
-            // Create a new Actor class for each actor in the load.
+            // Create a new Character class for each actor in the load.
             actors = [];
-            for (let actor in activeScene.actors) {
-                actors.push(new Actor(actor));
+            for (let actor in activeScene.characters) {
+                actors.push(new Character(actor));
             }
 
             // Create the player
@@ -392,7 +422,7 @@ image-rendering: pixelated;`;
     <script type="module">
         await initialiseTileset("src/tileset.png", "grasslands")
 
-        await initialiseActor("src/lilguy.png", "lilguy")
+        await initialiseCharacter("src/lilguy.png", "lilguy")
 
 
 
@@ -486,6 +516,11 @@ ask("Have you played before?", "Yes", "No"){
                 sprite: "lilguy",
                 x: 1,
                 y: 7,
+                hitbox: {
+                    size: .5,
+                    shiftX: 0,
+                    shiftY: 0
+                }
             },
             scenes: [
                 {
@@ -516,9 +551,9 @@ ask("Have you played before?", "Yes", "No"){
                             ]
                         }
                     ],
-                    actors: {
+                    characters: {
                         "lilguy": {
-                            sprite: "lilguy",
+                            actor: "lilguy",
                             rotation: 180,
                             x: 1,
                             y: 1,
@@ -526,7 +561,7 @@ ask("Have you played before?", "Yes", "No"){
                             script: "lilguy"
                         },
                         "lilguy2": {
-                            sprite: "lilguy",
+                            actor: "lilguy",
                             rotation: 90,
                             x: 2,
                             y: 1
