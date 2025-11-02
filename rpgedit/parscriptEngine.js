@@ -174,7 +174,11 @@ class Script {
         this.currentDepth = [{ location: "main", line: 0 }]
     }
 
-    runFunction(block) {
+    runFunction(func) {
+
+    }
+
+    runScriptFunction(block) {
         // For a block to be valid, the type of the block must be an object, the .type value must be a function, and the .parameters must be an array
         if (typeof block === "object" && block.type === "function" && Array.isArray(block.parameters)) {
             if (block.global !== true) {
@@ -183,7 +187,12 @@ class Script {
                 if (typeof builtinFunc === "function") {
                     return builtinFunc(block.parameters);
                 } else {
+                    const localScript = this.script[block.name]
+                    if (typeof localScript === "function") {
 
+                    } else {
+                        return { type: "error", message: "Function not found" }
+                    }
                 }
 
             } else {
@@ -194,4 +203,4 @@ class Script {
 }
 
 let p = new Script(parscript, "json", "actor");
-p.evaluateFunction(parscript.main.function[0])
+p.runScriptFunction(parscript.main.function[0])

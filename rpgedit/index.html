@@ -11,6 +11,7 @@
     <script>
         const mod = (a, b) => ((a % b) + b) % b;
         const get4Direction = rotation => [3, 1, 0, 2][Math.floor(((rotation % 360) + 360) % 360 / 90)];
+        const vectorToDirection = vector => Math.atan2(-vector[1], vector[0]) * (180 / Math.PI) + 90
 
         let awaitingLoads = [];
 
@@ -135,7 +136,7 @@ image-rendering: pixelated;`;
             }
         }
 
-        function drawActor(id, pose, x, y) {
+        function drawSprite(id, pose, x, y) {
             const tileSize = 16; //Hardcoded for now
             const scale = 1.0; //Hardcoded for now
 
@@ -177,44 +178,88 @@ image-rendering: pixelated;`;
 
                     spriteWidth, spriteHeight,
 
-                    ((x * scale) + 1) * tileSize - (spriteWidth * scale / 2) + shiftX,
-                    ((y * scale) + 1) * tileSize - (spriteHeight * scale / 2) + shiftY,
+                    Math.floor(x * tileSize + shiftX),
+                    Math.floor(y * tileSize - (spriteHeight / 2) + shiftY),
 
-                    spriteWidth * scale, spriteHeight * scale
+                    spriteWidth, spriteHeight
                 );
-
             }
         }
 
+        class Sprite {
+            constructor(sprite) {
+                this.x = 0;
+                this.y = 0;
 
-        class Actor {
-            constructor(id) {
-                this.id = id || undefined;
+                this.rotation = 0;
 
-                this.x = activeScene.actors[id].x || 0;
-                this.y = activeScene.actors[id].y || 0;
+                this.sprite = sprite;
 
-                this.rotation = activeScene.actors[id].rotation || undefined;
+                this.pose = {};
 
-                this.sprite = activeScene.actors[id].sprite || "";
-
-                this.script = activeScene.actors[id].script || [];
-
-                this.state = activeScene.actors[id].state || "IDLE";
+                this.state = "IDLE";
             }
-
-            update() {
-
+            getTileCordinates() {
+                return ([Math.floor(Math.max(this.x + .5, 0)), Math.floor(Math.max(this.y + .5, 0))])
             }
-
             draw() {
-                let myPose = {};
+                let myPose = this.pose;
                 if (this.rotation !== undefined) myPose.rotation = this.rotation;
                 myPose.state = this.state;
 
                 myPose.frame = frame / 10
 
-                drawActor(this.sprite, myPose, this.x, this.y);
+                drawSprite(this.sprite, myPose, this.x, this.y);
+            }
+        }
+
+        class Actor extends Sprite {
+            constructor(id) {
+                let spriteInput = activeScene.actors[id].sprite;
+                super(spriteInput);
+
+                this.id = id || undefined;
+
+                this.x = activeScene.actors[id].x || 0;
+                this.y = activeScene.actors[id].y || 0;
+
+                this.rotation = activeScene.actors[id].rotation || 0;
+
+                this.sprite = spriteInput || "";
+
+                this.script = activeScene.actors[id].script || {};
+            }
+
+            update() {
+                //process(this.script)
+            }
+        }
+
+        class Player extends Sprite {
+            constructor(id) {
+                super(id);
+
+                this.y = 0;
+                this.x = 0;
+                this.rotation = 180;
+
+            }
+            update() {
+                let tileCordinates = this.getTileCordinates()
+                
+                // ?. goofy ahh operator
+                console.log(collisionMap[tileCordinates[1]]?.[tileCordinates[0]])
+
+                if (!(inputVector[0] === 0 && inputVector[1] === 0)) {
+                    this.x += inputVector[0] / 16;
+                    this.y -= inputVector[1] / 16;
+
+                    this.rotation = vectorToDirection(inputVector);
+
+                    this.state = "WALK";
+                } else {
+                    this.state = "IDLE";
+                }
             }
         }
 
@@ -224,6 +269,8 @@ image-rendering: pixelated;`;
 
         let game;
         let activeScene;
+        let collisionMap = [];
+        let player;
         async function loadGame(load, func) {
             game = load;
             activeScene = structuredClone(game.scenes[0]);
@@ -234,10 +281,54 @@ image-rendering: pixelated;`;
                 actors.push(new Actor(actor));
             }
 
+            // Create the player
+            player = new Player("lilguy");
+
+
+            console.log(activeScene.layers)
+
+            //Load the game's tiles into the collision map
+            for (let layer of activeScene.layers) {
+                const layerTileset = game.tilesets[layer.tileset];
+
+                layer.tiles.forEach((layerY, i) => {
+                    if (i > (collisionMap.length - 1)) collisionMap.push([]);
+
+                    layerY.forEach((tile, j) => {
+                        if (j > (collisionMap[i].length - 1)) collisionMap[i].push(15);
+
+                        if (typeof tile === "number" && tile > 0) {
+                            const tileY = Math.floor((tile - 1) / layerTileset.width);
+                            const collisionY = layerTileset.collisions[tileY];
+                            let collision = collisionY[mod((tile - 1), layerTileset.width)];
+
+                            if (typeof collision === "number") collisionMap[i][j] = collision;
+                        }
+                    });
+                });
+
+            }
+
+            console.log(collisionMap)
+
             requestAnimationFrame(gameLoop);
 
             if (typeof func === "function") func();
         }
+
+
+        const keysHeld = {};
+        document.addEventListener("keydown", updateKeyDown);
+
+        function updateKeyDown(e) {
+            keysHeld[e.code] = true;
+        }
+        document.addEventListener("keyup", updateKeyUp);
+
+        function updateKeyUp(e) {
+            keysHeld[e.code] = false;
+        }
+
 
 
         let timeOld = performance.now();
@@ -259,12 +350,22 @@ image-rendering: pixelated;`;
 
 
         function gameUpdate(dT) {
-
-            drawGame();
-
+            inputProcess();
+            player.update();
+            drawProcess();
         }
 
-        function drawGame() {
+
+
+        let inputVector = [0.0, 0.0]
+        function inputProcess() {
+            let right = ((keysHeld.KeyD === true) - (keysHeld.KeyA === true)) || 0;
+            let up = ((keysHeld.KeyW === true) - (keysHeld.KeyS === true)) || 0;
+
+            inputVector = [right, up]
+        }
+
+        function drawProcess() {
             tileCTX.clearRect(0, 0, tileCanvas.width, tileCanvas.height);
 
             for (let i = 0; i < activeScene.layers.length; i++) {
@@ -274,9 +375,18 @@ image-rendering: pixelated;`;
             for (let actor of actors) {
                 actor.draw();
             }
+
+            player.draw();
         }
 
-
+        function hexToDirections(num) {
+            return {
+                down: (num & (1 << 0)) !== 0,
+                right: (num & (1 << 1)) !== 0,
+                left: (num & (1 << 2)) !== 0,
+                up: (num & (1 << 3)) !== 0,
+            };
+        }
     </script>
 
     <script type="module">
@@ -286,7 +396,7 @@ image-rendering: pixelated;`;
 
 
 
-        // collisions is stored what part of the directions to move accross are possible. mapping is binary with: up right left down
+        // collisions is stored what part of the directions to move accross are possible. mapping is binary with: down right left up
 
         // passible : number : impassible
         //          : 0      : ↓→←↑
@@ -318,13 +428,11 @@ image-rendering: pixelated;`;
                     size: 16,
                     width: 8,
                     collisions: [
-                        [
-                            [3., 7., 5., 0.],
-                            [11, 15, 13],
-                            [10, 14, 12],
-                            [0., 0., 0.],
-                            [0., 0., 0.]
-                        ]
+                        [3., 7., 5., 0.],
+                        [11, 15, 13],
+                        [10, 14, 12],
+                        [0., 0., 0.],
+                        [0., 0., 0.]
                     ]
                 }
             },
@@ -332,7 +440,7 @@ image-rendering: pixelated;`;
                 "lilguy": {
                     src: "lilguy",
                     mode: "4x4",
-                    shiftY: -8
+                    shiftY: 0
                 }
             },
             scripts: {
@@ -374,6 +482,11 @@ ask("Have you played before?", "Yes", "No"){
                     `
                 }
             },
+            player: {
+                sprite: "lilguy",
+                x: 1,
+                y: 7,
+            },
             scenes: [
                 {
                     width: 10,
@@ -406,7 +519,7 @@ ask("Have you played before?", "Yes", "No"){
                     actors: {
                         "lilguy": {
                             sprite: "lilguy",
-                            rotation: 0,
+                            rotation: 180,
                             x: 1,
                             y: 1,
                             trigger: "load",
