@@ -293,70 +293,47 @@ image-rendering: pixelated;`;
                 // console.log(mod(this.y + .5, 1))
 
                 const rectangleSize = 0.25; //radius of the square hitbo=x of the player
-                const checkPadding = 0.25; // add some padding to the radius
+                const checkPadding = 50.25; // add some padding to the radius
 
                 const overlaps = cellsOverlappingSquare(this.x + 0.5, this.y + 0.5, (rectangleSize + checkPadding));
                 let overlapsCollision = [];
                 for (let i = 0; i < overlaps.length; i++) {
                     overlapsCollision.push({
-                        collisions: this.getCollisionAt(overlaps[i]), pos: overlaps[i]
+                        collision: hexToDirections(this.getCollisionAt(overlaps[i])), pos: overlaps[i]
                     });
                 }
 
 
-
-                // LEFT TOP RIGHT BOTTOM
-                // bottomleftdot: [0, 0, 0, 0]
-                // X--
-                // ---
-                // ---
-                // left: [0, 1, 0, 0]
-                // X--
-                // X--
-                // X--
-                // right: [1, 1, 1, 0]
-                // --X
-                // --X
-                // --X
-                // bottom: [0, 0, 1, 0]
-                // XXX
-                // ---
-                // ---
-                // top: [0, 1, 1, 1]
-                // ---
-                // ---
-                // XXX
-                // full: [0, 1, 1, 0]
-                // XXX
-                // XXX
-                // XXX
                 function getCollisionBoxes(collisions) {
                     let collisionBoxes = [];
                     for (let i = 0; i < collisions.length; i++) {
                         let x = collisions[i].pos[0];
                         let y = collisions[i].pos[1];
-                        if (collisions[i].collisions === 0) {
-                            collisionBoxes.push([0 + x, 1 + y, 1 + x, 0 + y]);
+
+                        //I wonder if using bitwise operators would speed this up a little
+                        if (collisions[i].collision.left !== true && collisions[i].collision.up !== true && collisions[i].collision.right !== true && collisions[i].collision.down !== true) {
+                            collisionBoxes.push([0 + x, 1 + y, 1 + x, 0 + y, "FULL"]);
                         } else {
                             //DOWN
-                            if ((collisions[i].collisions & (1 << 0)) !== 0) {
-                                collisionBoxes.push([0 + x, 0 + y, 1 + x, 0 + y]);
+                            if (collisions[i].collision.down !== true) {
+                                collisionBoxes.push([0 + x, 1 + y, 1 + x, 1 + y, "UP"]);
                             }
                             //RIGHT
-                            if ((collisions[i].collisions & (1 << 1)) !== 0) {
-                                collisionBoxes.push([1 + x, 1 + y, 1 + x, 0 + y]);
+                            if (collisions[i].collision.right !== true) {
+                                collisionBoxes.push([1 + x, 1 + y, 1 + x, 0 + y, "RIGHT"]);
                             }
                             //LEFT
-                            if ((collisions[i].collisions & (1 << 2)) !== 0) {
-                                collisionBoxes.push([0 + x, 1 + y, 0 + x, 0 + y]);
+                            if (collisions[i].collision.left !== true) {
+                                collisionBoxes.push([0 + x, 1 + y, 0 + x, 0 + y, "LEFT"]);
                             }
                             //UP
-                            if ((collisions[i].collisions & (1 << 3)) !== 0) {
-                                collisionBoxes.push([0 + x, 1 + y, 1 + x, 1 + y]);
+                            if (collisions[i].collision.up !== true) {
+                                collisionBoxes.push([0 + x, 0 + y, 1 + x, 0 + y, "DOWN"]);
                             }
                         }
-                        collisionBoxes.push();
+
                     }
+
                     return (collisionBoxes)
                 }
 
@@ -373,7 +350,6 @@ image-rendering: pixelated;`;
                     let moveMotion = [inputVector[0] / 16, inputVector[1] / 16];
                     let newPosition = [this.x + moveMotion[0], this.y + moveMotion[1]]
 
-                    console.log(getCollisionBoxes(overlapsCollision))
                     console.log(isColliding)
 
 
@@ -426,9 +402,19 @@ image-rendering: pixelated;`;
                         const width = right - left;
                         const height = bottom - top;
 
-                        tileCTX.strokeStyle = 'yellow'; // choose a visible color
+                        tileCTX.strokeStyle = 'yellow';
+
+                        if (collisionBoxes[i][4] == "FULL") tileCTX.strokeStyle = 'red';
+
+                        if (collisionBoxes[i][4] == "UP") tileCTX.strokeStyle = '#ffff30';
+                        if (collisionBoxes[i][4] == "DOWN") tileCTX.strokeStyle = '#b5b500';
+                        if (collisionBoxes[i][4] == "LEFT") tileCTX.strokeStyle = '#ffe600';
+                        if (collisionBoxes[i][4] == "RIGHT") tileCTX.strokeStyle = '#c8ff00';
+
+                        tileCTX.fillStyle = '#a1a30d44';
                         tileCTX.lineWidth = 1;
-                        tileCTX.strokeRect(left*16, top*16, width*16, height*16);
+                        tileCTX.fillRect(left * 16, top * 16, width * 16, height * 16);
+                        tileCTX.strokeRect(left * 16, top * 16, width * 16, height * 16);
                     }
 
                 }
@@ -583,9 +569,6 @@ image-rendering: pixelated;`;
         // →←↑      : 14     : ↓
         // ↓→←↑     : 15     :
 
-        // todo: use hex instead
-
-
 
         await loadGame({
             tilesets: {
@@ -595,7 +578,7 @@ image-rendering: pixelated;`;
                     size: 16,
                     width: 8,
                     collisions: [
-                        [3., 7., 5., 0.],
+                        [3, 7, 5, 0],
                         [11, 15, 13],
                         [10, 14, 12],
                         [0., 0., 0.],
