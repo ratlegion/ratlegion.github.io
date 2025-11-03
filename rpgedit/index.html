@@ -45,6 +45,9 @@
                 up: (num & (1 << 3)) !== 0,
             };
         }
+        const xyrToRect = (x, y, r) => {
+            return [x - r, y + r, x + r, y - r]
+        }
 
 
         let awaitingLoads = [];
@@ -293,9 +296,14 @@ image-rendering: pixelated;`;
                 // console.log(mod(this.y + .5, 1))
 
                 const rectangleSize = 0.25; //radius of the square hitbo=x of the player
-                const checkPadding = 50.25; // add some padding to the radius
+                const checkPadding = 1; // add some padding to the radius
+
+
+
+                const playerHitbox = xyrToRect(this.x + .5, this.y + .5, rectangleSize)
 
                 const overlaps = cellsOverlappingSquare(this.x + 0.5, this.y + 0.5, (rectangleSize + checkPadding));
+
                 let overlapsCollision = [];
                 for (let i = 0; i < overlaps.length; i++) {
                     overlapsCollision.push({
@@ -336,39 +344,46 @@ image-rendering: pixelated;`;
 
                     return (collisionBoxes)
                 }
+                function hitboxCollidesGrid(boxes, hitbox) {
+                    for (let i = 0; i < boxes.length; i++) {
+                        if (doRectanglesOverlap(boxes[i], hitbox)) {
+                            return true;
+                        }
+                    }
+                    return false
+                }
+
 
                 const collisionBoxes = getCollisionBoxes(overlapsCollision);
 
-                let isColliding = false
-                for (let i = 0; i < collisionBoxes.length; i++) {
-                    isColliding = (doRectanglesOverlap(collisionBoxes[i], [this.x + .5, this.y + .5, this.x + .5, this.y + .5])) + isColliding
-                    isColliding = !!(isColliding / isColliding)
-                }
 
 
                 if (!(inputVector[0] === 0 && inputVector[1] === 0)) {
                     let moveMotion = [inputVector[0] / 16, inputVector[1] / 16];
-                    let newPosition = [this.x + moveMotion[0], this.y + moveMotion[1]]
+                    let newPositionX = this.x + moveMotion[0];
+                    let newPositionY = this.y - moveMotion[1];
 
-                    console.log(isColliding)
+                    const isCurrentValid = !hitboxCollidesGrid(collisionBoxes, playerHitbox)
+
+                    const isNewXValid = !hitboxCollidesGrid(collisionBoxes, xyrToRect(newPositionX + .5, this.y + .5, rectangleSize))
+                    const isNewYValid = !hitboxCollidesGrid(collisionBoxes, xyrToRect(this.x + .5, newPositionY + .5, rectangleSize))
 
 
-                    if (moveMotion[0] > 0) {
-
-                        this.x += inputVector[0] / 16;
-
-                    } else if (moveMotion[0] < 0) {
-
-                        this.x += inputVector[0] / 16;
-
+                    if (isCurrentValid) {
+                        if (isNewXValid) {
+                            if (moveMotion[0] !== 0) {
+                                this.x = newPositionX;
+                            }
+                        }
+                        if (isNewYValid) {
+                            if (moveMotion[1] !== 0) {
+                                this.y = newPositionY;
+                            }
+                        }
+                    } else {
+                        this.x = newPositionX;
+                        this.y = newPositionY;
                     }
-                    if (moveMotion[1] > 0) {
-
-                    } else if (moveMotion[1] < 0) {
-
-                    }
-
-                    this.y -= inputVector[1] / 16;
 
                     this.rotation = vectorToDirection(inputVector);
 
