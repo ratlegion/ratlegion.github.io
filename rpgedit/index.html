@@ -146,7 +146,7 @@ image-rendering: pixelated;`;
         tileCTX.imageSmoothingEnabled = false;
 
         function drawTile(id, index, x, y) {
-            const tileSize = 16; //Hardcoded for now
+            const tileSize = game.settings.tileSize; //Hardcoded for now
             const scale = 1.0; //Hardcoded for now
             const tilesetWidth = 8; //Hardcoded for now
 
@@ -164,7 +164,7 @@ image-rendering: pixelated;`;
         }
 
         function drawTileset(tileset, tiles) {
-            const tileSize = 16;
+            const tileSize = game.settings.tileSize;
             for (let i = 0; i < tiles.length; i++) {
                 for (let ii = 0; ii < tiles[i].length; ii++) {
                     const currentIndex = tiles[i][ii];
@@ -174,7 +174,7 @@ image-rendering: pixelated;`;
         }
 
         function drawActor(id, pose, x, y) {
-            const tileSize = 16; //Hardcoded for now
+            const tileSize = game.settings.tileSize; //Hardcoded for now
             const scale = 1.0; //Hardcoded for now
 
 
@@ -289,13 +289,15 @@ image-rendering: pixelated;`;
 
             }
             update() {
+                const speedMultiplier = 1;
+
                 let tileCordinates = this.tileCordinates();
                 let currentTileCollision = hexToDirections(this.getCollisionAt(tileCordinates))
 
-                //sconsole.log(hexToDirections(this.getCollisionAt(tileCordinates)));
+                // console.log(hexToDirections(this.getCollisionAt(tileCordinates)));
                 // console.log(mod(this.y + .5, 1))
 
-                const rectangleSize = 0.25; //radius of the square hitbo=x of the player
+                const rectangleSize = 0.25; //radius of the square hitbox of the player
                 const checkPadding = 1; // add some padding to the radius
 
 
@@ -359,22 +361,23 @@ image-rendering: pixelated;`;
 
 
                 if (!(inputVector[0] === 0 && inputVector[1] === 0)) {
-                    let moveMotion = [inputVector[0] / 16, inputVector[1] / 16];
+                    let moveMotion = [
+                    inputVector[0] / game.settings.tileSize * game.settings.baseWalkSpeed * speedMultiplier,
+                    inputVector[1] / game.settings.tileSize * game.settings.baseWalkSpeed * speedMultiplier
+                    ];
                     let newPositionX = this.x + moveMotion[0];
                     let newPositionY = this.y - moveMotion[1];
 
                     const isCurrentValid = !hitboxCollidesGrid(collisionBoxes, playerHitbox)
 
-                    const isNewXValid = !hitboxCollidesGrid(collisionBoxes, xyrToRect(newPositionX + .5, this.y + .5, rectangleSize))
-                    const isNewYValid = !hitboxCollidesGrid(collisionBoxes, xyrToRect(this.x + .5, newPositionY + .5, rectangleSize))
-
-
                     if (isCurrentValid) {
+                        const isNewXValid = !hitboxCollidesGrid(collisionBoxes, xyrToRect(newPositionX + .5, this.y + .5, rectangleSize))
                         if (isNewXValid) {
                             if (moveMotion[0] !== 0) {
                                 this.x = newPositionX;
                             }
                         }
+                        const isNewYValid = !hitboxCollidesGrid(collisionBoxes, xyrToRect(this.x + .5, newPositionY + .5, rectangleSize))
                         if (isNewYValid) {
                             if (moveMotion[1] !== 0) {
                                 this.y = newPositionY;
@@ -394,45 +397,45 @@ image-rendering: pixelated;`;
 
 
 
-                // Awful gpt generated debug code
-                {
-                    const centerX = (this.x + 0.5) * 16;
-                    const centerY = (this.y + 0.5) * 16;
-                    const size = (rectangleSize + checkPadding) * 2 * 16;
-                    tileCTX.strokeStyle = '#34baeb55';
-                    tileCTX.lineWidth = 1;
-                    tileCTX.strokeRect(centerX - (rectangleSize + checkPadding) * 16, centerY - (rectangleSize + checkPadding) * 16, size, size);
-                }
-                {
-                    const centerX = (this.x + 0.5) * 16;
-                    const centerY = (this.y + 0.5) * 16;
-                    const size = (rectangleSize) * 2 * 16;
-                    tileCTX.strokeStyle = '#f21d41cc';
-                    tileCTX.lineWidth = 1;
-                    tileCTX.strokeRect(centerX - (rectangleSize) * 16, centerY - (rectangleSize) * 16, size, size);
-                }
-                {
-                    for (let i = 0; i < collisionBoxes.length; i++) {
-                        const [left, top, right, bottom] = collisionBoxes[i];
-                        const width = right - left;
-                        const height = bottom - top;
+                // // Awful gpt generated debug code
+                // {
+                //     const centerX = (this.x + 0.5) * 16;
+                //     const centerY = (this.y + 0.5) * 16;
+                //     const size = (rectangleSize + checkPadding) * 2 * 16;
+                //     tileCTX.strokeStyle = '#34baeb55';
+                //     tileCTX.lineWidth = 1;
+                //     tileCTX.strokeRect(centerX - (rectangleSize + checkPadding) * 16, centerY - (rectangleSize + checkPadding) * 16, size, size);
+                // }
+                // {
+                //     const centerX = (this.x + 0.5) * 16;
+                //     const centerY = (this.y + 0.5) * 16;
+                //     const size = (rectangleSize) * 2 * 16;
+                //     tileCTX.strokeStyle = '#f21d41cc';
+                //     tileCTX.lineWidth = 1;
+                //     tileCTX.strokeRect(centerX - (rectangleSize) * 16, centerY - (rectangleSize) * 16, size, size);
+                // }
+                // {
+                //     for (let i = 0; i < collisionBoxes.length; i++) {
+                //         const [left, top, right, bottom] = collisionBoxes[i];
+                //         const width = right - left;
+                //         const height = bottom - top;
 
-                        tileCTX.strokeStyle = 'yellow';
+                //         tileCTX.strokeStyle = 'yellow';
 
-                        if (collisionBoxes[i][4] == "FULL") tileCTX.strokeStyle = 'red';
+                //         if (collisionBoxes[i][4] == "FULL") tileCTX.strokeStyle = 'red';
 
-                        if (collisionBoxes[i][4] == "UP") tileCTX.strokeStyle = '#ffff30';
-                        if (collisionBoxes[i][4] == "DOWN") tileCTX.strokeStyle = '#b5b500';
-                        if (collisionBoxes[i][4] == "LEFT") tileCTX.strokeStyle = '#ffe600';
-                        if (collisionBoxes[i][4] == "RIGHT") tileCTX.strokeStyle = '#c8ff00';
+                //         if (collisionBoxes[i][4] == "UP") tileCTX.strokeStyle = '#ffff30';
+                //         if (collisionBoxes[i][4] == "DOWN") tileCTX.strokeStyle = '#b5b500';
+                //         if (collisionBoxes[i][4] == "LEFT") tileCTX.strokeStyle = '#ffe600';
+                //         if (collisionBoxes[i][4] == "RIGHT") tileCTX.strokeStyle = '#c8ff00';
 
-                        tileCTX.fillStyle = '#a1a30d44';
-                        tileCTX.lineWidth = 1;
-                        tileCTX.fillRect(left * 16, top * 16, width * 16, height * 16);
-                        tileCTX.strokeRect(left * 16, top * 16, width * 16, height * 16);
-                    }
+                //         tileCTX.fillStyle = '#a1a30d44';
+                //         tileCTX.lineWidth = 1;
+                //         tileCTX.fillRect(left * 16, top * 16, width * 16, height * 16);
+                //         tileCTX.strokeRect(left * 16, top * 16, width * 16, height * 16);
+                //     }
 
-                }
+                // }
 
 
             }
@@ -474,10 +477,12 @@ image-rendering: pixelated;`;
 
                         if (typeof tile === "number" && tile > 0) {
                             const tileY = Math.floor((tile - 1) / layerTileset.width);
-                            const collisionY = layerTileset.collisions[tileY];
+                            let collisionY = layerTileset.collisions[tileY];
+                            if (typeof collisionY === "undefined") collisionY = 15;
+
                             let collision = collisionY[mod((tile - 1), layerTileset.width)];
 
-                            if (typeof collision === "number") collisionMap[i][j] = collision;
+                            if (typeof collision === "number") { collisionMap[i][j] = collision };
                         }
                     });
                 });
@@ -509,17 +514,26 @@ image-rendering: pixelated;`;
         let timeOld = performance.now();
         const targetFrameRate = 60;
         const timestep = 1000 / targetFrameRate;
-        let frame = 0
+        // I've tried so many things to battle the game slowing down and stuttering,
+        // I can't seem to find a perfect solution.
+        let timeOver = 0;
+        let frame = 0;
         function gameLoop(currentTime) {
 
             const dT = currentTime - timeOld;
 
-            if (dT >= timestep) {
-                timeOld = currentTime;
-                gameUpdate(dT);
+            timeOld = currentTime;
+            timeOver += dT;
+
+            while (timeOver >= timestep) {
+                // I'm choosing to not use dT for the gameloop,
+                // as I want the game to be consistant,
+                // but I am supplying it,
+                gameUpdate(timestep);
+                frame++;
+                timeOver -= timestep;
             }
 
-            frame++;
             requestAnimationFrame(gameLoop);
         }
 
@@ -586,6 +600,10 @@ image-rendering: pixelated;`;
 
 
         await loadGame({
+            settings: {
+                tileSize: 16,
+                baseWalkSpeed: 1
+            },
             tilesets: {
                 "grasslands": {
                     src: "grasslands",
@@ -593,11 +611,13 @@ image-rendering: pixelated;`;
                     size: 16,
                     width: 8,
                     collisions: [
-                        [3, 7, 5, 0],
+                        [3., 7., 5., 0.],
                         [11, 15, 13],
                         [10, 14, 12],
                         [0., 0., 0.],
-                        [0., 0., 0.]
+                        [0., 0., 0.],
+                        [15],
+                        [15],
                     ]
                 }
             },
@@ -675,14 +695,19 @@ ask("Have you played before?", "Yes", "No"){
                                 [33, 34, 34, 34, 34, 35],
                                 [10, 10, 10, 10, 10, 10],
                                 [10, 10, 10, 10, 10, 10],
-                                [10, 10, 10, 10, 10, 10]
+                                [10, 10, 10, 10, 10, 10],
                             ]
                         },
                         {
                             tileset: "grasslands",
                             tiles: [
                                 [0],
-                                [0, 0, 0, 4]
+                                [0, 0, 0, 4],
+                                [0, 0, 0, 0, 41],
+                                [0, 0, 0, 0, 49],
+                                [0, 0, 0, 0, 49],
+                                [0, 0, 0, 0, 49],
+                                [0, 0, 0, 0, 49],
                             ]
                         }
                     ],
