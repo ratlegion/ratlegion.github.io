@@ -50,12 +50,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap:nowrap;
-            overflow: hidden;
+            flex-wrap: wrap;
             width: 100%;
             max-width: 90em;
 
             transform: rotate(.3deg);
+        }
+
+        #header-inner>* {
+            flex: 1;
+            justify-content: center;
+            display: flex;
+        }
+
+        #header-inner>a {
+            text-decoration: none;
         }
 
         #title-image {
@@ -64,52 +73,42 @@
 
         .headerButton {
             height: 50px;
-            font-size: 23px;
-
-
+            font-size: 25px;
 
             font-family: var(--title-font);
             padding: 0px;
 
-        }
-        
-
-        .button3x1 {
-            background-color: transparent;
-            border: none;
-
-            background-image: url("assets/button3x1.svg");
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-
-            aspect-ratio: 3 / 1;
-        }
-
-        .button1x1 {
-            background-color: transparent;
-            border: none;
-
-            background-image: url("assets/button1x1.svg");
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-
-            aspect-ratio: 1 / 1;
+            width: 100%;
+            margin-left: 5px;
+            margin-right: 5px;
+            max-width: 10em;
         }
 
         .headerButton:hover {
             filter: brightness(0.9) hue-rotate(-5deg);
         }
 
+
+        .button {
+            background-color: transparent;
+            border: none;
+
+            border-image-slice: 100 100 100 100 fill;
+            border-image-width: 20px;
+            border-image-outset: 0px;
+            border-image-repeat: round round;
+            border-image-source: url("assets/button3x1.webp");
+        }
+
         .hamburger {
             position: relative;
+            flex: unset !important;
         }
 
         .hamburgerCheck {
             appearance: none;
             -webkit-appearance: none;
-            width: auto;
+            width: 50px;
             height: 50px;
         }
 
@@ -188,17 +187,12 @@
     <header id="header">
         <div id="header-inner">
             <a><img src="assets/ratlegion.svg" id="title-image" alt="Ratlegion.com"></a>
-            <div class="verticalRule"></div>
-            <a><button class="headerButton button3x1 HBWorld">World</button></a>
-            <div class="verticalRule"></div>
-            <a><button class="headerButton button3x1 HBGame">Games</button></a>
-            <div class="verticalRule"></div>
-            <a><button class="headerButton button3x1 HBTool">Tools</button></a>
-            <div class="verticalRule"></div>
-            <a><button class="headerButton button3x1 HBSite">Sitemap</button></a>
-            <div class="verticalRule"></div>
+            <a href="world.html"><button class="headerButton button HBWorld">World</button></a>
+            <a href="games.html"><button class="headerButton button HBGames">Games</button></a>
+            <a href="tools.html"><button class="headerButton button HBTools">Tools</button></a>
+            <a href="sitemap.html"><button class="headerButton button HBSite">Sitemap</button></a>
             <div class="hamburger">
-                <input type="checkbox" class="hamburgerCheck button1x1 HBHamb" style="position: relative;">
+                <input type="checkbox" class="hamburgerCheck button HBHamb" style="position: relative;">
                 <div style="background-color: rgb(75, 74, 85); color:white; padding: 5px;">
                     <a>About</a>
                 </div>
