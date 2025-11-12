@@ -15,7 +15,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Amarante&family=Lumanosimo&display=swap');
 
         :root {
-            --base-background-color: #ffffff;
+            --base-background-color: #ede7d4;
 
             --font: "Lumanosimo", "Amarante", cursive;
             --title-font: "Amarante", 'Times New Roman', Times, serif;
@@ -43,14 +43,19 @@
 
             margin: var(--nclip) 0px 0px var(--nclip);
 
+            transform: rotate(-.3deg);
         }
 
         #header-inner {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            flex-wrap:nowrap;
+            overflow: hidden;
             width: 100%;
+            max-width: 90em;
+
+            transform: rotate(.3deg);
         }
 
         #title-image {
@@ -67,6 +72,7 @@
             padding: 0px;
 
         }
+        
 
         .button3x1 {
             background-color: transparent;
@@ -136,6 +142,26 @@
 
         }
 
+        .verticalRule {
+            height: 75%;
+            width: 2px;
+            background-color: rgba(0, 0, 0, 0.228);
+            margin-left: 1em;
+            margin-right: 1em;
+        }
+
+
+        .nav {
+            font-family: var(--title-font);
+            background-color: #0000002b;
+            width: fit-content;
+            padding: 4px;
+            padding-top: 12px;
+            margin-top: -4px;
+        }
+
+
+
         #overlay-image {
             position: fixed;
             display: block;
@@ -162,10 +188,15 @@
     <header id="header">
         <div id="header-inner">
             <a><img src="assets/ratlegion.svg" id="title-image" alt="Ratlegion.com"></a>
+            <div class="verticalRule"></div>
             <a><button class="headerButton button3x1 HBWorld">World</button></a>
+            <div class="verticalRule"></div>
             <a><button class="headerButton button3x1 HBGame">Games</button></a>
+            <div class="verticalRule"></div>
             <a><button class="headerButton button3x1 HBTool">Tools</button></a>
+            <div class="verticalRule"></div>
             <a><button class="headerButton button3x1 HBSite">Sitemap</button></a>
+            <div class="verticalRule"></div>
             <div class="hamburger">
                 <input type="checkbox" class="hamburgerCheck button1x1 HBHamb" style="position: relative;">
                 <div style="background-color: rgb(75, 74, 85); color:white; padding: 5px;">
@@ -175,7 +206,8 @@
 
         </div>
     </header>
-    <nav style="font-family: var(--title-font); background-color: #0000002b; width: fit-content; padding: 4px;">Home
+    <nav class="nav">
+        Home
     </nav>
 
     <div class="page">
