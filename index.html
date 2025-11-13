@@ -15,7 +15,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Amarante&family=Lumanosimo&display=swap');
 
         :root {
-            --base-background-color: #ede7d4;
+            --base-background-color: #ede2c0;
 
             --font: "Lumanosimo", "Amarante", cursive;
             --title-font: "Amarante", 'Times New Roman', Times, serif;
@@ -133,7 +133,11 @@
             transition: transform .4s linear(0, 0.417 25.5%, 0.867 49.4%, 1 57.7%, 0.925 65.1%, 0.908 68.6%, 0.902 72.2%, 0.916 78.2%, 0.988 92.1%, 1);
         }
 
-        .hamburgerCheck:checked::after {
+
+        /* I don't even know anymore I'm just a monkey pushing buttons hoping I get the right css target to make my webiste somewhat accessible */
+        .hamburgerCheck:checked::after,
+        .hamburgerCheck:focus-visible::after,
+        .hamburgerCheck:has(+ * :focus)::after {
             transform: rotate(-90deg);
         }
 
@@ -145,10 +149,11 @@
             clip-path: inset(0 0 100% 0);
         }
 
-        .hamburgerCheck:checked+* {
+        .hamburgerCheck:checked+*,
+        .hamburgerCheck:focus-visible+*,
+        .hamburgerCheck:has(+ * :focus)+* {
             clip-path: inset(0 0 0 0);
             transition: all .4s linear(0, 0.223 11.7%, 0.392 18.4%, 0.619 24.8%, 0.999 33.3%, 0.748 40%, 0.691 42.7%, 0.672 45.3%, 0.69 47.8%, 0.743 50.4%, 0.999 57.7%, 0.883 61.8%, 0.856 63.6%, 0.848 65.3%, 0.855 67%, 0.879 68.8%, 0.999 74.5%, 0.953 77.5%, 0.94 80.2%, 0.95 82.7%, 1 88.2%, 0.987 91.9%, 1);
-
         }
 
         .hamburgerMenu {
@@ -182,6 +187,11 @@
             margin-top: -4px;
         }
 
+        .nav>* {
+            text-decoration: none;
+            color: black;
+        }
+
 
 
         #overlay-image {
@@ -209,10 +219,10 @@
 <body>
     <header id="header">
         <div id="header-inner">
-            <a href="index.html"><img src="assets/ratlegion.svg" id="title-image" alt="Ratlegion.com"></a>
-            <a href="world.html"><button class="headerButton button HBWorld">World</button></a>
-            <a href="games.html"><button class="headerButton button HBGames">Games</button></a>
-            <a href="tools.html"><button class="headerButton button HBTools">Tools</button></a>
+            <a href="index.html"><img src="assets/ratlegion.svg" id="title-image" alt="Logo"></a>
+            <a href="world.html"><button class="headerButton button HBWorld" tabindex="-1">World</button></a>
+            <a href="games.html"><button class="headerButton button HBGames" tabindex="-1">Games</button></a>
+            <a href="tools.html"><button class="headerButton button HBTools" tabindex="-1">Tools</button></a>
             <div class="hamburger">
                 <input type="checkbox" class="hamburgerCheck button HBHamb" style="position: relative;">
                 <div class="hamburgerMenu">
@@ -222,7 +232,7 @@
         </div>
     </header>
     <nav class="nav">
-        Home
+        <a href="index.html">Home</a>
     </nav>
 
 
