@@ -30,18 +30,24 @@
         }
 
         #header {
-            background-color: rgb(106, 139, 165);
+            background-color: #6a8ba5;
 
             height: fit-content;
             display: flex;
             justify-content: center;
 
-
-            --clip: 22px;
-            --nclip: -22px;
+            --clip: 10px;
+            --nclip: -10px;
             padding: calc(5px + var(--clip)) 0px 20px calc(5px + var(--clip));
 
             margin: var(--nclip) 0px 0px var(--nclip);
+
+
+            background-image: url("assets/headerBackground.png");
+            background-repeat: repeat-x;
+            background-size: 100px 100%;
+
+            box-shadow: 0px -200px 35px -200px #21406ddf inset;
 
             transform: rotate(-.3deg);
         }
@@ -65,6 +71,10 @@
 
         #header-inner>a {
             text-decoration: none;
+        }
+
+        #header-inner> :not(:first-child) {
+            border-left: #455664 2px solid;
         }
 
         #title-image {
@@ -141,6 +151,19 @@
 
         }
 
+        .hamburgerMenu {
+            border: #2b2823 2px solid;
+
+            background-color: #f4c074;
+
+            padding: 5px;
+
+        }
+
+        .hamburgerMenu * {
+            color: white;
+        }
+
         .verticalRule {
             height: 75%;
             width: 2px;
@@ -186,23 +209,23 @@
 <body>
     <header id="header">
         <div id="header-inner">
-            <a><img src="assets/ratlegion.svg" id="title-image" alt="Ratlegion.com"></a>
+            <a href="index.html"><img src="assets/ratlegion.svg" id="title-image" alt="Ratlegion.com"></a>
             <a href="world.html"><button class="headerButton button HBWorld">World</button></a>
             <a href="games.html"><button class="headerButton button HBGames">Games</button></a>
             <a href="tools.html"><button class="headerButton button HBTools">Tools</button></a>
-            <a href="sitemap.html"><button class="headerButton button HBSite">Sitemap</button></a>
             <div class="hamburger">
                 <input type="checkbox" class="hamburgerCheck button HBHamb" style="position: relative;">
-                <div style="background-color: rgb(75, 74, 85); color:white; padding: 5px;">
-                    <a>About</a>
+                <div class="hamburgerMenu">
+                    <a href="info.html">About</a>
                 </div>
             </div>
-
         </div>
     </header>
     <nav class="nav">
         Home
     </nav>
+
+
 
     <div class="page">
         <p>Rats and rodents of all <a
