@@ -15,56 +15,48 @@
 
 
 <body>
-    <div id="main-sidebar-container">
-        <main>
-            <img src="assets/ratlegion.svg" id="title-image" alt="Ratlegion.com">
-            <div class="page">
-                <p>Rats and rodents of all <a
-                        href="https://en.wikipedia.org/wiki/Porcupine#/media/File:Porcupine_(5670622729).jpg">shapes</a>
-                    and <a
-                        href="https://en.wikipedia.org/wiki/Capybara#/media/File:Hydrochoeris_hydrochaeris_in_Brazil_in_Petr%C3%B3polis,_Rio_de_Janeiro,_Brazil_09.jpg">sizes</a>
-                    are invited to ratlegion.com :]</p>
-                <br>
-            </div>
-            <hr class="dividing-line">
-            </hr>
-            <h1>Latest posts</h1>
-            <div class="post-scroller">
-                <a href="posts/the_future.html">
-                    <div class="post">
-                        <span>The past and future of this site</span>
-                    </div>
-                </a>
-            </div>
-            <hr class="dividing-line">
-            </hr>
-            <div class="page">
-                <h1>Try my quiz maker!</h1>
-                <a href="quiz/editor.html">Click me to make a quiz</a>
-                <br>
-                <p>or <a
-                        href="quiz/player.html?data=eJx1U01PHDEM%2FStmLrTSgoAjF1SQQCuBQC0SQhUHT-LZpGTiaT52ukLceu1v6F%2FsT6izwy4Mnd6sxH5-fn5-qnx1XN0Zqwy0GCxDHTgZCoCBYMX5pJpVjaQsD5VEUSLlCL3EqTr--rQuvyqF8qIlvue8K5UCIXge2K%2FDmn-AsW0k1-zASwqCtGGrAJ3bC5y9lq69TUZ-lCEKK-goRPbobFrNAL0uhEAHwha4gXmSH-nRMOt9kP62xQUJh-p5NhC7zHZhx8S4SeTB-gIVNsNGiAY19%2Fuv3KLCoFd7ChPUOa0bqzLPkoLilobyhlBqeyOILzhFNQH3RPoNmAyQHIFyuY2rLZ7BZfmsKSWZ%2FFtuu%2F3REA-z6vtW4zuBJ9C8ruzRJ0gMsaNBlAAxty2Fsi3e1twW5QmVGbZ1MKv66vhwI858V0PA9a5rAiNDDWmH67Sj54dN4o1Vj8KzyDyCv8rRBOY2wp%2Ffv35O9rgwHJOssSubfAu%2FzbjkFEXtDhdGdLCTOWf4SGP4LbdzXHKwiaDjnsJe7k7gw3UjgsdE-uOI7pcsJCAmDJNNzq3o27gCMznKLfr8aCe%2FzrCjMea%2F%2FBQ7freez6Tfwh1taq4D-gVNdronJwwn-V8EIj%2Fe4MvPqcvTaDc5dG7E%2FOCV-bwZrFZsJ8ZHL8Z0MzG7XETP2Q3HWNN4pjNMO3BFckqTHT-JF%2Fwiy4XI%2FSrxbaTpxGLOulyH5sV%2FPOFhDp7FXWLPk%2FfyPzz%2FBU2wfBo~">
-                        try this one</a></p>
-            </div>
+    <header id="header">
+        <div id="header-inner">
+            <a href="index.html"><img src="assets/ratlegion.svg" id="title-image" alt="Logo"></a>
+            <!--
+            <a href="world.html"><button class="headerButton button HBWorld" tabindex="-1">World</button></a>
 
-        </main>
-        <aside>
-            <div id="sidebar">
-                <div id="sidebar-top">
-                    <h1>Links</h1>
-                    <nav>
-                        <a href="quiz/editor.html">Personality quiz maker</a><br>
-                        <a href="http://ratlegion.com/chatbot">Ask Cosmic AC</a>
-                    </nav>
+            <a href="games.html"><button class="headerButton button HBGames" tabindex="-1">Games</button></a>
 
-
-                </div>
-                <div id="sidebar-bottom">
+            <a href="tools.html"><button class="headerButton button HBTools" tabindex="-1">Tools</button></a>
+            -->
+            <div class="hamburger">
+                <input type="checkbox" class="hamburgerCheck button HBHamb" style="position: relative;">
+                <div class="hamburgerMenu">
+                    <a href="quiz/editor.html">quiz editor</a>
+                    <br> <br>
+                    <a href="chatbot.html">chatbot (real)</a>
+                    <br> <br>
                     <a href="info.html">About</a>
                 </div>
             </div>
-        </aside>
+        </div>
+    </header>
+    <nav class="nav">
+        <a href="index.html">Home</a>
+    </nav>
+
+
+
+    <div class="page">
+        <p>Rats and rodents of all <a
+                href="https://en.wikipedia.org/wiki/Porcupine#/media/File:Porcupine_(5670622729).jpg">shapes</a>
+            and <a
+                href="https://en.wikipedia.org/wiki/Capybara#/media/File:Hydrochoeris_hydrochaeris_in_Brazil_in_Petr%C3%B3polis,_Rio_de_Janeiro,_Brazil_09.jpg">sizes</a>
+            are invited to ratlegion.com :]
+        </p>
     </div>
+
+    <div class="page">
+        <h2>Website log</h2>
+        <a href="posts/the_future.html">The past and future of this site</a> - Feb 1 2025
+    </div>
+
     <div id="overlay-image"></div>
 </body>
 
