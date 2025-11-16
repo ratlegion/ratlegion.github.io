@@ -108,6 +108,7 @@
 
                 const canvas = document.getElementById("canvas");
                 const ctx = canvas.getContext("2d");
+                ctx.imageSmoothingEnabled = false;
 
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
@@ -147,12 +148,11 @@
                         const newPressure = clamp01(Math.sqrt(Math.pow(prevX - posX, 2) + Math.pow(prevY - posY, 2)) / 20);
                         rollingPressure.shift(0);
                         rollingPressure.push(newPressure);
-                        pressure = average(rollingPressure);
+                        pressure = average(rollingPressure) + 0.5;
                     } else {
                         rollingPressure = new Array(10);
                     }
 
-                    console.log(rollingPressure)
 
 
                     if (pressure !== 0) {
