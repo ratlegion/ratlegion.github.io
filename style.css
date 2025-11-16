@@ -4,11 +4,11 @@
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Amarante&family=Lumanosimo&display=swap');
- 
+
 :root {
     --base-background-color: #ede2c0;
 
-    --border-color:#2b2823;
+    --border-color: #2b2823;
     --border: var(--border-color) 2px solid;
 
     --header-color: #6a8ba5;
@@ -199,10 +199,10 @@ h4 {
 .page {
     display: block;
 
-    text-align: center  ;
+    text-align: center;
 
     width: min(calc(100% - 2rem), 90rem);
-    min-height: 10rem;
+    min-height: 5rem;
     padding: .25rem;
 
     margin-left: auto;
@@ -260,7 +260,7 @@ h4 {
 /* HAMBURGER */
 
 .hamburger {
-    position: relative;
+    position:relative;
     flex: unset !important;
 }
 
@@ -291,7 +291,8 @@ h4 {
 
 .hamburger>*:not(.hamburgerCheck) {
     position: absolute;
-    left: -25px;
+    left: -180px;
+    width: 200px;
     top: 50px;
     transition: all .2s ease-out;
     clip-path: inset(0 0 100% 0);
@@ -309,8 +310,8 @@ h4 {
 
     background-color: #f4c074;
 
-    padding: 5px;
 
+    padding: 5px;
 }
 
 .hamburgerMenu * {
