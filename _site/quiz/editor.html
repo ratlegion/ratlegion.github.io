@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>awsome quiz maker2</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="themes/no_css/style.css" id="styletheme">
+        <script type="text/javascript" src="lib/pako.min.js"></script>
+        <script src="universal.js" async></script>
+
+        
+    </head>
+    <body>
+        <nav><a href="../index.html">&lt; to ratlegion</a><span> editor </span><a href="info.html">more info &gt;</a></nav>
+        <h1>awsome quiz maker (⌐■‿■)</h1>
+        <br />
+        <details>
+            <summary>how do i use this/what is this?</summary>
+            <pre>
+this website lets you make a personality quiz
+(yk, like harry potter house ect)
+which can be saved in your browser's url for
+sharing as easy as sending someone the link.
+
+
+to use it, first create your personalitys,
+then your options. remember to give every
+option a personality(aka type.)
+once done with that, just click share.
+
+if your quiz is too big you'll need to
+save it in a file, which others can import.
+
+
+
+    ♥  <:3  )~~
+        squeak
+</pre>
+            <!--
+/\____--+
+| .  . ,-
+(  =-=  )
+-------
+  meow -->
+        </details>
+        <br />
+        <div id="width-constrainer">
+            <dialog id="image-note">
+                <p>To prevent IP loggers and other dangers, you can only use <a href="https://imgbb.com/"
+                        target="_blank">Imb BB</a>, <a href="https://catbox.moe/" target="_blank">Catbox</a>, and <a
+                        href="https://imgur.com/upload/" target="_blank">Imgur</a>.</p>
+
+                <button autofocus onclick="closeImageNote()">Gotcha!</button>
+            </dialog>
+
+            <h2>if you have a quiz to edit do so:</h2>
+            <div id="edit-quiz">
+                <div id="upload-quiz-buttons">
+                    <input type="file" id="file-importer" accept=".jsonquiz">
+                    <button onclick="importFile()">Load file</button>
+                </div>
+            </div>
+            <br /><br /><br />
+
+            <h2>give your quiz a name</h2>
+            <input placeholder="Name" type="text" maxlength="35" id="name-selector"></input>
+
+            <h2>add types:</h2>
+
+            <ol id="types">
+                <li class="type">
+                    <br />
+                    <input placeholder="Name(must be unique)" type="text" maxlength="20"
+                        class="typeNameSelector"></input><br />
+                    <textarea placeholder="Optional description of type" maxlength="200" cols="25" rows="4"
+                        class="typeDescriptionSelector"></textarea><br />
+                    <input placeholder="Optional image URL" type="text" maxlength="100"
+                        class="typeImageSelector"></input><sub><a onclick="readImageNote()" href="#image-note">[READ
+                            NOTE]</a></sub><br /><br />
+                    <button onclick="removeParent(this)">- remove type</button>
+                    <br />
+                </li>
+            </ol>
+            <button onclick="addType()">+ add type</button>
+
+            <h2>add questions:</h2>
+
+            <ol id="questions">
+                <li class="question">
+                    <br />
+                    <input placeholder="Question name (must be unique)" type="text" maxlength="50"
+                        class="questionNameSelector"><br />
+                    <ol class="questions-options">
+                        <li class="option">
+                            <br />
+                            <input placeholder="Option name (must be unique)" type="text" maxlength="20"
+                                class="optionNameSelector"><br />
+                            <select class="dynamic-option-select optionTypeSelector" onclick="onSelectClick(this)">
+                                <option>
+                                    &lt; Click to add value &gt;
+                                </option>
+                            </select><br />
+                            <input placeholder="Optional weight" type="number" max="999"
+                                class="optionWeightSelector"><br />
+                            <br />
+                            <button onclick="removeParent(this)">- remove option</button><br />
+                        </li>
+                    </ol>
+                    <br />
+                    <button onclick="addOption(this)">+ add option</button>
+                    <button onclick="removeParent(this)">- remove question</button>
+                </li>
+            </ol>
+            <button onclick="addQuestion()">+ add question</button>
+            <br /><br />
+
+
+            <h2>pick a theme:</h2>
+            <div class="style-selector-container">
+                <table>
+                    <tr class="style-selector">
+                        <td width="200" height="280" id="selected-theme" data-style="clean">
+                            <button class="basic-element" onclick="setStyle(this)">
+                                <span>Clean</span><br>
+                                <img src="themes/clean/img.png" />
+                                <i>I bet you like your hotdog without condiments</i>
+                            </button>
+                        </td>
+                        <td width="200" height="280" data-style="no_css">
+                            <button class="basic-element" onclick="setStyle(this)">
+                                <span>No css</span><br>
+                                <img src="themes/no_css/img.png" />
+                                <i>Where we're going we don't need stylesheets</i>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div> <br /><br />
+            <h2>finish:</h2>
+
+            <button onclick="readShareButton()" class="shareButton basic-element">
+                <image src="images/share.svg" id="share-image">
+            </button>
+
+            <dialog id="share">
+                <h2>sharing</h2>
+                <p>
+                    press the share button to open it as a link which you can send to your friends.
+                </p>
+                <button onclick="openShareLink()">share</button>
+                <p>
+                    if the link is too big to share, you can press the button below to download the quiz as a json file,
+                    then send them that along with <a href="player.html">this link</a>
+                </p>
+                <button onclick="downloadJSON()">download as json</button>
+                <br /><br />
+                <button autofocus onclick="closeShareButton()">done</button>
+            </dialog>
+        </div>
+        <br /><br /><br />
+        <script src="editor.js" async defer></script>
+
+
+        <!-- <iframe src="ternary_plot.html" id="myIframe"></iframe> <- Old attempt at adding a ternary plot mode -->
+    </body>
+
+</html>

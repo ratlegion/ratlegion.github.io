@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>sinewaveproject</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+            }
+
+            .wave-displays {
+                width: min(80em, 100%);
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .wave-displays>article {
+                background-color: #eeeeee;
+                padding: 1em;
+                display: block;
+                margin-top: 1em;
+            }
+
+            .wave-displays>article>button {
+                font-size: 1.5em;
+                background-color: #acacac;
+                border: none;
+                border-radius: .2em;
+                box-shadow: inset -10px -10px 10px -10px rgba(16, 16, 19, 0.64), inset 10px 10px 15px -10px rgba(254, 254, 254, 0.64);
+                padding: .2em;
+                transition-duration: .1s;
+            }
+
+            .wave-displays>article>button:hover {
+                background-color: #b7b9bb;
+                box-shadow: inset 10px 10px 15px -10px rgba(78, 78, 82, 0.64), inset -10px -10px 10px -10px rgba(233, 233, 233, 0.64);
+            }
+
+            .wave-displays>article>button:active {
+                background-color: #618bbe;
+
+                box-shadow: inset 10px 10px 15px -10px rgba(78, 78, 82, 0.64), inset -10px -10px 10px -10px rgba(233, 233, 233, 0.64), 0px 0px 39px -2px #83DDFF;
+            }
+
+            .wave-displays>article>p {
+                margin-top: 2px;
+            }
+
+            .waveholder {
+                background-color: black;
+                border: .45em ridge #878787;
+                display: block;
+                height: 3em;
+                background-repeat: repeat-x;
+                background-size: 200px 0em;
+                background-position-y: center;
+                transition-duration: .25s;
+                transition-timing-function: ease-in-out;
+            }
+            
+            .waveactive {
+                background-size: 200px 3em;
+            }
+
+            .norepeat{
+                background-repeat: no-repeat;
+            }
+            .waveholder.norepeat{
+                background-size: 100% 0em;
+            }
+
+            .waveactive.norepeat{
+                background-size: 100% 5em;
+            }
+
+            .wavesound {
+                display: none;
+            }
+        </style>
+
+    <body>
+        <div class="wave-displays">
+            <h1>Press play to hear a wave</h1>
+            <article>
+                <p>bird sound</p>
+                <div class="waveholder norepeat" style="background-image: url('birdsound.png')" alt="bird sound wave image"></div>
+                <br>
+                <button onclick="playmywave(this)">Play</button>
+                <audio controls src="birdsound.mp3" class="wavesound"></audio>
+            </article>
+            <article>
+                <p>sine wave</p>
+                <div class="waveholder" style="background-image: url('sinewave.png')" alt="sine wave image"></div>
+                <br>
+                <button onclick="playmywave(this)">Play</button>
+                <audio controls src="sinewave.mp3" class="wavesound"></audio>
+            </article>
+            <article>
+                <p>square wave</p>
+                <div class="waveholder" style="background-image: url('squarewave.png')" alt="square wave image"></div>
+                <br>
+                <button onclick="playmywave(this)">Play</button>
+                <audio controls src="squarewave.mp3" class="wavesound"></audio>
+            </article>
+            <article>
+                <p>triangle wave</p>
+                <div class="waveholder" style="background-image: url('trianglewave.png')" alt="triangle wave image">
+                </div>
+                <br>
+                <button onclick="playmywave(this)">Play</button>
+                <audio controls src="trianglewave.mp3" class="wavesound"></audio>
+            </article>
+            <article>
+                <p>sawtooth wave</p>
+                <div class="waveholder" style="background-image: url('sawtoothwave.png')" alt="sawtooth wave image">
+                </div>
+                <br>
+                <button onclick="playmywave(this)">Play</button>
+                <audio controls src="sawtoothwave.mp3" class="wavesound"></audio>
+            </article>
+        </div>
+
+        <script>
+            let audios = document.getElementsByClassName("wavesound");
+            Array.from(audios).forEach(element => {
+                element.addEventListener("play", function () {
+                    element.parentElement.getElementsByClassName("waveholder")[0].classList.add("waveactive")
+                })
+
+                element.addEventListener("ended", function () {
+                    element.currentTime = 0;
+                    element.parentElement.getElementsByClassName("waveholder")[0].classList.remove("waveactive")
+                })
+            });
+
+            function playmywave(element) {
+                element.parentElement.getElementsByClassName("wavesound")[0].play();
+            }
+        </script>
+    </body>
+
+</html>

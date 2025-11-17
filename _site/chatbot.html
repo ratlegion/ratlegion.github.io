@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        :root {
+            --background: #2d2d2d;
+            --window: #444444;
+        }
+
+        html,
+        body {
+            background-color: var(--background);
+            margin: 0px;
+            border: 0px;
+
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: large;
+            color: white;
+
+            height: 100%;
+        }
+
+        .center-horz {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .center-vert {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .stack-horz {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo>span {
+            font-size: xx-large;
+        }
+
+        .chatbot-window {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+
+            padding: 10px;
+            min-height: 1em;
+            width: min(calc(100vw - 4em), 30em);
+
+            outline: #4b4b4b medium solid;
+            position: relative;
+            background-color: var(--window);
+            border-radius: 1em;
+            display: flex;
+        }
+
+        .editor {
+            flex: 1;
+            outline: none;
+            word-wrap: anywhere;
+        }
+
+        .editor:empty:before {
+            content: attr(data-placeholder);
+            color: #dfdfdf;
+            pointer-events: none;
+            position: absolute;
+        }
+
+        .send {
+            background-color: #5e5e5e;
+            width: fit-content;
+            height: fit-content;
+            padding: 4px;
+            border-radius: 100%;
+            border: none;
+            transition: background-color .1s;
+        }
+
+        .send:active {
+            background-color: #727272;
+        }
+
+
+
+        .chatbot-messages {
+            margin-top: 4em;
+            padding: 10px;
+            width: min(40em, 100vw);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            padding: 10px;
+            margin-bottom: 40px;
+            width: fit-content;
+            max-width: 30em;
+
+            opacity: 100;
+            transition: ease-out .4s;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translate(0px, 50px);
+        }
+
+        .sent {
+
+            border-radius: 1em;
+
+            border-bottom-right-radius: 5px;
+            text-align: right;
+            align-self: end;
+
+            outline: #4b4b4b medium solid;
+            background-color: var(--window);
+        }
+
+        .recieved {
+            border-bottom-left-radius: 5px;
+            max-width: 30em;
+        }
+
+        .lettherebelight {
+            background-color: #646464;
+            border: none;
+            width: fit-content;
+            font-size: x-large;
+            color: white;
+            border-radius: .5em;
+            padding: 0.2em;
+            outline: #868686 medium solid;
+            margin: auto;
+            margin-top: 4em;
+            box-shadow: -2px -1px 200px 30px rgba(255, 255, 255, .5);
+        }
+
+        .lightoverlay {
+            background-color: white;
+            width: 200vw;
+            height: 200vh;
+            position: absolute;
+            left: -20px;
+            right: -20px;
+            z-index: 200;
+            opacity: 0%;
+            transition: linear 2s;
+        }
+
+        .lightoverlay-bright {
+            opacity: 100%;
+        }
+    </style>
+</head>
+
+<body>
+        <a href="index.html" style="color: #b5b5b5; position: absolute;">ratlegion.com</a>
+
+    <div class="lightoverlay" style="display: none;"></div>
+
+    <div class="center-horz center-vert prompt">
+        
+        <div class="stack-horz">
+            <div class="logo">
+                <img src="assets/FakeAILogo.svg" style="width: 4em;">
+                <span>Ask Cosmic AC</h2>
+            </div>
+
+            <div style="height: 4em;"></div>
+            <div class="chatbot-window">
+                <div class="editor" contenteditable="true" data-placeholder="Ask me anything!"></div>
+                <button class="send">
+                    <svg xmlns="https://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="#e3e3e3" style="display: block;">
+                        <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
+                    </svg>
+                </button>
+            </div>
+            <button class="lettherebelight" style="display: none;">LET THERE BE LIGHT</button>
+        </div>
+    </div>
+
+
+    <div class="center-horz answer" style="display: none;">
+        <div class="chatbot-messages">
+            <div id="input" class="message sent fade-in">
+
+            </div>
+            <div id="output" class="message recieved fade-in">
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const editorText = document.querySelector(".editor");
+        const sendButton = document.querySelector(".send");
+        const lightoverlay = document.querySelector(".lightoverlay");
+        const lettherebelightButton = document.querySelector(".lettherebelight");
+
+        const promptWindow = document.querySelector(".prompt");
+        const answerWindow = document.querySelector(".answer");
+
+        let input = document.getElementById("input");
+        let output = document.getElementById("output");
+
+
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+
+        let reloaded = Number(localStorage.getItem("reloaded"))
+        if (reloaded === undefined) {
+            reloaded = 0;
+        }
+
+        lettherebelightButton.addEventListener("click", async (e) => {
+            lightoverlay.style.display = "";
+            await delay(100);
+            lightoverlay.classList.add("lightoverlay-bright")
+            localStorage.setItem("reloaded", 0);
+        })
+
+        if (reloaded > 4) {
+            lettherebelightButton.style.display = "";
+        }
+
+        sendButton.addEventListener("click", async (e) => {
+            promptWindow.style.display = "none";
+            answerWindow.style.display = "";
+            input.innerHTML = editorText.innerHTML;
+            await delay(100);
+            input.classList.remove("fade-in");
+            await delay(1000);
+            output.classList.remove("fade-in");
+            output.innerText = "...";
+
+
+            console.log(reloaded)
+            if (reloaded < 2 || reloaded > 5) {
+                await delay(1000);
+                output.innerText = "INSUFF";
+                await delay(100);
+                output.innerText = "INSUFFICIENT";
+                await delay(100);
+                output.innerText = "INSUFFICIENT DATA";
+                await delay(100);
+                output.innerText = "INSUFFICIENT DATA FOR";
+                await delay(100);
+                output.innerText = "INSUFFICIENT DATA FOR MEAN";
+                await delay(100);
+                output.innerText = "INSUFFICIENT DATA FOR MEANINGFUL";
+                await delay(100);
+                output.innerText = "INSUFFICIENT DATA FOR MEANINGFUL ANSWER";
+
+                localStorage.setItem("reloaded", reloaded + 1);
+            } else if (reloaded < 3) {
+                await delay(1000);
+                output.innerText = "THERE";
+                await delay(100);
+                output.innerText = "THERE IS";
+                await delay(100);
+                output.innerText = "THERE IS INSUFF";
+                await delay(100);
+                output.innerText = "THERE IS INSUFFICIENT";
+                await delay(100);
+                output.innerText = "THERE IS INSUFFICIENT DATA";
+                await delay(100);
+                output.innerText = "THERE IS INSUFFICIENT DATA FOR";
+                await delay(100);
+                output.innerText = "THERE IS INSUFFICIENT DATA FOR A";
+                await delay(100);
+                output.innerText = "THERE IS INSUFFICIENT DATA FOR A MEAN";
+                await delay(100);
+                output.innerText = "THERE IS INSUFFICIENT DATA FOR A MEANINGFUL";
+                await delay(100);
+                output.innerText = "THERE IS INSUFFICIENT DATA FOR A MEANINGFUL ANSWER";
+
+                localStorage.setItem("reloaded", reloaded + 1);
+            } else if (reloaded < 6) {
+                await delay(1000);
+
+                await delay(100);
+                output.innerText = "THERE";
+                await delay(100);
+                output.innerText = "THERE IS";
+                await delay(100);
+                output.innerText = "THERE IS AS";
+                await delay(100);
+                output.innerText = "THERE IS AS YET";
+                await delay(100);
+                output.innerText = "THERE IS AS YET INSUFF";
+                await delay(100);
+                output.innerText = "THERE IS AS YET INSUFFICIENT";
+                await delay(100);
+                output.innerText = "THERE IS AS YET INSUFFICIENT DATA";
+                await delay(100);
+                output.innerText = "THERE IS AS YET INSUFFICIENT DATA FOR";
+                await delay(100);
+                output.innerText = "THERE IS AS YET INSUFFICIENT DATA FOR A";
+                await delay(100);
+                output.innerText = "THERE IS AS YET INSUFFICIENT DATA FOR A MEAN";
+                await delay(100);
+                output.innerText = "THERE IS AS YET INSUFFICIENT DATA FOR A MEANINGFUL";
+                await delay(100);
+                output.innerText = "THERE IS AS YET INSUFFICIENT DATA FOR A MEANINGFUL ANSWER";
+
+                localStorage.setItem("reloaded", reloaded + 1);
+            }
+        })
+    </script>
+</body>
+
+</html>

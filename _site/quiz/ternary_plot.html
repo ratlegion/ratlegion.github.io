@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ternary Plot</title>
+    </head>
+
+    <body>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 100">
+
+            <defs>
+                <style>
+                    html,
+                    body {
+                        padding: 0;
+                        margin: 0;
+                    }
+
+                    .st0 {
+                        fill: #8cbd9b;
+                    }
+
+                    .st1 {
+                        fill: #ffd275;
+                    }
+
+                    .st3 {
+                        fill: #e6e7e8;
+                    }
+                </style>
+            </defs>
+            <g id="trangle_layer">
+                <polygon class="st3" points=".95 99.5 49.96 14.47 99.09 99.43 99.05 99.5 .95 99.5" />
+                <path class="st0"
+                    d="M50.39,14.72h0,0M50,15.4l48.27,83.6H1.73S50,15.4,50,15.4M50,13.94c-.18,0-.37.09-.47.27L.47,99.18c-.21.36.05.82.47.82h98.1c.42,0,.68-.46.47-.82L50.47,14.22c-.11-.18-.29-.27-.47-.27h0Z" />
+            </g>
+            <g id="circle_layer">
+                <circle class="st1" cx="10" r="1" cy="10" id="circle" />
+            </g>
+        </svg>
+
+
+        <input type="range" id="top" min="0" max="100"><input type="range" id="left" min="0" max="100"><input
+            type="range" id="right" min="0" max="100"><br>
+        <button onclick="applyTernaryFromInput()">apply</button>
+
+        <script>
+            const triangleHeight = Math.sqrt(3) * 50;
+            // function applyTernary(a, b, c) {
+
+            //     let totalTypes = a + b + c;
+
+            //     if (totalTypes === 0) {
+            //         setCirclePos(50, triangleHeight / 3);
+            //         return;
+            //     }
+
+
+            //     let aRatio = a / totalTypes;
+            //     let bRatio = b / totalTypes;
+            //     let cRatio = c / totalTypes;
+
+            //     const x = 50 * (2 * bRatio + cRatio);
+            //     const y = triangleHeight - (triangleHeight * cRatio);
+
+            //     const circle = document.getElementById("circle");
+            //     circle.setAttribute("cx", x);
+            //     circle.setAttribute("cy", y);
+
+            // }
+
+            function getTernary(a, b, c) {
+                // a = top, b = left, c = right
+                // Between 0 to 100
+
+                const valueTotal = a + b + c;
+
+                if (a === b && b === c) {
+                    return ([50, 66.66]);
+                }
+
+                const aRatio = a / valueTotal;
+                const bRatio = b / valueTotal;
+                const cRatio = c / valueTotal;
+
+                const x = 100 * (cRatio + 0.5 * bRatio);
+                const y = 100 * aRatio;
+
+                return ([x, y]);
+            }
+
+
+            function setCirclePos(x, y) {
+                const circle = document.getElementById("circle");
+                circle.setAttribute("cx", x);
+                circle.setAttribute("cy", y * (triangleHeight / 100) + (100 - triangleHeight));
+            }
+
+
+            function applyTernaryFromInput() {
+                let ternaryPoses = [parseFloat(document.getElementById("top").value), parseFloat(document.getElementById("left").value), parseFloat(document.getElementById("right").value)]
+                let position = getTernary(ternaryPoses[0], ternaryPoses[1], ternaryPoses[2]);
+                console.log(ternaryPoses);
+                console.log(position);
+                setCirclePos(position[0], position[1]);
+            }
+
+            setInterval(applyTernaryFromInput, 100);
+
+            // applyTernary(0, 0, 0)
+
+            // window.addEventListener("message", (event) => {
+            //     applyTernary(event.a, event.b, event.c)
+            // });
+
+            // let iframe = document.getElementById("myIframe");
+            // iframe.contentWindow.postMessage({action:"setDotPosition",a:20,b:60,c:5}, "*");
+        </script>
+    </body>
+
+</html>

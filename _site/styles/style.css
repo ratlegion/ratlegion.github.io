@@ -1,0 +1,319 @@
+/* 
+█▀ █▀▀ █▀▀ ▀█▀ ▀█▀ █ █ █▀█
+▄█ ██▄ ██▄  █   █  █▄█ █▀▀
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Amarante&family=Lumanosimo&display=swap');
+
+:root {
+    --base-background-color: #ede2c0;
+
+    --border-color: #2b2823;
+    --border: var(--border-color) 2px solid;
+
+    --header-color: #6a8ba5;
+
+
+    --overlay-texture: url('assets/paperoverlayrepeat.jpg');
+
+    --font: "Lumanosimo", "Amarante", cursive;
+    --title-font: "Amarante", 'Times New Roman', Times, serif;
+
+    --font-size: 1.1rem;
+
+    --h1-font-size: 2rem;
+    --h2-font-size: 1.66rem;
+    --h3-font-size: 1.33rem;
+    --h4-font-size: 1.1rem;
+
+    --page-color: #f0ead7;
+
+}
+
+/* 
+█▀█ ▄▀█ █▀▀ █▀▀
+█▀▀ █▀█ █▄█ ██▄
+*/
+
+body {
+    background-color: var(--base-background-color);
+
+    padding: 0px;
+    margin: 0px;
+    font-family: var(--font);
+}
+
+
+/* TEXTURE OVERLAY */
+
+#overlay-image {
+    position: fixed;
+    display: block;
+
+    background-image: var(--overlay-texture);
+    background-size: 100% auto;
+    background-repeat: repeat;
+
+    width: 100vw;
+    height: 130vh;
+    left: 0px;
+    top: 0px;
+
+    mix-blend-mode: multiply;
+    opacity: 15%;
+
+    pointer-events: none;
+
+    z-index: 100;
+}
+
+
+/*
+█ █ █▀▀ ▄▀█ █▀▄ █▀▀ █▀█
+█▀█ ██▄ █▀█ █▄▀ ██▄ █▀▄
+*/
+
+/* HEADER */
+
+#header {
+    background-color: var(--header-color);
+
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+
+    --clip: 10px;
+    --nclip: -10px;
+    padding: calc(5px + var(--clip)) 0px 20px calc(5px + var(--clip));
+
+    margin: var(--nclip) 0px 0px var(--nclip);
+
+
+    background-image: url("assets/headerBackground.png");
+    background-repeat: repeat-x;
+    background-size: 100px 100%;
+
+    box-shadow: 0px -200px 35px -200px #21406ddf inset;
+
+    transform: rotate(-.3deg);
+
+    z-index: 200;
+}
+
+#header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 90em;
+
+    transform: rotate(.3deg);
+}
+
+#header-inner>* {
+    flex: 1;
+    justify-content: center;
+    display: flex;
+}
+
+#header-inner>a {
+    text-decoration: none;
+}
+
+#header-inner> :not(:first-child) {
+    border-left: #455664 2px solid;
+}
+
+#title-image {
+    height: 50px;
+}
+
+.headerButton {
+    height: 50px;
+    font-size: 25px;
+
+    font-family: var(--title-font);
+    padding: 0px;
+
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 5px;
+    max-width: 10em;
+}
+
+.headerButton:hover {
+    filter: brightness(0.9) hue-rotate(-5deg);
+}
+
+/* NAV */
+
+.nav {
+    font-family: var(--title-font);
+    background-color: #0000002b;
+    width: fit-content;
+    padding: 4px;
+    padding-top: 12px;
+    margin-top: -4px;
+}
+
+.nav>* {
+    text-decoration: none;
+    color: black;
+}
+
+
+/* 
+█▀▄ █▀▀ █▀▀ ▄▀█ █ █ █   ▀█▀   █▀ ▀█▀ █▄█ █   █▀▀ █▀
+█▄▀ ██▄ █▀  █▀█ █▄█ █▄▄  █    ▄█  █   █  █▄▄ ██▄ ▄█
+*/
+
+/* There is no scenario where a pre should be center aligned */
+pre {
+    text-align: left;
+}
+
+h1 {
+    font-size: var(--h1-font-size);
+}
+
+h2 {
+    font-size: var(--h2-font-size);
+}
+
+h3 {
+    font-size: var(--h3-font-size);
+}
+
+h4 {
+    font-size: var(--h4-font-size);
+}
+
+/* 
+█▀▀ █   █▀▀ █▀▄▀█ █▀▀ █▄ █ ▀█▀ █▀
+██▄ █▄▄ ██▄ █ ▀ █ ██▄ █ ▀█  █  ▄█
+*/
+
+/* PAGE */
+/* A page is a block of text meant to be seperated and centered */
+.page {
+    display: block;
+
+    text-align: center;
+
+    width: min(calc(100% - 2rem), 90rem);
+    min-height: 5rem;
+    padding: .25rem;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem;
+
+    background-color: var(--page-color);
+    font-family: var(--font);
+    font-size: var(--font-size);
+}
+
+/* I don't like reading center aligned text but it looks very nice so if the text is wrapped in a paragraph then left it. */
+.page p {
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.page pre {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+/* DIVIDING LINE */
+/* It's like an hr but fancier */
+.dividing-line {
+    height: 5em;
+    max-width: 40em;
+
+    margin-bottom: 2em;
+
+
+    border-image-slice: 0 477 477 477;
+    border-image-repeat: round round;
+    border-image-width: 0px 5em 5em 5em;
+
+    border-image-source: url("assets/Divider.png");
+
+}
+
+/* BUTTON */
+
+.button {
+    background-color: transparent;
+    border: none;
+
+    border-image-slice: 100 100 100 100 fill;
+    border-image-width: 20px;
+    border-image-outset: 0px;
+    border-image-repeat: round round;
+    border-image-source: url("assets/button3x1.webp");
+}
+
+/* HAMBURGER */
+
+.hamburger {
+    position:relative;
+    flex: unset !important;
+}
+
+.hamburgerCheck {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 50px;
+    height: 50px;
+}
+
+.hamburgerCheck::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("assets/hamburger.svg") center/contain no-repeat;
+    transform: rotate(0deg);
+    pointer-events: none;
+
+    transition: transform .4s linear(0, 0.417 25.5%, 0.867 49.4%, 1 57.7%, 0.925 65.1%, 0.908 68.6%, 0.902 72.2%, 0.916 78.2%, 0.988 92.1%, 1);
+}
+
+/* I don't even know anymore I'm just a monkey pushing buttons hoping I get the right css target to make my webiste somewhat accessible */
+.hamburgerCheck:checked::after,
+.hamburgerCheck:focus-visible::after,
+.hamburgerCheck:has(+ * :focus)::after {
+    transform: rotate(-90deg);
+}
+
+.hamburger>*:not(.hamburgerCheck) {
+    position: absolute;
+    left: -180px;
+    width: 200px;
+    top: 50px;
+    transition: all .2s ease-out;
+    clip-path: inset(0 0 100% 0);
+}
+
+.hamburgerCheck:checked+*,
+.hamburgerCheck:focus-visible+*,
+.hamburgerCheck:has(+ * :focus)+* {
+    clip-path: inset(0 0 0 0);
+    transition: all .4s linear(0, 0.223 11.7%, 0.392 18.4%, 0.619 24.8%, 0.999 33.3%, 0.748 40%, 0.691 42.7%, 0.672 45.3%, 0.69 47.8%, 0.743 50.4%, 0.999 57.7%, 0.883 61.8%, 0.856 63.6%, 0.848 65.3%, 0.855 67%, 0.879 68.8%, 0.999 74.5%, 0.953 77.5%, 0.94 80.2%, 0.95 82.7%, 1 88.2%, 0.987 91.9%, 1);
+}
+
+.hamburgerMenu {
+    border: var(--border);
+
+    background-color: #f4c074;
+
+
+    padding: 5px;
+}
+
+.hamburgerMenu * {
+    color: white;
+}
