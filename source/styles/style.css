@@ -14,7 +14,7 @@
     --header-color: #6a8ba5;
 
 
-    --overlay-texture: url('assets/paperoverlayrepeat.jpg');
+    --overlay-texture: url('../assets/paperoverlayrepeat.jpg');
 
     --font: "Lumanosimo", "Amarante", cursive;
     --title-font: "Amarante", 'Times New Roman', Times, serif;
@@ -89,7 +89,7 @@ body {
     margin: var(--nclip) 0px 0px var(--nclip);
 
 
-    background-image: url("assets/headerBackground.png");
+    background-image: url("../assets/headerBackground.png");
     background-repeat: repeat-x;
     background-size: 100px 100%;
 
@@ -240,7 +240,7 @@ h4 {
     border-image-repeat: round round;
     border-image-width: 0px 5em 5em 5em;
 
-    border-image-source: url("assets/Divider.png");
+    border-image-source: url("../assets/Divider.png");
 
 }
 
@@ -254,7 +254,7 @@ h4 {
     border-image-width: 20px;
     border-image-outset: 0px;
     border-image-repeat: round round;
-    border-image-source: url("assets/button3x1.webp");
+    border-image-source: url("../assets/button3x1.webp");
 }
 
 /* HAMBURGER */
@@ -275,7 +275,7 @@ h4 {
     content: "";
     position: absolute;
     inset: 0;
-    background: url("assets/hamburger.svg") center/contain no-repeat;
+    background: url("../assets/hamburger.svg") center/contain no-repeat;
     transform: rotate(0deg);
     pointer-events: none;
 
