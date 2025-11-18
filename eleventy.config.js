@@ -20,6 +20,4 @@ export default function (eleventyConfig) {
       output: "_site"
     }
   };
-
-
 }

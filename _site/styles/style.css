@@ -201,7 +201,7 @@ h4 {
 
     text-align: center;
 
-    width: min(calc(100% - 2rem), 90rem);
+    width: min(calc(100% - 2rem), 50rem);
     min-height: 5rem;
     padding: .25rem;
 
