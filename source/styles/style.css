@@ -21,7 +21,7 @@
 
     --font-size: 1.1rem;
 
-    --h1-font-size: 2rem;
+    --h1-font-size: 1.8rem;
     --h2-font-size: 1.66rem;
     --h3-font-size: 1.33rem;
     --h4-font-size: 1.1rem;
@@ -41,6 +41,7 @@ body {
     padding: 0px;
     margin: 0px;
     font-family: var(--font);
+    overflow-x: hidden;
 }
 
 
@@ -155,6 +156,7 @@ body {
     padding: 4px;
     padding-top: 12px;
     margin-top: -4px;
+    margin-bottom: 10px;
 }
 
 .nav>* {
@@ -171,6 +173,16 @@ body {
 /* There is no scenario where a pre should be center aligned */
 pre {
     text-align: left;
+    white-space: pre-wrap;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--title-font);
 }
 
 h1 {
@@ -201,13 +213,14 @@ h4 {
 
     text-align: center;
 
-    width: min(calc(100% - 2rem), 90rem);
-    min-height: 5rem;
-    padding: .25rem;
+    width: min(calc(100% - 2em), 50em);
+    min-height: 5em;
+    padding: .25em;
+    padding-bottom: .5em;
 
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 2rem;
+    margin-bottom: 3em;
 
     background-color: var(--page-color);
     font-family: var(--font);
@@ -260,7 +273,7 @@ h4 {
 /* HAMBURGER */
 
 .hamburger {
-    position:relative;
+    position: relative;
     flex: unset !important;
 }
 
@@ -316,4 +329,27 @@ h4 {
 
 .hamburgerMenu * {
     color: white;
+}
+
+
+/* 
+█▀▄▀█ █▀█ █▄▄ █ █   █▀▀
+█ ▀ █ █▄█ █▄█ █ █▄▄ ██▄
+*/
+
+@media only screen and (max-aspect-ratio: 3/4) {
+    :root {
+        --font-size: .95rem;
+
+        --h1-font-size: 1.6rem;
+        --h2-font-size: 1.5rem;
+        --h3-font-size: 1.4rem;
+        --h4-font-size: 1.3rem;
+    }
+
+    .page {
+        width: 100vw;
+        padding: .5em;
+        box-sizing: border-box;
+    }
 }
